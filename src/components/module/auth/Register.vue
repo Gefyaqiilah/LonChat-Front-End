@@ -13,27 +13,30 @@
     <form action="" class="form mt-4">
       <div class="form-group">
       <label for="name" class="input-label">Name</label>
-      <input type="text" id="name" v-model="inputEmail" placeholder="Telegram app" class="input-name form-control shadow-none" required>
+      <input type="text" id="name" v-model="input.name" placeholder="Telegram app" :class="{ 'is-invalid':  $v.input.name.$error }" class="input-name form-control shadow-none">
+       <div v-if="!$v.input.name.required" class="invalid-feedback">Name is required</div>
       </div>
       <div class="form-group">
       <label for="email" class="input-label">Email</label>
-      <input type="text" id="email" v-model="inputName" placeholder="Ex: telegram@gmail.com" class="input-email form-control shadow-none" required>
+      <input type="text" id="email" v-model="input.email" placeholder="Ex: telegram@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
+      <div v-if="!$v.input.email.required" class="invalid-feedback">Email is required</div>
+      <div v-if="!$v.input.email.email" class="invalid-feedback">Invalid format email</div>
       </div>
         <div class="form-group">
         <label for="password" class="input-label">Password</label>
           <div class="input-group">
             <input
               type="password"
-              v-model="inputPassword"
+              v-model="input.password"
+              :class="{ 'is-invalid': $v.input.password.$error }"
               id="password"
               class="input-password form-control shadow-none"
               placeholder="Enter your password"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              required
             />
           <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1"
+          <span class="input-group-text" :class="{ 'is-invalid': $v.input.password.$error }" id="basic-addon1"
             ><img
               @click="showPassword"
               id="btnShowPassword"
@@ -41,25 +44,51 @@
               alt=""
           /></span>
             </div>
+          <div v-if="!$v.input.password.required" class="invalid-feedback">Password is required</div>
+          <div v-if="!$v.input.password.mingLength" class="invalid-feedback">The minimum password character is 6 characters</div>
           </div>
         </div>
-        <button class="button-primary">Register</button>
+        <ButtonPrimary :method="register"/>
         <div class="separator p-4">Register With</div>
-        <button class="button-secondary"><img src="../../../assets/google.png" alt=""> Google</button>
+        <ButtonSecondary/>
     </form>
     </div>
   </div>
 </template>
 
 <script>
+import { required, minLength, email } from 'vuelidate/lib/validators'
+import ButtonPrimary from '../../../components/base/ButtonPrimary'
+import ButtonSecondary from '../../../components/base/ButtonSecondary'
 export default {
   name: 'Register',
   data () {
     return {
-      inputEmail: '',
-      inputName: '',
-      inputPassword: ''
+      input: {
+        email: '',
+        name: '',
+        password: ''
+      },
+      submitted: false
     }
+  },
+  validations: {
+    input: {
+      name: {
+        required
+      },
+      email: {
+        required, email
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      }
+    }
+  },
+  components: {
+    ButtonPrimary,
+    ButtonSecondary
   },
   methods: {
     showPassword () {
@@ -69,6 +98,15 @@ export default {
       } else {
         inputPassword.type = 'password'
       }
+    },
+    register () {
+      // stop here if form is invalid
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+
+      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.user))
     }
   }
 }
@@ -114,7 +152,7 @@ color: #7E98DF;
 .input-password {
   border:none;
   border-radius: 0;
-  border-bottom:1px solid black !important;
+  border-bottom:1px solid black;
 }
 ::placeholder {
   font-family: Rubik;
@@ -158,44 +196,6 @@ color: #7E98DF;
   border:none !important;
   border-radius: 0 !important;
   background-color: transparent !important;
-}
-.button-primary {
-  width: 100%;
-  height: 60px;
-  border:none;
-  background: #7E98DF;
-  border-radius: 70px;
-
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-  /* identical to box height */
-
-  text-align: center;
-
-  color: #FFFFFF;
-  outline:none;
-}
-.button-secondary {
-  width: 100%;
-  height: 60px;
-
-  background: #FFFFFF;
-  border: 1px solid #7E98DF;
-  box-sizing: border-box;
-  border-radius: 70px;
-
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-  /* identical to box height */
-  text-align: center;
-  color: #7E98DF;
-  outline:none;
 }
 .separator {
   display: flex;

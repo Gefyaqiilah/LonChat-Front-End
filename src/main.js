@@ -5,8 +5,11 @@ import router from './router'
 import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false
+// package global
+Vue.use(Vuelidate)
 
 new Vue({
   router,
