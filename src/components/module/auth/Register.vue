@@ -45,7 +45,7 @@
         </div>
         <button class="button-primary">Register</button>
         <div class="separator p-4">Register With</div>
-        <button class="button-secondary">Google</button>
+        <button class="button-secondary"><img src="../../../assets/google.png" alt=""> Google</button>
     </form>
     </div>
   </div>
