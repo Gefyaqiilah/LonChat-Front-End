@@ -1,105 +1,54 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-4 pt-3 p-0">
+      <div class="col-2 pt-3 p-0">
         <img src="../../../assets/back.png" alt="">
       </div>
-      <div class="col-8 pt-3">
-        <p class="card-header-title">Register</p>
+      <div class="col-10 pt-3">
+        <p class="card-header-title">Forgot Password</p>
       </div>
     </div>
     <div class="card-body container-fluid m-0 p-0 pt-3">
-    <p class="common-black-text mt-3">Let’s create your account!</p>
-    <form action="" class="form mt-4">
-      <div class="form-group">
-      <label for="name" class="input-label">Name</label>
-      <input type="text" id="name" v-model="input.name" placeholder="Telegram app" :class="{ 'is-invalid':  $v.input.name.$error }" class="input-name form-control shadow-none">
-       <div v-if="!$v.input.name.required" class="invalid-feedback">Name is required</div>
-      </div>
+    <p class="common-black-text mt-3">You’ll get messages soon on your e-mail </p>
+        <form action="" class="form mt-4">
       <div class="form-group">
       <label for="email" class="input-label">Email</label>
-      <input type="text" id="email" v-model="input.email" placeholder="Ex: telegram@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
+      <input type="text" id="email" v-model="input.email" placeholder="telegram@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
       <div v-if="!$v.input.email.required" class="invalid-feedback">Email is required</div>
       <div v-if="!$v.input.email.email" class="invalid-feedback">Invalid format email</div>
       </div>
-        <div class="form-group">
-        <label for="password" class="input-label">Password</label>
-          <div class="input-group">
-            <input
-              type="password"
-              v-model="input.password"
-              :class="{ 'is-invalid': $v.input.password.$error }"
-              id="password"
-              class="input-password form-control shadow-none"
-              placeholder="Enter your password"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          <div class="input-group-prepend">
-          <span class="input-group-text" :class="{ 'is-invalid': $v.input.password.$error }" id="basic-addon1"
-            ><img
-              @click="showPassword"
-              id="btnShowPassword"
-              src="../../../assets/ic_sharp-remove-red-eye.png"
-              alt=""
-          /></span>
-            </div>
-          <div v-if="!$v.input.password.required" class="invalid-feedback">Password is required</div>
-          <div v-if="!$v.input.password.mingLength" class="invalid-feedback">The minimum password character is 6 characters</div>
-          </div>
-        </div>
-        <ButtonPrimary :method="register" buttonText="Register"/>
-        <div class="separator p-4">Register With</div>
-        <ButtonSecondary/>
+        <ButtonPrimary :method="forgotPassword" buttonText="Send"/>
     </form>
     </div>
   </div>
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators'
-import ButtonPrimary from '../../../components/base/ButtonPrimary'
-import ButtonSecondary from '../../../components/base/ButtonSecondary'
+import { required, email } from 'vuelidate/lib/validators'
+import ButtonPrimary from '../../base/ButtonPrimary'
 export default {
-  name: 'Register',
+  name: 'ForgotPassword',
   data () {
     return {
       input: {
         email: '',
-        name: '',
         password: ''
-      },
-      submitted: false
+      }
     }
   },
   validations: {
     input: {
-      name: {
-        required
-      },
       email: {
-        required, email
-      },
-      password: {
         required,
-        minLength: minLength(6)
+        email
       }
     }
   },
   components: {
-    ButtonPrimary,
-    ButtonSecondary
+    ButtonPrimary
   },
   methods: {
-    showPassword () {
-      const inputPassword = document.getElementById('password')
-      if (inputPassword.type === 'password') {
-        inputPassword.type = 'text'
-      } else {
-        inputPassword.type = 'password'
-      }
-    },
-    register () {
+    forgotPassword () {
       // stop here if form is invalid
       this.$v.$touch()
       if (this.$v.$invalid) {
@@ -138,11 +87,6 @@ color: #7E98DF;
   line-height: 17px;
   /* identical to box height */
   color: #232323;
-}
-.input-name {
-  border:none;
-  border-radius: 0;
-  border-bottom:1px solid black;
 }
 .input-email {
   border:none;

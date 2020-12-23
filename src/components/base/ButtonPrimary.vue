@@ -1,11 +1,11 @@
 <template>
-        <button class="button-primary" @click.prevent="method" >Register</button>
+        <button class="button-primary" @click.prevent="method" >{{ buttonText }}</button>
 </template>
 
 <script>
 export default {
-  name: 'Button Primary',
-  props: ['method']
+  name: 'ButtonPrimary',
+  props: ['method', 'buttonText']
 }
 </script>
 

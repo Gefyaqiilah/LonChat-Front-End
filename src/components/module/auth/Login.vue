@@ -5,17 +5,12 @@
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-8 pt-3">
-        <p class="card-header-title">Register</p>
+        <p class="card-header-title">Login</p>
       </div>
     </div>
     <div class="card-body container-fluid m-0 p-0 pt-3">
-    <p class="common-black-text mt-3">Let’s create your account!</p>
+    <p class="common-black-text mt-3">Hi, Welcome back!</p>
     <form action="" class="form mt-4">
-      <div class="form-group">
-      <label for="name" class="input-label">Name</label>
-      <input type="text" id="name" v-model="input.name" placeholder="Telegram app" :class="{ 'is-invalid':  $v.input.name.$error }" class="input-name form-control shadow-none">
-       <div v-if="!$v.input.name.required" class="invalid-feedback">Name is required</div>
-      </div>
       <div class="form-group">
       <label for="email" class="input-label">Email</label>
       <input type="text" id="email" v-model="input.email" placeholder="Ex: telegram@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
@@ -45,10 +40,9 @@
           /></span>
             </div>
           <div v-if="!$v.input.password.required" class="invalid-feedback">Password is required</div>
-          <div v-if="!$v.input.password.mingLength" class="invalid-feedback">The minimum password character is 6 characters</div>
           </div>
         </div>
-        <ButtonPrimary :method="register" buttonText="Register"/>
+        <ButtonPrimary :method="login" buttonText="Login"/>
         <div class="separator p-4">Register With</div>
         <ButtonSecondary/>
     </form>
@@ -57,38 +51,33 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators'
-import ButtonPrimary from '../../../components/base/ButtonPrimary'
-import ButtonSecondary from '../../../components/base/ButtonSecondary'
+import { required, email } from 'vuelidate/lib/validators'
+import ButtonPrimary from '../../base/ButtonPrimary'
+import ButtonSecondary from '../../base/ButtonSecondary'
 export default {
-  name: 'Register',
+  name: 'Login',
+  components: {
+    ButtonPrimary,
+    ButtonSecondary
+  },
   data () {
     return {
       input: {
         email: '',
-        name: '',
         password: ''
-      },
-      submitted: false
+      }
     }
   },
   validations: {
     input: {
-      name: {
-        required
-      },
       email: {
-        required, email
+        required,
+        email
       },
       password: {
-        required,
-        minLength: minLength(6)
+        required
       }
     }
-  },
-  components: {
-    ButtonPrimary,
-    ButtonSecondary
   },
   methods: {
     showPassword () {
@@ -99,7 +88,7 @@ export default {
         inputPassword.type = 'password'
       }
     },
-    register () {
+    login () {
       // stop here if form is invalid
       this.$v.$touch()
       if (this.$v.$invalid) {
@@ -138,11 +127,6 @@ color: #7E98DF;
   line-height: 17px;
   /* identical to box height */
   color: #232323;
-}
-.input-name {
-  border:none;
-  border-radius: 0;
-  border-bottom:1px solid black;
 }
 .input-email {
   border:none;
