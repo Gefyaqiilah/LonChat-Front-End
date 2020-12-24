@@ -48,7 +48,7 @@
           <div v-if="!$v.input.password.mingLength" class="invalid-feedback">The minimum password character is 6 characters</div>
           </div>
         </div>
-        <ButtonPrimary :method="register" buttonText="Register"/>
+        <ButtonPrimary :method="handleRegister" buttonText="Register"/>
         <div class="separator p-4">Register With</div>
         <ButtonSecondary/>
     </form>
@@ -58,6 +58,9 @@
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
+
+import Swal from 'sweetalert2'
 import ButtonPrimary from '../../../components/base/ButtonPrimary'
 import ButtonSecondary from '../../../components/base/ButtonSecondary'
 export default {
@@ -91,6 +94,7 @@ export default {
     ButtonSecondary
   },
   methods: {
+    ...mapActions(['register']),
     showPassword () {
       const inputPassword = document.getElementById('password')
       if (inputPassword.type === 'password') {
@@ -99,14 +103,30 @@ export default {
         inputPassword.type = 'password'
       }
     },
-    register () {
+    handleRegister () {
       // stop here if form is invalid
       this.$v.$touch()
+      console.log(this.$v)
       if (this.$v.$invalid) {
         return
       }
-
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.user))
+      const data = {
+        email: this.input.email,
+        password: this.input.password,
+        name: this.input.name
+      }
+      this.register(data)
+        .then((result) => {
+          this.$router.push({ path: '/auth/login' })
+          Swal.fire({
+            icon: 'success',
+            title: 'Your data has been created',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }).catch((err) => {
+          console.log('err :>> ', err)
+        })
     }
   }
 }

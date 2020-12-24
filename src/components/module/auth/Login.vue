@@ -43,7 +43,7 @@
           </div>
         </div>
         <ButtonPrimary :method="login" buttonText="Login"/>
-        <div class="separator p-4">Register With</div>
+        <div class="separator p-4">Login With</div>
         <ButtonSecondary/>
     </form>
     </div>
