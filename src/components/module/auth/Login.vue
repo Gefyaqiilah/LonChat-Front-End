@@ -42,7 +42,7 @@
           <div v-if="!$v.input.password.required" class="invalid-feedback">Password is required</div>
           </div>
         </div>
-        <ButtonPrimary :method="login" buttonText="Login"/>
+        <ButtonPrimary :method="handleLogin" buttonText="Login"/>
         <div class="separator p-4">Login With</div>
         <ButtonSecondary/>
     </form>
@@ -54,6 +54,8 @@
 import { required, email } from 'vuelidate/lib/validators'
 import ButtonPrimary from '../../base/ButtonPrimary'
 import ButtonSecondary from '../../base/ButtonSecondary'
+import { mapActions, mapMutations } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
   name: 'Login',
   components: {
@@ -80,6 +82,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['login']),
+    ...mapMutations(['SET_USER_DATA']),
     showPassword () {
       const inputPassword = document.getElementById('password')
       if (inputPassword.type === 'password') {
@@ -88,14 +92,25 @@ export default {
         inputPassword.type = 'password'
       }
     },
-    login () {
+    handleLogin () {
       // stop here if form is invalid
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
-
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.user))
+      const data = {
+        email: this.input.email,
+        password: this.input.password
+      }
+      this.login(data)
+        .then((results) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Your data has been created',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
     }
   }
 }
