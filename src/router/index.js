@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/home/Home.vue'
 import Auth from '../views/auth/Auth.vue'
 import Register from '../components/module/auth/Register.vue'
 import Login from '../components/module/auth/Login.vue'
@@ -8,6 +8,7 @@ import ForgotPassword from '../components/module/auth/ForgotPassword.vue'
 import ConfirmPassword from '../components/module/auth/ConfirmPassword.vue'
 import store from '../store/index'
 import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
+import Chat from '../components/module/chat/Chat.vue'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,14 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: 'chat',
+        name: 'Chat',
+        component: Chat
+      }
+    ]
   },
   {
     path: '/auth',
