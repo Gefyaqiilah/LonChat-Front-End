@@ -106,7 +106,7 @@ export default {
         .then((results) => {
           Swal.fire({
             icon: 'success',
-            title: 'Your data has been created',
+            title: 'Login Success',
             showConfirmButton: false,
             timer: 1500
           })
