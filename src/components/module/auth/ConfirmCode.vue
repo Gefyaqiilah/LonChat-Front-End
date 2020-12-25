@@ -1,81 +1,78 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-2 pt-3 p-0">
+      <div class="col-3 pt-3 p-0">
         <img src="../../../assets/back.png" alt="">
       </div>
-      <div class="col-10 pt-3">
-        <p class="card-header-title">Forgot Password</p>
+      <div class="col-9 pt-3">
+        <p class="card-header-title">Confirm Code</p>
       </div>
     </div>
     <div class="card-body container-fluid m-0 p-0 pt-3">
-    <p class="common-black-text mt-3">You’ll get messages soon on your e-mail </p>
-        <form action="" class="form mt-4">
+    <p class="common-black-text mt-3">Enter code from your email</p>
+    <form action="" class="form mt-4">
       <div class="form-group">
-      <label for="email" class="input-label">Email</label>
-      <input type="text" id="email" v-model="input.email" placeholder="telegram@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
-      <div v-if="!$v.input.email.required" class="invalid-feedback">Email is required</div>
-      <div v-if="!$v.input.email.email" class="invalid-feedback">Invalid format email</div>
+      <label for="email" class="input-label">Code :</label>
+      <input type="text" id="email" v-model="input.code" placeholder="" :class="{ 'is-invalid': $v.input.code.$error }" class="input-email form-control shadow-none">
+      <div v-if="!$v.input.code.required" class="invalid-feedback">Code is required</div>
+      <div v-if="!$v.input.code.sameAs" class="invalid-feedback">Wrong code</div>
       </div>
-        <ButtonPrimary :method="handleForgotPassword" buttonText="Send"/>
+      <ButtonPrimary :method="handleCompareCode"  buttonText="Submit"/>
     </form>
     </div>
   </div>
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators'
-import { mapActions, mapMutations } from 'vuex'
+import { required, minLength, sameAs } from 'vuelidate/lib/validators'
+import { mapGetters } from 'vuex'
 import ButtonPrimary from '../../base/ButtonPrimary'
-import cryptoRandomString from 'crypto-random-string'
-import Swal from 'sweetalert2'
-
 export default {
-  name: 'ForgotPassword',
+  components: {
+    ButtonPrimary
+  },
   data () {
     return {
       input: {
-        email: ''
+        code: '',
+        trueCode: null
       }
     }
   },
   validations: {
     input: {
-      email: {
-        required,
-        email
-      }
+      code: { required, minLength: minLength(6), sameAs: sameAs('trueCode') }
     }
   },
-  components: {
-    ButtonPrimary
-  },
   methods: {
-    ...mapActions(['forgotPassword']),
-    ...mapMutations(['SET_FORGOT_PASSWORD_CODE']),
-    handleForgotPassword () {
-      // stop here if form is invalid
+    showPassword (e) {
+      let inputPassword
+      if (e.target.alt === 'password') {
+        inputPassword = document.getElementById('password')
+      } else if (e.target.alt === 'repeat-password') {
+        inputPassword = document.getElementById('repeat-password')
+      }
+      if (inputPassword.type === 'password') {
+        inputPassword.type = 'text'
+      } else {
+        inputPassword.type = 'password'
+      }
+    },
+    handleCompareCode () {
       this.$v.$touch()
+
       if (this.$v.$invalid) {
         return
       }
-      const code = cryptoRandomString({ length: 6, type: 'numeric' })
-      const data = {
-        email: this.input.email,
-        code
-      }
-      this.forgotPassword(data)
-        .then((result) => {
-          this.SET_FORGOT_PASSWORD_CODE(code)
-          Swal.fire({
-            icon: 'success',
-            title: 'Check your email ',
-            text: 'Please check the email we have sent',
-            showConfirmButton: true
-          })
-          this.$router.push({ path: '/auth/confirm-code', query: { email: this.input.email } })
-        })
+      this.$router.push({ path: '/auth/confirm-password', query: { email: this.$route.query.email } })
     }
+  },
+  computed: {
+    ...mapGetters(['getForgotPassword'])
+  },
+  mounted () {
+    console.log(this.getForgotPassword)
+    this.input.trueCode = this.getForgotPassword
   }
 }
 </script>
@@ -106,6 +103,11 @@ color: #7E98DF;
   line-height: 17px;
   /* identical to box height */
   color: #232323;
+}
+.input-name {
+  border:none;
+  border-radius: 0;
+  border-bottom:1px solid black;
 }
 .input-email {
   border:none;

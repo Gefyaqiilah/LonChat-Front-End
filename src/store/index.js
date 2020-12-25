@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import jwt from 'jsonwebtoken'
+import createPersistedState from 'vuex-persistedstate'
+import SecureLS from 'secure-ls'
+const ls = new SecureLS({ isCompression: false })
 
 Vue.use(Vuex)
 
@@ -12,8 +15,18 @@ export default new Vuex.Store({
     token: {
       accessToken: null,
       refreshToken: null
-    }
+    },
+    forgotPasswordCode: null
   },
+  plugins: [
+    createPersistedState({
+      storage: {
+        getItem: key => ls.get(key),
+        setItem: (key, value) => ls.set(key, value),
+        removeItem: key => ls.remove(key)
+      }
+    })
+  ],
   mutations: {
     SET_USER_DATA (state, payload) {
       state.userData = payload
@@ -23,12 +36,14 @@ export default new Vuex.Store({
     },
     SET_REFRESH_TOKEN (state, payload) {
       state.token.refreshToken = payload
+    },
+    SET_FORGOT_PASSWORD_CODE (state, payload) {
+      state.forgotPasswordCode = payload
     }
   },
   actions: {
     register (context, payload) {
       return new Promise((resolve, reject) => {
-        console.log('process.env.VUE_APP_SERVIVE_API :>> ', process.env.VUE_APP_SERVICE_API)
         axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/users/register`, payload)
           .then((result) => {
             resolve(result)
@@ -78,6 +93,27 @@ export default new Vuex.Store({
           })
       })
     },
+    forgotAndChangePassword (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.patch(`${process.env.VUE_APP_SERVICE_API}/v1/users/forgot-password/${payload.email}`, payload.data)
+          .then((result) => {
+            context.commit('SET_FORGOT_PASSWORD_CODE', null)
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    forgotPassword (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/users/forgot-password`, payload)
+          .then((result) => {
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     interceptorRequest (context, payload) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${context.state.token.accessToken}`
@@ -91,11 +127,8 @@ export default new Vuex.Store({
         console.log(response)
         return response
       }, function (error) {
-        console.log(error)
         const errorStatusCode = error.response.data.statusCode
         const errorMessage = error.response.data.err.message
-        console.log(errorMessage)
-        console.log(errorStatusCode)
         if (errorStatusCode === 401) {
           // login
           if (errorMessage === 'Invalid email or password') {
@@ -105,11 +138,20 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
+          } else if (errorMessage === 'Wrong email') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Invalid Email',
+              showConfirmButton: false,
+              timer: 1500
+            })
           }
+          // forgotpassword
         } else if (errorStatusCode === 500) {
 
         }
         // const errorStatusCode = error.response.data.err
+        return Promise.reject(error)
       })
     }
   },
@@ -119,6 +161,12 @@ export default new Vuex.Store({
     },
     getRefreshToken (state) {
       return state.token.refreshToken
+    },
+    getForgotPassword (state) {
+      return state.forgotPasswordCode
+    },
+    checkForgotPassword (state) {
+      return state.forgotPasswordCode !== null
     }
   },
   modules: {

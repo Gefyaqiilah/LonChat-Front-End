@@ -5,6 +5,9 @@ import Auth from '../views/auth/Auth.vue'
 import Register from '../components/module/auth/Register.vue'
 import Login from '../components/module/auth/Login.vue'
 import ForgotPassword from '../components/module/auth/ForgotPassword.vue'
+import ConfirmPassword from '../components/module/auth/ConfirmPassword.vue'
+import store from '../store/index'
+import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +36,18 @@ const routes = [
         path: 'forgot-password',
         name: 'ForgotPassword',
         component: ForgotPassword
+      },
+      {
+        path: 'confirm-password',
+        name: 'ConfirmPassword',
+        component: ConfirmPassword,
+        meta: { requiresForgotPasswordCode: true }
+      },
+      {
+        path: 'confirm-code',
+        name: 'ConfirmCode',
+        component: ConfirmCode,
+        meta: { requiresForgotPasswordCode: true }
       }
     ]
   },
@@ -51,5 +66,17 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresForgotPasswordCode)) {
+    if (!store.getters.checkForgotPassword) {
+      next({
+        path: '/auth/forgot-password'
+      })
+    } else {
+      next()
+    }
+  }
+  // else
+  next()
+})
 export default router
