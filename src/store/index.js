@@ -4,8 +4,8 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import jwt from 'jsonwebtoken'
 import createPersistedState from 'vuex-persistedstate'
-import SecureLS from 'secure-ls'
-const ls = new SecureLS({ isCompression: false })
+// import SecureLS from 'secure-ls'
+// const ls = new SecureLS({ isCompression: false })
 
 Vue.use(Vuex)
 
@@ -19,13 +19,7 @@ export default new Vuex.Store({
     forgotPasswordCode: null
   },
   plugins: [
-    createPersistedState({
-      storage: {
-        getItem: key => ls.get(key),
-        setItem: (key, value) => ls.set(key, value),
-        removeItem: key => ls.remove(key)
-      }
-    })
+    createPersistedState()
   ],
   mutations: {
     SET_USER_DATA (state, payload) {
@@ -82,9 +76,37 @@ export default new Vuex.Store({
           })
       })
     },
+    updateProfile (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.patch(`${process.env.VUE_APP_SERVICE_API}/v1/users/${context.state.userData.id}`, payload)
+          .then((result) => {
+            context.dispatch('getUserData')
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    updatePhotoProfile (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        console.log('payload :>> ', payload)
+        axios.patch(`${process.env.VUE_APP_SERVICE_API}/v1/users/photo-profile/${context.state.userData.id}`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+          .then((result) => {
+            context.dispatch('getUserData')
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     getUserData (context, payload) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/${payload}`)
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/${context.state.userData.id}`)
           .then((result) => {
             context.commit('SET_USER_DATA', result.data.result)
             resolve(result)
@@ -114,8 +136,9 @@ export default new Vuex.Store({
           })
       })
     },
-    getUser () {
+    getUser (context) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users`)
           .then((result) => {
             resolve(result)
@@ -124,9 +147,9 @@ export default new Vuex.Store({
           })
       })
     },
-    interceptorRequest (context, payload) {
+    interceptorRequest ({ state }, payload) {
       axios.interceptors.request.use(function (config) {
-        config.headers.Authorization = `Bearer ${context.state.token.accessToken}`
+        config.headers.Authorization = `Bearer ${state.token.accessToken}`
         return config
       }, function (error) {
         return Promise.reject(error)
@@ -180,6 +203,9 @@ export default new Vuex.Store({
     },
     checkAccessToken (state) {
       return state.token.accessToken !== null
+    },
+    getDataUser (state) {
+      return state.userData
     }
   },
   modules: {
