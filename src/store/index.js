@@ -114,6 +114,16 @@ export default new Vuex.Store({
           })
       })
     },
+    getUser () {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users`)
+          .then((result) => {
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     interceptorRequest (context, payload) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${context.state.token.accessToken}`
@@ -167,6 +177,9 @@ export default new Vuex.Store({
     },
     checkForgotPassword (state) {
       return state.forgotPasswordCode !== null
+    },
+    checkAccessToken (state) {
+      return state.token.accessToken !== null
     }
   },
   modules: {

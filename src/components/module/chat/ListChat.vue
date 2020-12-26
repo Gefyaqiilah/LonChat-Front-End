@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'ListChat',
   data () {
@@ -111,6 +112,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getUser']),
     showMenu () {
       const menu = document.getElementById('show-menu')
       if (this.showMenuProfile) {
@@ -123,7 +125,18 @@ export default {
     },
     toSettings () {
       this.$router.push({ path: '/profile' })
+    },
+    handleGetUser () {
+      this.getUser()
+        .then((result) => {
+          console.log('result :>> ', result)
+        }).catch((err) => {
+          console.log('err :>> ', err)
+        })
     }
+  },
+  mounted () {
+    this.handleGetUser()
   }
 }
 </script>

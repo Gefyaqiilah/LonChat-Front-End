@@ -19,6 +19,7 @@ const routes = [
     name: 'Home',
     component: Home,
     redirect: '/list-chat',
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'list-chat',
@@ -36,6 +37,7 @@ const routes = [
     path: '/auth',
     name: 'auth',
     component: Auth,
+    meta: { requiresVisitor: true },
     children: [
       {
         path: 'register',
@@ -86,6 +88,24 @@ router.beforeEach((to, from, next) => {
     if (!store.getters.checkForgotPassword) {
       next({
         path: '/auth/forgot-password'
+      })
+    } else {
+      next()
+    }
+  }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.checkAccessToken) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      next()
+    }
+  }
+  if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.checkAccessToken) {
+      next({
+        path: '/'
       })
     } else {
       next()

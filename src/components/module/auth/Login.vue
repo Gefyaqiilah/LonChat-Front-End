@@ -41,10 +41,12 @@
             </div>
           <div v-if="!$v.input.password.required" class="invalid-feedback">Password is required</div>
           </div>
+          <p @click="toForgotPassword" class="text-right forgot-password mt-3">Forgot Password ?</p>
         </div>
         <ButtonPrimary :method="handleLogin" buttonText="Login"/>
         <div class="separator p-4">Login With</div>
         <ButtonSecondary/>
+        <p class="sign-up text-center mt-4">Don’t have an account? <span class="purple" @click="toSignUp">Sign Up</span></p>
     </form>
     </div>
   </div>
@@ -110,7 +112,14 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
+          this.$router.push({ path: '/' })
         })
+    },
+    toForgotPassword () {
+      this.$router.push({ path: '/auth/forgot-password' })
+    },
+    toSignUp () {
+      this.$router.push({ path: '/auth/register' })
     }
   }
 }
@@ -190,7 +199,32 @@ color: #7E98DF;
   border-radius: 0 !important;
   background-color: transparent !important;
 }
-
+.forgot-password {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 34px;
+  text-align: center;
+  letter-spacing: -0.165px;
+  cursor: pointer;
+  color: #7E98DF;
+}
+.sign-up {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 34px;
+  text-align: center;
+  letter-spacing: -0.165px;
+  cursor: pointer;
+  color: #313131;
+}
+.sign-up .purple {
+  color: #7E98DF;
+  cursor: pointer;
+}
 .input-group-prepend {
   border:none !important;
   border-radius: 0 !important;
