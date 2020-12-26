@@ -11,8 +11,8 @@
            <img src="../../assets/Rectangle 8.png" alt="">
         </div>
         <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
-          <p class="name m-0 align-items-start">awdawa</p>
-          <p class="status m-0 align-items-end">awdawdawd</p>
+          <p class="name m-0 align-items-start text-left">awdawa</p>
+          <p class="status m-0 align-items-end text-left">awdawdawd</p>
         </div>
       </div>
         <div class="profile-menu align-self-top">
