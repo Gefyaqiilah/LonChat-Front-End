@@ -9,6 +9,7 @@ import ConfirmPassword from '../components/module/auth/ConfirmPassword.vue'
 import store from '../store/index'
 import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
 import ListChat from '../components/module/chat/ListChat.vue'
+import Profile from '../components/module/chat/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
         path: 'list-chat',
         name: 'ListChat',
         component: ListChat
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile
       }
     ]
   },
