@@ -42,61 +42,6 @@
         </div>
         </div>
       </div>
-      <!-- sender messsage -->
-      <div class="chat-item-sender row p-0 m-0 mt-3">
-        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
-        <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 9.png" alt="">
-        </div>
-        <div class="chat-message mr-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
-        </div>
-        </div>
-      </div>
-      <!-- sender messsage -->
-      <div class="chat-item-sender row p-0 m-0 mt-3">
-        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
-        <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 9.png" alt="">
-        </div>
-        <div class="chat-message mr-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
-        </div>
-        </div>
-      </div>
-      <!-- sender messsage -->
-      <div class="chat-item-sender row p-0 m-0 mt-3">
-        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
-        <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 9.png" alt="">
-        </div>
-        <div class="chat-message mr-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
-        </div>
-        </div>
-      </div>
-      <!-- sender messsage -->
-      <div class="chat-item-sender row p-0 m-0 mt-3">
-        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
-        <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 9.png" alt="">
-        </div>
-        <div class="chat-message mr-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
-        </div>
-        </div>
-      </div>
-      <!-- sender messsage -->
-      <div class="chat-item-sender row p-0 m-0 mt-3">
-        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
-        <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 9.png" alt="">
-        </div>
-        <div class="chat-message mr-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
-        </div>
-        </div>
-      </div>
     </div>
       </div>
       <div class="type-message pl-4 pr-4 w-100">

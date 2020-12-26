@@ -1,7 +1,7 @@
 <template>
   <div class="p-0 m-0">
     <div class="header d-flex">
-      <div class="back">
+      <div class="back" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="username mx-auto">
@@ -74,7 +74,12 @@
 
 <script>
 export default {
-  name: 'Profile'
+  name: 'Profile',
+  methods: {
+    back () {
+      this.$router.go(-1)
+    }
+  }
 }
 </script>
 
@@ -187,5 +192,8 @@ color: #232323;
   width:100%;
   height:100%;
   object-fit: contain;
+}
+.back {
+  cursor: pointer;
 }
 </style>

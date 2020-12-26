@@ -4,7 +4,47 @@
         <div class="title d-flex m-0 justify-content-between">
           <p class="p-0 m-0 title-text">Telegram</p>
           <div class="menu-icon">
-          <img class="m-0 p-0" src="../../../assets/Menu.png" alt="">
+          <img class="m-0 p-0" @click="showMenu" src="../../../assets/Menu.png" alt="">
+          </div>
+          <div class="show p-0 m-0" id="show-menu">
+          <div class="show-menu d-flex flex-column p-4">
+            <div class="settings mb-4 d-flex" @click="toSettings">
+              <div class="icon">
+                <img src="../../../assets/Settings.png" alt="">
+              </div>
+              <p class="m-0 ml-4">Settings</p>
+            </div>
+            <div class="contacts mb-4 d-flex">
+              <div class="icon">
+                <img src="../../../assets/Contacts.png" alt="">
+              </div>
+              <p class="m-0 ml-4">Contacts</p>
+            </div>
+            <div class="calls mb-4 d-flex">
+               <div class="icon">
+                <img src="../../../assets/Vector (3).png" alt="">
+              </div>
+              <p class="m-0 ml-4">Calls</p>
+            </div>
+            <div class="save-messages mb-4 d-flex">
+              <div class="icon">
+                <img src="../../../assets/Rectangle 37.png" alt="">
+              </div>
+              <p class="m-0 ml-4">Save Messages</p>
+            </div>
+            <div class="invite-friends mb-4 d-flex">
+               <div class="icon">
+                <img src="../../../assets/Invite friends.png" alt="">
+              </div>
+              <p class="m-0 ml-4">Invite Friends</p>
+            </div>
+            <div class="faq mb-4 d-flex">
+              <div class="icon">
+                <img src="../../../assets/FAQ.png" alt="">
+              </div>
+              <p class="m-0 ml-4">Telegram FAQ</p>
+            </div>
+          </div>
           </div>
         </div>
         <div class="search-box d-flex justify-content-between mt-5">
@@ -39,133 +79,7 @@
             </div>
             <div class="details-chat col-8 p-0 pl-2 m-0">
               <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
+                <p class="m-0 p-0">Theresa Web</p>
               </div>
               <div class="message h-50 p-0 m-0">
                 <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
@@ -191,8 +105,24 @@ export default {
   data () {
     return {
       input: {
-        optionMenuStatus: 'important'
+        optionMenuStatus: 'important',
+        showMenuProfile: false
       }
+    }
+  },
+  methods: {
+    showMenu () {
+      const menu = document.getElementById('show-menu')
+      if (this.showMenuProfile) {
+        menu.style.display = 'none'
+        this.showMenuProfile = false
+      } else {
+        menu.style.display = 'flex'
+        this.showMenuProfile = true
+      }
+    },
+    toSettings () {
+      this.$router.push({ path: '/profile' })
     }
   }
 }
@@ -219,6 +149,7 @@ export default {
   width:100%;
   height:100%;
   object-fit: contain;
+  cursor: pointer;
 }
 .search-input {
   /* width:90%; */
@@ -372,5 +303,145 @@ export default {
 }
 .item-chat {
   cursor: pointer;
+}
+#show-menu {
+  display:none;
+  position: absolute;
+  left:170px;
+  top:52px;
+  z-index:1;
+}
+.show-menu {
+  width: 250px;
+  height: max-content;
+
+  background: #7E98DF;
+  border-radius: 35px 10px 35px 35px;
+}
+.settings {
+  cursor: pointer;
+}
+.settings .icon {
+  width:22px;
+  height:22px;
+}
+.settings .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.settings p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.contacts {
+  cursor: pointer;
+}
+.contacts .icon {
+  width:22px;
+  height:22px;
+}
+.contacts .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.contacts p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.calls {
+  cursor: pointer;
+}
+.calls .icon {
+  width:22px;
+  height:22px;
+}
+.calls .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.calls p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.save-messages {
+  cursor: pointer;
+}
+.save-messages .icon {
+  width:22px;
+  height:22px;
+}
+.save-messages .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.save-messages p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.invite-friends {
+  cursor: pointer;
+}
+.invite-friends .icon {
+  width:22px;
+  height:22px;
+}
+.invite-friends .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.invite-friends p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.faq {
+  cursor: pointer;
+}
+.faq .icon {
+  width:22px;
+  height:22px;
+}
+.faq .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.faq p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
 }
 </style>
