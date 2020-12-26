@@ -79,9 +79,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  /* border:1px solid red; */
-}
 .header .username p {
   font-family: Rubik;
 font-style: normal;
