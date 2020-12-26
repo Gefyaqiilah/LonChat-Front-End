@@ -8,7 +8,7 @@ import ForgotPassword from '../components/module/auth/ForgotPassword.vue'
 import ConfirmPassword from '../components/module/auth/ConfirmPassword.vue'
 import store from '../store/index'
 import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
-import Chat from '../components/module/chat/Chat.vue'
+import ListChat from '../components/module/chat/ListChat.vue'
 
 Vue.use(VueRouter)
 
@@ -19,9 +19,9 @@ const routes = [
     component: Home,
     children: [
       {
-        path: 'chat',
-        name: 'Chat',
-        component: Chat
+        path: 'list-chat',
+        name: 'ListChat',
+        component: ListChat
       }
     ]
   },

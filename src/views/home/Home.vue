@@ -1,203 +1,118 @@
 <template>
   <div class="container-fluid grid m-0 p-0 row">
     <div class="left-side col-4 pt-4 pr-4 pl-4 m-0">
-      <div class="left-side-header p-0 m-0">
-        <div class="title d-flex m-0 justify-content-between">
-          <p class="p-0 m-0 title-text">Telegram</p>
-          <div class="menu-icon">
-          <img class="m-0 p-0" src="../../assets/Menu.png" alt="">
-          </div>
+      <router-view></router-view>
+    </div>
+    <div class="right-side col-8 p-0">
+        <div class="right-side container-fluid p-0 m-0">
+    <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
+      <div class="chat-info d-flex">
+        <div class="photo-profile">
+           <img src="../../assets/Rectangle 8.png" alt="">
         </div>
-        <div class="search-box d-flex justify-content-between mt-5">
-          <img class="search-icon" src="../../assets/Search.png" alt="">
-          <input type="text" class="search-input form-control shadow-none" placeholder="Type your message...">
-          <div class="plus-icon ml-4">
-           <img src="../../assets/Plus.png" alt="">
-          </div>
-        </div>
-        <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
-          <div class="col-4 p-2">
-          <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="all" class="option-status" id="all">
-          <label for="all" class="label-option">All</label>
-          </div>
-          <div class="col-4 p-2">
-          <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="important" class="option-status" id="important">
-          <label for="important" class="label-option">Important</label>
-          </div>
-          <div class="col-4 p-2">
-          <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="unread" class="option-status" id="unread">
-          <label for="unread" class="label-option">Unread</label>
-          </div>
+        <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
+          <p class="name m-0 align-items-start">awdawa</p>
+          <p class="status m-0 align-items-end">awdawdawd</p>
         </div>
       </div>
-      <div class="left-side-body mt-3">
-        <div class="list-chat">
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-              <div class="online">
-              </div>
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
-          <div class="item-chat row p-0 m-0 mb-3">
-            <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../assets/Rectangle 3.png" alt="">
-            </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
-              <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web Theresa Web</p>
-              </div>
-              <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
-              </div>
-            </div>
-            <div class="info-chat col-2 p-0 m-0">
-              <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
-              </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
-              </div>
-            </div>
-          </div>
+        <div class="profile-menu align-self-top">
+          <img src="../../assets/Profile menu.png" alt="">
+        </div>
+    </div>
+    <div class="right-side-body p-4" id="list-chat">
+      <!-- receive messsage -->
+      <div class="chat-item-receiver row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 8.png" alt="">
+        </div>
+        <div class="chat-message ml-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
+        </div>
+      </div>
+      <!-- sender messsage -->
+      <div class="chat-item-sender row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 9.png" alt="">
+        </div>
+        <div class="chat-message mr-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
+        </div>
+      </div>
+      <!-- sender messsage -->
+      <div class="chat-item-sender row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 9.png" alt="">
+        </div>
+        <div class="chat-message mr-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
+        </div>
+      </div>
+      <!-- sender messsage -->
+      <div class="chat-item-sender row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 9.png" alt="">
+        </div>
+        <div class="chat-message mr-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
+        </div>
+      </div>
+      <!-- sender messsage -->
+      <div class="chat-item-sender row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 9.png" alt="">
+        </div>
+        <div class="chat-message mr-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
+        </div>
+      </div>
+      <!-- sender messsage -->
+      <div class="chat-item-sender row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 9.png" alt="">
+        </div>
+        <div class="chat-message mr-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
+        </div>
+      </div>
+      <!-- sender messsage -->
+      <div class="chat-item-sender row p-0 m-0 mt-3">
+        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
+        <div class="chat-photo-profile align-self-end">
+          <img src="../../assets/Rectangle 9.png" alt="">
+        </div>
+        <div class="chat-message mr-3">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+        </div>
         </div>
       </div>
     </div>
-    <div class="right-side col-8 p-0">
-      <router-view></router-view>
+  </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      input: {
-        optionMenuStatus: 'important'
-      }
+  methods: {
+    updateScroll () {
+      var element = document.getElementById('list-chat')
+      element.scrollTop = element.scrollHeight
     }
+  },
+  mounted () {
+    this.updateScroll()
   }
 }
 </script>
@@ -376,5 +291,72 @@ export default {
 }
 .item-chat {
   cursor: pointer;
+}
+.right-side-header {
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+}
+.detail-profile {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+
+  color: #232323;
+}
+.status {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  /* identical to box height */
+
+  text-align: center;
+  letter-spacing: -0.165px;
+
+  color: #7E98DF;
+}
+.chat-photo-profile {
+  width:100px;
+  height: 54px;
+}
+.chat-photo-profile img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+.chat-item-receiver .chat-message {
+  background: #7E98DF;
+  border-radius: 35px 35px 35px 10px;
+  padding: 17px 33px;
+
+  font-family: Rubik;
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+text-align: left;
+/* or 28px */
+
+color: #FFFFFF;
+}
+.chat-item-sender .chat-message{
+  background: #FFFFFF;
+  border-radius: 35px 35px 35px 10px;
+  padding: 17px 33px;
+
+  font-family: Rubik;
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+/* or 28px */
+text-align: right;
+color: #232323;
+}
+.right-side-body {
+  height:550px;
+  overflow-y:auto;
 }
 </style>
