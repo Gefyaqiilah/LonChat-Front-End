@@ -18,6 +18,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    redirect: '/list-chat',
     children: [
       {
         path: 'list-chat',

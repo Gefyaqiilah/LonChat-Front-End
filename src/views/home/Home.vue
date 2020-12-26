@@ -4,7 +4,7 @@
       <router-view></router-view>
     </div>
     <div class="right-side col-8 p-0">
-        <div class="right-side container-fluid p-0 m-0">
+      <div class="right-side container-fluid p-0 m-0">
     <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
       <div class="chat-info d-flex">
         <div class="photo-profile">
@@ -98,7 +98,15 @@
         </div>
       </div>
     </div>
-  </div>
+      </div>
+      <div class="type-message pl-4 pr-4 w-100">
+        <input type="text" name="" class="form-control shadow-none" id="">
+        <div class="icon">
+        <img src="../../assets/Plus.png" alt="">
+        <img src="../../assets/Vector (2).png" alt="">
+        <img src="../../assets/Group 181.png" alt="">
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -157,6 +165,7 @@ export default {
   color: #848484;
 
 }
+
 .plus-icon img{
   height:100%;
   width:100%;
@@ -193,7 +202,7 @@ export default {
   color: #232323;
 }
 .list-chat {
-  height:370px;
+  height:300px;
   overflow-y:auto;
 }
 .details-chat .name p {
@@ -358,5 +367,34 @@ color: #232323;
 .right-side-body {
   height:550px;
   overflow-y:auto;
+}
+.type-message{
+  position: absolute;
+  bottom: 10px;
+  height: max-content;
+}
+.type-message input{
+ width:100%;
+ height:60px;
+ background: #FAFAFA;
+border-radius: 15px;
+
+font-family: Rubik;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 19px;
+/* identical to box height */
+
+color: #848484;
+
+}
+.type-message .icon {
+  position: relative;
+  bottom:40px;
+  text-align:right;
+}
+.type-message .icon img {
+  margin: 0 10px 0 0;
 }
 </style>
