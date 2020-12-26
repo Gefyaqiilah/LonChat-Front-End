@@ -118,9 +118,9 @@ export default {
 </script>
 
 <style scoped>
-* {
-  /* border:1px solid red; */
-}
+/* * {
+  border:1px solid red;
+} */
 .grid {
   height:100vh;
 }
