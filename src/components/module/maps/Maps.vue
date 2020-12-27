@@ -3,6 +3,7 @@
     <l-map
       :zoom="zoom"
       :center="center"
+      style="border-radius:20px; border:2px solid #7E98DF;"
     >
       <l-tile-layer
         :url="url"
