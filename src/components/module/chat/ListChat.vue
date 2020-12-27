@@ -71,15 +71,17 @@
       </div>
       <div class="left-side-body mt-3">
         <div class="list-chat">
-          <div class="item-chat row p-0 m-0 mb-3">
+          <div v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-3">
             <div class="photo-profile col-2 p-0 m-0">
-              <img src="../../../assets/Rectangle 3.png" alt="">
+              <div class="photo">
+              <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
+              </div>
               <div class="online">
               </div>
             </div>
             <div class="details-chat col-8 p-0 pl-2 m-0">
               <div class="name h-50 p-0 m-0">
-                <p class="m-0 p-0">Theresa Web</p>
+                <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
               <div class="message h-50 p-0 m-0">
                 <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
@@ -100,7 +102,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'ListChat',
   data () {
@@ -111,8 +113,10 @@ export default {
       }
     }
   },
+  props: ['socket'],
   methods: {
-    ...mapActions(['getUser']),
+    ...mapActions(['getUser', 'getUserChatSelected']),
+    ...mapMutations(['SET_USER_CHAT_SELECTED']),
     showMenu () {
       const menu = document.getElementById('show-menu')
       if (this.showMenuProfile) {
@@ -129,11 +133,28 @@ export default {
     handleGetUser () {
       this.getUser()
         .then((result) => {
-          console.log('result :>> ', result)
         }).catch((err) => {
           console.log('err :>> ', err)
         })
+    },
+    selectedChat (id) {
+      console.log('this.getUserChatSelected.id :>> ', this.getuserChatSelected.id)
+      this.getUserChatSelected(id)
+        .then((result) => {
+          const data = { senderId: this.getDataUser.id, receiverId: id }
+          if (this.getuserChatSelected.id) {
+            console.log('this.getUserChatSelected.id :>> ', this.getuserChatSelected.id)
+            this.socket.emit('leave', this.getuserChatSelected.id)
+          }
+          this.socket.emit('joinPersonalChat', data)
+          this.SET_USER_CHAT_SELECTED(result)
+        }).catch((err) => {
+          console.log(err)
+        })
     }
+  },
+  computed: {
+    ...mapGetters(['getContactList', 'getDataUser', 'getuserChatSelected'])
   },
   mounted () {
     this.handleGetUser()
@@ -456,5 +477,15 @@ export default {
   line-height: 19px;
   /* identical to box height */
   color: #FFFFFF;
+}
+.photo-profile .photo {
+  width:64px;
+  height:64px;
+}
+.photo-profile .photo img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius: 20px;
 }
 </style>

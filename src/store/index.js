@@ -16,7 +16,9 @@ export default new Vuex.Store({
       accessToken: null,
       refreshToken: null
     },
-    forgotPasswordCode: null
+    forgotPasswordCode: null,
+    contactList: null,
+    userChatSelected: null
   },
   plugins: [
     createPersistedState()
@@ -33,6 +35,12 @@ export default new Vuex.Store({
     },
     SET_FORGOT_PASSWORD_CODE (state, payload) {
       state.forgotPasswordCode = payload
+    },
+    SET_CONTACT_LIST (state, payload) {
+      state.contactList = payload
+    },
+    SET_USER_CHAT_SELECTED (state, payload) {
+      state.userChatSelected = payload
     }
   },
   actions: {
@@ -141,7 +149,21 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users`)
           .then((result) => {
-            resolve(result)
+            const allUser = result.data.result.users
+            // const pagination = result.data.result.pagination
+            const resultCopy = allUser.filter((el) => el.id !== `${context.state.userData.id}`)
+            context.commit('SET_CONTACT_LIST', resultCopy)
+            resolve(resultCopy)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getUserChatSelected (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/${payload}`)
+          .then((result) => {
+            resolve(result.data.result)
           }).catch((err) => {
             reject(err)
           })
@@ -206,6 +228,12 @@ export default new Vuex.Store({
     },
     getDataUser (state) {
       return state.userData
+    },
+    getContactList (state) {
+      return state.contactList
+    },
+    getuserChatSelected (state) {
+      return state.userChatSelected
     }
   },
   modules: {

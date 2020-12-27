@@ -1,38 +1,38 @@
 <template>
   <div class="container-fluid grid m-0 p-0 row">
     <div class="left-side col-4 pt-4 pr-4 pl-4 m-0">
-      <router-view></router-view>
+      <router-view :socket="socket"></router-view>
     </div>
-    <div class="right-side col-8 p-0">
+    <div v-if="getuserChatSelected !== null" class="right-side col-8 p-0">
       <div class="right-side container-fluid p-0 m-0">
     <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
       <div class="chat-info d-flex">
         <div class="photo-profile">
-           <img src="../../assets/Rectangle 8.png" alt="">
+           <img :src="userSelectedPhotoProfile" alt="">
         </div>
         <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
-          <p class="name m-0 align-items-start text-left">awdawa</p>
-          <p class="status m-0 align-items-end text-left">awdawdawd</p>
+          <p class="name m-0 align-items-start text-left">{{ getuserChatSelected.name }}</p>
+          <p class="status m-0 align-items-end text-left">{{ getuserChatSelected.status }}</p>
         </div>
       </div>
         <div class="profile-menu align-self-top">
           <img src="../../assets/Profile menu.png" alt="">
         </div>
     </div>
-    <div class="right-side-body p-4" id="list-chat">
+    <div class="right-side-body p-4" id="list-chat"  >
       <!-- receive messsage -->
-      <div class="chat-item-receiver row p-0 m-0 mt-3">
-        <div class="col-12 p-0 m-0 d-flex flex-row">
+      <div :class="message.senderId === getDataUser.id ? 'chat-item-sender' : 'chat-item-receiver'" class="chat-item-receiver row p-0 m-0 mt-3" v-for="message in chatMessage" :key="message.index">
+        <div :class="message.senderId === getDataUser.id ?'col-12 p-0 m-0 d-flex flex-row-reverse' : 'col-12 p-0 m-0 d-flex flex-row'">
         <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 8.png" alt="">
+          <img :src="message.senderId === getDataUser.id ? getDataUser.photoProfile : userSelectedPhotoProfile " alt="">
         </div>
         <div class="chat-message ml-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
+          {{message.message}}
         </div>
         </div>
       </div>
-      <!-- sender messsage -->
-      <div class="chat-item-sender row p-0 m-0 mt-3">
+      <!-- sender messsage
+      <div class="chat-item-sender row p-0 m-0 mt-3" v-if="senderMessage.senderId !== getDataUser.id">
         <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
         <div class="chat-photo-profile align-self-end">
           <img src="../../assets/Rectangle 9.png" alt="">
@@ -41,11 +41,11 @@
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
         </div>
         </div>
-      </div>
+      </div> -->
     </div>
       </div>
       <div class="type-message pl-4 pr-4 w-100">
-        <input type="text" name="" class="form-control shadow-none" id="">
+        <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="form-control shadow-none" id="">
         <div class="icon">
         <img src="../../assets/Plus.png" alt="">
         <img src="../../assets/Vector (2).png" alt="">
@@ -53,19 +53,72 @@
         </div>
       </div>
     </div>
+    <div v-if="getuserChatSelected === null" class="right-side col-8 p-0 d-flex align-items-center justify-content-center">
+      <p class="welcome-chat">Please select a chat to start messaging</p>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import io from 'socket.io-client'
+import moment from 'moment'
 export default {
+  name: 'Home',
+  data () {
+    return {
+      userChatSelected: null,
+      socket: io(process.env.VUE_APP_SERVICE_API),
+      chatMessage: [],
+      input: {
+        message: ''
+      }
+    }
+  },
   methods: {
+    ...mapActions(['getUser']),
     updateScroll () {
       var element = document.getElementById('list-chat')
       element.scrollTop = element.scrollHeight
+    },
+    sendMessage () {
+      const data = {
+        message: this.input.message,
+        senderId: this.getDataUser.id,
+        time: moment(new Date()).format('LT'),
+        receiverId: this.getuserChatSelected.id
+      }
+      console.log('data :>> ', data)
+      this.socket.emit('personalChat', data, (message) => {
+        this.chatMessage.push(message)
+        this.updateScroll()
+        this.input.message = ''
+      })
+      console.log('this.chatMessage :>> ', this.chatMessage)
+    },
+    loginRoomSelf () {
+      const payload = {
+        id: this.getDataUser.id
+      }
+      this.socket.emit('loginRoomSelf', payload)
     }
   },
-  mounted () {
-    this.updateScroll()
+  computed: {
+    ...mapGetters(['getContactList', 'getuserChatSelected', 'getDataUser']),
+    userSelectedPhotoProfile () {
+      return this.getuserChatSelected.photoProfile ? this.getuserChatSelected.photoProfile : '/img/user-avatar.png'
+    }
+  },
+  async mounted () {
+    if (this.getuserChatSelected !== null) {
+      this.loginRoomSelf()
+      this.updateScroll()
+      this.socket.on('receiveMessage', data => {
+        console.log('data :>> ', data)
+        this.chatMessage.push(data)
+      })
+    }
+    this.userChatSelected = await this.getuserChatSelected
   }
 }
 </script>
@@ -76,6 +129,16 @@ export default {
 } */
 .grid {
   height:100vh;
+}
+.photo-profile {
+  width:64px;
+  height:64px;
+}
+.photo-profile img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius: 20px;
 }
 .title-text {
   font-family: Rubik;
@@ -146,8 +209,8 @@ export default {
   cursor: pointer;
   color: #232323;
 }
-.list-chat {
-  height:300px;
+#list-chat {
+  height:450px !important;
   overflow-y:auto;
 }
 .details-chat .name p {
@@ -274,13 +337,14 @@ export default {
   color: #7E98DF;
 }
 .chat-photo-profile {
-  width:100px;
+  width:54px;
   height: 54px;
 }
 .chat-photo-profile img {
   width:100%;
   height:100%;
   object-fit: cover;
+  border-radius:20px;
 }
 .chat-item-receiver .chat-message {
   background: #7E98DF;
@@ -341,5 +405,14 @@ color: #848484;
 }
 .type-message .icon img {
   margin: 0 10px 0 0;
+}
+.welcome-chat {
+  font-family: Rubik;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 28px;
+
+color: #848484;
 }
 </style>
