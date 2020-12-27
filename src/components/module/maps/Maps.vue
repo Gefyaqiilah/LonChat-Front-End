@@ -22,6 +22,7 @@ import { LMap, LTileLayer, LMarker, LIconDefault } from 'vue2-leaflet'
 import { mapGetters } from 'vuex'
 export default {
   name: 'CustomPath',
+  props: ['coordinates'],
   components: {
     LMap,
     LTileLayer,
@@ -43,11 +44,19 @@ export default {
     ...mapGetters(['getCurrentLocation'])
   },
   async mounted () {
-    this.$getLocation()
-      .then(coordinates => {
-        this.center = latLng(coordinates.lat, coordinates.lng)
-        this.marker = latLng(coordinates.lat, coordinates.lng)
-      })
+    // this.$getLocation()
+    //   .then(coordinates => {
+    //     this.center = latLng(coordinates.lat, coordinates.lng)
+    //     this.marker = latLng(coordinates.lat, coordinates.lng)
+    //   })
+    if (typeof this.coordinates === 'string') {
+      JSON.parse(this.coordinates)
+      this.center = latLng(JSON.parse(this.coordinates).lat, JSON.parse(this.coordinates).lng)
+      this.marker = latLng(JSON.parse(this.coordinates).lat, JSON.parse(this.coordinates).lng)
+      return
+    }
+    this.center = latLng(this.coordinates.lat, this.coordinates.lng)
+    this.marker = latLng(this.coordinates.lat, this.coordinates.lng)
   }
 }
 </script>

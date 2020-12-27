@@ -39,7 +39,7 @@
     </div>
     <div class="settings d-flex flex-column mt-2">
       <p class="settings-title"> My Current Location :</p>
-      <LeafLetMaps/>
+      <LeafLetMaps :coordinates="coordinates"/>
     </div>
   </div>
 </template>
@@ -50,6 +50,7 @@ import $ from 'jquery'
 import Swal from 'sweetalert2'
 export default {
   name: 'Profile',
+  props: ['coordinates'],
   data () {
     return {
       input: {

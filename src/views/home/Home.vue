@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid grid m-0 p-0 row">
     <div class="left-side col-4 pt-4 pr-4 pl-4 m-0">
-      <router-view :socket="socket" :updateScroll="updateScroll"></router-view>
+      <router-view :socket="socket" :updateScroll="updateScroll" :coordinates="coordinates"></router-view>
     </div>
     <div v-if="getuserChatSelected !== null" :class="!contactInfo ? 'right-side col-8 p-0' : 'right-side col-4 p-0'">
       <div class="right-side container-fluid p-0 m-0">
@@ -59,13 +59,13 @@
           <div class="back">
             <img src="../../assets/back.png" alt=""  @click="showContactInfo">
           </div>
-            <p class="m-0 mx-auto">{{getuserChatSelected && getuserChatSelected.username ? getuserChatSelected.username : 'username not set'}}</p>
+            <p class="m-0 mx-auto">{{getuserChatSelected && getuserChatSelected.username ? getuserChatSelected.username : '(username not set)'}}</p>
         </div>
-        <div class="photo mx-auto">
-          <img src="../../assets/Rectangle 3.png" alt="">
+        <div class="photo mx-auto mt-3">
+          <img :src="getuserChatSelected && getuserChatSelected.photoProfile ? getuserChatSelected.photoProfile : '/img/user-avatar.png'" alt="">
         </div>
       </div>
-      <div class="body">
+      <div class="body mt-3">
         <div class="name d-flex justify-content-between">
           <div>
           <p class="m-0">{{getuserChatSelected && getuserChatSelected.name ? getuserChatSelected.name : 'Name not set'}}</p>
@@ -75,17 +75,17 @@
             <img src="../../assets/Chat-purple.png" alt="">
           </div>
         </div>
-        <div class="phone-number">
+        <div class="phone-number mt-2">
           <p class="m-0">Phone Number</p>
           <p class="m-0">{{getuserChatSelected && getuserChatSelected.phoneNumber ? getuserChatSelected.phoneNumber : 'Phone number not been set'}}</p>
         </div>
         <div class="menu d-flex justify-content-center">
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="location" value="location">
+          <label for="location" class="d-flex align-items-center justify-content-center">Location</label>
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="image" value="image">
+          <label for="image" class="d-flex align-items-center justify-content-center">Image</label>
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="documents" value="documents">
-          <label for="location">Location</label>
-          <label for="image">Image</label>
-          <label for="documents">Documents</label>
+          <label for="documents" class="d-flex align-items-center justify-content-center">Documents</label>
         </div>
         <div class="menu-option">
           <div v-if="input.menuOption === 'image'" class="image d-flex d-flex justify-content-around">
@@ -95,8 +95,10 @@
             <img src="../../assets/Rectangle 3.png" alt="">
             <img src="../../assets/Rectangle 3.png" alt="">
           </div>
-          <div v-if="input.menuOption ==='location'" class="location d-none"></div>
-          <div v-if="input.menuOption ==='documents'" class="documents d-none"></div>
+          <div v-if="input.menuOption ==='location'" class="location">
+          <LeafLetMaps v-if="getuserChatSelected.currentLocation" :coordinates="getuserChatSelected.currentLocation "/>
+          </div>
+          <div v-if="input.menuOption ==='documents'" class="documents"></div>
         </div>
       </div>
     </div>
@@ -120,14 +122,14 @@ export default {
         message: '',
         menuOption: ''
       },
-      contactInfo: false
+      contactInfo: false,
+      coordinates: null
     }
   },
   methods: {
-    ...mapActions(['getUser']),
+    ...mapActions(['getUser', 'updateProfile']),
     ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION']),
     updateScroll (as) {
-      console.log(as)
       const element = document.getElementById('list-chat')
       console.log(element.scrollHeight)
       element.scrollTop = element.scrollHeight - element.clientHeight
@@ -163,7 +165,20 @@ export default {
     getLocation () {
       this.$getLocation()
         .then(coordinates => {
+          this.coordinates = coordinates
           this.SET_CURRENT_LOCATION(coordinates)
+          this.updateCurrentLocation(coordinates)
+        })
+    },
+    updateCurrentLocation (coordinates) {
+      const data = {
+        currentLocation: JSON.stringify(coordinates)
+      }
+      this.updateProfile(data)
+        .then((result) => {
+          console.log('result :>> ', result)
+        }).catch((err) => {
+          console.log('err :>> ', err)
         })
     }
   },
@@ -171,13 +186,16 @@ export default {
     ...mapGetters(['getContactList', 'getuserChatSelected', 'getDataUser', 'getChatMessage']),
     userSelectedPhotoProfile () {
       return this.getuserChatSelected.photoProfile ? this.getuserChatSelected.photoProfile : '/img/user-avatar.png'
+    },
+    currentLocationUserSelected () {
+      return this.getuserChatSelected.currentLocation ? JSON.parse(this.getuserChatSelected.currentLocation) : ''
     }
   },
   async mounted () {
     if (this.getuserChatSelected !== null) {
       this.updateScroll()
-      this.loginRoomSelf()
     }
+    this.loginRoomSelf()
     this.socket.on('receiveMessage', async (data) => {
       console.log('data :>> ', data)
       await this.PUSH_CHAT_MESSAGE(data)
@@ -190,9 +208,6 @@ export default {
 </script>
 
 <style scoped>
-/* * {
-  border:1px solid red;
-} */
 .grid {
   height:100vh;
 }
@@ -481,9 +496,6 @@ line-height: 28px;
 
 color: #848484;
 }
-.contact-info {
-  border:1px solid pink;
-}
 .header .username p {
   font-family: Rubik;
 font-style: normal;
@@ -536,7 +548,6 @@ line-height: 19px;
 /* identical to box height */
 margin-top:20px;
 text-align: center;
-letter-spacing: -0.165px;
 width:100%;
 
 }
@@ -558,25 +569,34 @@ color: #FFFFFF;
 }
 .contact-info .body .menu label:hover {
     border:none;
-    border: 3px solid #7E98DF;
-    color:#6A4029;
+    color:#7E98DF;
 }
 .contact-info .body .menu input[type="radio"]:focus + label {
     border: 4px dashed #444;
 }
 
 .contact-info .body .menu input[type="radio"]:checked + label {
-  background: #7E98DF;
-  border-radius: 20px;
+background-color:#7E98DF !important;
+color:#FFFFFF;
+height:50px;
+border-radius:20px;
+}
+.phone-number p:first-of-type {
   font-family: Rubik;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  /* identical to box height */
+font-style: normal;
+font-weight: 500;
+font-size: 19px;
+line-height: 23px;
 
-  text-align: center;
+color: #232323;
+}
+.phone-number p:last-of-type {
+  font-family: Rubik;
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 23px;
 
-  color: #FFFFFF;
+color: #232323;
 }
 </style>
