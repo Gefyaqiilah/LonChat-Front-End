@@ -18,7 +18,8 @@ export default new Vuex.Store({
     },
     forgotPasswordCode: null,
     contactList: null,
-    userChatSelected: null
+    userChatSelected: null,
+    chatMessage: []
   },
   plugins: [
     createPersistedState()
@@ -41,6 +42,12 @@ export default new Vuex.Store({
     },
     SET_USER_CHAT_SELECTED (state, payload) {
       state.userChatSelected = payload
+    },
+    SET_CHAT_MESSAGE (state, payload) {
+      state.chatMessage = payload
+    },
+    PUSH_CHAT_MESSAGE (state, payload) {
+      state.chatMessage.push(payload)
     }
   },
   actions: {
@@ -161,7 +168,18 @@ export default new Vuex.Store({
     },
     getUserChatSelected (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/${payload}`)
+          .then((result) => {
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getAllMessageUserSelected (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/messages/${payload}`)
           .then((result) => {
             resolve(result.data.result)
           }).catch((err) => {
@@ -234,6 +252,12 @@ export default new Vuex.Store({
     },
     getuserChatSelected (state) {
       return state.userChatSelected
+    },
+    getUserChat (state) {
+      return state.userChatSelected
+    },
+    getChatMessage (state) {
+      return state.chatMessage
     }
   },
   modules: {

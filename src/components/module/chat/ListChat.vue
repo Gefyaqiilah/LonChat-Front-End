@@ -113,10 +113,10 @@ export default {
       }
     }
   },
-  props: ['socket'],
+  props: ['socket', 'updateScroll'],
   methods: {
-    ...mapActions(['getUser', 'getUserChatSelected']),
-    ...mapMutations(['SET_USER_CHAT_SELECTED']),
+    ...mapActions(['getUser', 'getUserChatSelected', 'getAllMessageUserSelected']),
+    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE']),
     showMenu () {
       const menu = document.getElementById('show-menu')
       if (this.showMenuProfile) {
@@ -138,23 +138,29 @@ export default {
         })
     },
     selectedChat (id) {
-      console.log('this.getUserChatSelected.id :>> ', this.getuserChatSelected.id)
       this.getUserChatSelected(id)
         .then((result) => {
           const data = { senderId: this.getDataUser.id, receiverId: id }
-          if (this.getuserChatSelected.id) {
-            console.log('this.getUserChatSelected.id :>> ', this.getuserChatSelected.id)
-            this.socket.emit('leave', this.getuserChatSelected.id)
+          if (this.getUserChat !== null) {
+            this.socket.emit('leave', this.getUserChat.id)
+            this.SET_CHAT_MESSAGE([])
           }
           this.socket.emit('joinPersonalChat', data)
           this.SET_USER_CHAT_SELECTED(result)
+          this.getAllMessageUserSelected(id)
+            .then(async (result) => {
+              await this.SET_CHAT_MESSAGE(result)
+              this.updateScroll('awd')
+            }).catch((err) => {
+              console.error(err)
+            })
         }).catch((err) => {
           console.log(err)
         })
     }
   },
   computed: {
-    ...mapGetters(['getContactList', 'getDataUser', 'getuserChatSelected'])
+    ...mapGetters(['getContactList', 'getDataUser', 'getUserChat'])
   },
   mounted () {
     this.handleGetUser()
