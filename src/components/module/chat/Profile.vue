@@ -31,7 +31,7 @@
         <p class="text-left m-0 desc">Username</p>
       </div>
       <div class="bio mt-2" @click="tapBio">
-        <input type="text" class="form-control text-left text shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.bio" id="bio" value="loremawdawodaoiwmdoawimd" disabled>
+        <input type="text" class="form-control text-left text shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.bio" id="bio" value="bio not set" disabled>
         <p class="text-left m-0 desc">
           Bio
         </p>
@@ -70,32 +70,32 @@ export default {
       const target = e.target.id
       let inputName = ''
       const payload = {}
+      console.log(target)
       if (target === 'phone-number') {
-        if (!e.target.value) {
-          this.alert('Phone number cannot empty', 'error')
+        if (this.input.phoneNumber === '' || this.input.phoneNumber === 'Phone number not set') {
+          return this.alert('Phone number cannot empty', 'error')
         }
         inputName = 'Phone number'
         payload.phoneNumber = this.input.phoneNumber
       } else if (target === 'username') {
-        if (!e.target.value) {
-          this.alert('Username cannot empty', 'error')
+        if (this.input.username === '' || this.input.username === 'username not set') {
+          return this.alert('Username cannot empty', 'error')
         }
         inputName = 'Username'
         payload.username = this.input.username.toLowerCase()
       } else if (target === 'bio') {
-        if (!e.target.value) {
-          this.alert('Bio cannot empty', 'error')
+        if (this.input.bio === '' || this.input.bio === 'bio not set') {
+          return this.alert('Bio cannot empty', 'error')
         }
         inputName = 'Bio'
         payload.bio = this.input.bio
       } else if (target === 'name') {
-        if (!e.target.value) {
-          this.alert('Name cannot empty', 'error')
+        if (this.input.name === '' || this.input.name === 'Name not set') {
+          return this.alert('Name cannot empty', 'error')
         }
         inputName = 'Name'
         payload.name = this.input.name
       }
-      console.log(payload)
       this.updateProfile(payload)
         .then((result) => {
           e.target.focus = false
