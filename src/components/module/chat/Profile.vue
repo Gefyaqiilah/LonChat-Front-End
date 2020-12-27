@@ -38,37 +38,8 @@
       </div>
     </div>
     <div class="settings d-flex flex-column mt-2">
-      <p class="text-left m-0 text">Settings</p>
-      <div class="notification-sounds d-flex mt-2">
-      <div class="icon">
-      <img src="../../../assets/Union.png" alt="">
-      </div>
-      <p class="text-left m-0">Notification and Sounds</p>
-      </div>
-      <div class="privaty-security d-flex mt-2">
-      <div class="icon">
-      <img src="../../../assets/Group 5.png" alt="">
-      </div>
-      <p class="text-left m-0">Privaty and Security</p>
-      </div>
-      <div class="data-usage d-flex mt-2">
-      <div class="icon">
-      <img src="../../../assets/Group 6.png" alt="">
-      </div>
-      <p class="text-left m-0">Data and Stronge</p>
-      </div>
-      <div class="chat-settings d-flex mt-2">
-      <div class="icon">
-      <img src="../../../assets/Chat.png" alt="">
-      </div>
-      <p class="text-left m-0">Chat settings</p>
-      </div>
-      <div class="devices d-flex mt-2">
-      <div class="icon">
-      <img src="../../../assets/Device.png" alt="">
-      </div>
-      <p class="text-left m-0">Devices</p>
-      </div>
+      <p class="settings-title"> My Current Location :</p>
+      <LeafLetMaps/>
     </div>
   </div>
 </template>
@@ -227,6 +198,10 @@ export default {
       await this.getUserData()
       this.assignValueInput()
       this.detectChangePhoto()
+      this.$getLocation()
+        .then(coordinates => {
+          console.log(coordinates)
+        })
     } catch (error) {
       console.log('error :>> ', error)
     }
@@ -289,6 +264,15 @@ background-color:white;
   display:none;
 }
 .account .account-title {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 23px;
+
+  color: #232323;
+}
+.settings .settings-title {
   font-family: Rubik;
   font-style: normal;
   font-weight: 500;

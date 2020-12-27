@@ -1,12 +1,8 @@
 <template>
-<div class="m-0 p-0">
-    <div>
-      Marker icon are retrieved from {{ path }} custom path
-    </div>
+<div class="m-0 p-0" style="width:400px;height:100px;">
     <l-map
       :zoom="zoom"
       :center="center"
-      style="height: 500px; width: 100%"
     >
       <l-tile-layer
         :url="url"
@@ -22,7 +18,7 @@
 <script>
 import { latLng } from 'leaflet'
 import { LMap, LTileLayer, LMarker, LIconDefault } from 'vue2-leaflet'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'CustomPath',
   components: {
@@ -35,12 +31,22 @@ export default {
     return {
       zoom: 13,
       path: '/images/',
-      center: [47.41322, -1.219482],
+      center: [0, 0],
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      marker: latLng(47.41322, -1.219482)
+      marker: latLng(0, 0)
     }
+  },
+  computed: {
+    ...mapGetters(['getCurrentLocation'])
+  },
+  async mounted () {
+    this.$getLocation()
+      .then(coordinates => {
+        this.center = latLng(coordinates.lat, coordinates.lng)
+        this.marker = latLng(coordinates.lat, coordinates.lng)
+      })
   }
 }
 </script>

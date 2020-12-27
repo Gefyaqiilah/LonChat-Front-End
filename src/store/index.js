@@ -19,7 +19,8 @@ export default new Vuex.Store({
     forgotPasswordCode: null,
     contactList: null,
     userChatSelected: null,
-    chatMessage: []
+    chatMessage: [],
+    currentLocation: null
   },
   plugins: [
     createPersistedState()
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     PUSH_CHAT_MESSAGE (state, payload) {
       state.chatMessage.push(payload)
+    },
+    SET_CURRENT_LOCATION (state, payload) {
+      state.currentLocation = payload
     }
   },
   actions: {
@@ -258,6 +262,9 @@ export default new Vuex.Store({
     },
     getChatMessage (state) {
       return state.chatMessage
+    },
+    getCurrentLocation (state) {
+      return state.currentLocation
     }
   },
   modules: {

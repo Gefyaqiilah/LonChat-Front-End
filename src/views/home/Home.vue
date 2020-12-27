@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     ...mapActions(['getUser']),
-    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE']),
+    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION']),
     updateScroll (as) {
       console.log(as)
       const element = document.getElementById('list-chat')
@@ -159,6 +159,12 @@ export default {
         id: this.getDataUser.id
       }
       this.socket.emit('loginRoomSelf', payload)
+    },
+    getLocation () {
+      this.$getLocation()
+        .then(coordinates => {
+          this.SET_CURRENT_LOCATION(coordinates)
+        })
     }
   },
   computed: {
@@ -177,12 +183,8 @@ export default {
       await this.PUSH_CHAT_MESSAGE(data)
       this.updateScroll()
     })
-    console.log('this.getUserChatSelected :>> ', await this.getuserChatSelected)
     this.userChatSelected = await this.getuserChatSelected
-    this.$getLocation()
-      .then(coordinates => {
-        console.log(coordinates)
-      })
+    await this.getLocation()
   }
 }
 </script>
