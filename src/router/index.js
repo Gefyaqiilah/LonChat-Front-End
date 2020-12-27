@@ -10,6 +10,7 @@ import store from '../store/index'
 import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
 import ListChat from '../components/module/chat/ListChat.vue'
 import Profile from '../components/module/chat/Profile.vue'
+import LeafletMaps from '../components/module/maps/Maps.vue'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,11 @@ const routes = [
         meta: { requiresForgotPasswordCode: true }
       }
     ]
+  },
+  {
+    path: '/maps',
+    name: 'Maps',
+    component: LeafletMaps
   },
   {
     path: '/about',

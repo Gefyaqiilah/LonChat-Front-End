@@ -3,12 +3,12 @@
     <div class="left-side col-4 pt-4 pr-4 pl-4 m-0">
       <router-view :socket="socket" :updateScroll="updateScroll"></router-view>
     </div>
-    <div v-if="getuserChatSelected !== null" class="right-side col-8 p-0">
+    <div v-if="getuserChatSelected !== null" :class="!contactInfo ? 'right-side col-8 p-0' : 'right-side col-4 p-0'">
       <div class="right-side container-fluid p-0 m-0">
     <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
       <div class="chat-info d-flex">
         <div class="photo-profile">
-           <img :src="userSelectedPhotoProfile" alt="">
+           <img :src="userSelectedPhotoProfile" @click="showContactInfo">
         </div>
         <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
           <p class="name m-0 align-items-start text-left">{{ getuserChatSelected.name }}</p>
@@ -53,6 +53,53 @@
         </div>
       </div>
     </div>
+    <div v-if="contactInfo" class="contact-info col-4 p-4">
+      <div class="header">
+        <div class="username d-flex justify-content-start">
+          <div class="back">
+            <img src="../../assets/back.png" alt=""  @click="showContactInfo">
+          </div>
+            <p class="m-0 mx-auto">{{getuserChatSelected && getuserChatSelected.username ? getuserChatSelected.username : 'username not set'}}</p>
+        </div>
+        <div class="photo mx-auto">
+          <img src="../../assets/Rectangle 3.png" alt="">
+        </div>
+      </div>
+      <div class="body">
+        <div class="name d-flex justify-content-between">
+          <div>
+          <p class="m-0">{{getuserChatSelected && getuserChatSelected.name ? getuserChatSelected.name : 'Name not set'}}</p>
+          <p class="m-0">{{getuserChatSelected && getuserChatSelected.status ? getuserChatSelected.status : 'Status not set'}}</p>
+          </div>
+          <div class="chat-icon">
+            <img src="../../assets/Chat-purple.png" alt="">
+          </div>
+        </div>
+        <div class="phone-number">
+          <p class="m-0">Phone Number</p>
+          <p class="m-0">{{getuserChatSelected && getuserChatSelected.phoneNumber ? getuserChatSelected.phoneNumber : 'Phone number not been set'}}</p>
+        </div>
+        <div class="menu d-flex justify-content-center">
+          <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="location" value="location">
+          <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="image" value="image">
+          <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="documents" value="documents">
+          <label for="location">Location</label>
+          <label for="image">Image</label>
+          <label for="documents">Documents</label>
+        </div>
+        <div class="menu-option">
+          <div v-if="input.menuOption === 'image'" class="image d-flex d-flex justify-content-around">
+            <img src="../../assets/Rectangle 3.png" alt="">
+            <img src="../../assets/Rectangle 3.png" alt="">
+            <img src="../../assets/Rectangle 3.png" alt="">
+            <img src="../../assets/Rectangle 3.png" alt="">
+            <img src="../../assets/Rectangle 3.png" alt="">
+          </div>
+          <div v-if="input.menuOption ==='location'" class="location d-none"></div>
+          <div v-if="input.menuOption ==='documents'" class="documents d-none"></div>
+        </div>
+      </div>
+    </div>
     <div v-if="getuserChatSelected === null" class="right-side col-8 p-0 d-flex align-items-center justify-content-center">
       <p class="welcome-chat">Please select a chat to start messaging</p>
     </div>
@@ -70,8 +117,10 @@ export default {
       userChatSelected: null,
       socket: io(process.env.VUE_APP_SERVICE_API),
       input: {
-        message: ''
-      }
+        message: '',
+        menuOption: ''
+      },
+      contactInfo: false
     }
   },
   methods: {
@@ -82,6 +131,13 @@ export default {
       const element = document.getElementById('list-chat')
       console.log(element.scrollHeight)
       element.scrollTop = element.scrollHeight - element.clientHeight
+    },
+    showContactInfo () {
+      if (this.contactInfo) {
+        this.contactInfo = false
+      } else {
+        this.contactInfo = true
+      }
     },
     sendMessage () {
       const data = {
@@ -121,7 +177,12 @@ export default {
       await this.PUSH_CHAT_MESSAGE(data)
       this.updateScroll()
     })
+    console.log('this.getUserChatSelected :>> ', await this.getuserChatSelected)
     this.userChatSelected = await this.getuserChatSelected
+    this.$getLocation()
+      .then(coordinates => {
+        console.log(coordinates)
+      })
   }
 }
 </script>
@@ -417,5 +478,103 @@ font-size: 24px;
 line-height: 28px;
 
 color: #848484;
+}
+.contact-info {
+  border:1px solid pink;
+}
+.header .username p {
+  font-family: Rubik;
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 28px;
+
+color: #7E98DF;
+}
+.header .photo {
+  width:82px;
+  height:82px;
+}
+.header .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+.body .name p:first-of-type {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+  /* identical to box height */
+
+  letter-spacing: -0.165px;
+
+  color: #232323;
+}
+.body .name p:last-of-type {
+font-family: Rubik;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 19px;
+/* identical to box height */
+
+letter-spacing: 1.335px;
+
+color: #232323;
+}
+.contact-info .body .menu label {
+  font-family: Rubik;
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 19px;
+/* identical to box height */
+margin-top:20px;
+text-align: center;
+letter-spacing: -0.165px;
+width:100%;
+
+}
+.contact-info .body .menu input[type="radio"]{
+     opacity: 0;
+  width: 0;
+}
+.contact-info .body input[type="radio"] {
+  font-family: Rubik;
+font-style: normal;
+font-weight: normal;
+font-size: 15px;
+line-height: 185.17%;
+/* identical to box height, or 28px */
+
+letter-spacing: -0.165px;
+
+color: #FFFFFF;
+}
+.contact-info .body .menu label:hover {
+    border:none;
+    border: 3px solid #7E98DF;
+    color:#6A4029;
+}
+.contact-info .body .menu input[type="radio"]:focus + label {
+    border: 4px dashed #444;
+}
+
+.contact-info .body .menu input[type="radio"]:checked + label {
+  background: #7E98DF;
+  border-radius: 20px;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #FFFFFF;
 }
 </style>
