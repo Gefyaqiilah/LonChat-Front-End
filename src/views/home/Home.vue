@@ -29,6 +29,9 @@
         <div class="chat-message ml-3">
           {{message.message}}
         </div>
+        <div class="time align-self-end">
+          <p>{{ message.time }}</p>
+        </div>
         </div>
       </div>
       <!-- sender messsage
@@ -197,9 +200,15 @@ export default {
     }
     this.loginRoomSelf()
     this.socket.on('receiveMessage', async (data) => {
-      console.log('data :>> ', data)
-      await this.PUSH_CHAT_MESSAGE(data)
-      this.updateScroll()
+      console.log('data receive message :>> ', data)
+      console.log('this.getDataUser.id :>> ', this.getDataUser.id)
+      console.log('this.getUserChatSelected.id :>> ', this.getuserChatSelected.id)
+      if (data.userSenderId === this.getDataUser.id || data.userSenderId === this.getuserChatSelected.id) {
+        if (data.userReceiverId === this.getDataUser.id || data.userReceiverId === this.getuserChatSelected.id) {
+          await this.PUSH_CHAT_MESSAGE(data)
+          this.updateScroll()
+        }
+      }
     })
     this.userChatSelected = await this.getuserChatSelected
     await this.getLocation()
@@ -426,6 +435,16 @@ export default {
   height:100%;
   object-fit: cover;
   border-radius:20px;
+}
+.time p{
+font-family: Rubik;
+font-style: normal;
+font-weight: 500;
+font-size: 13px;
+text-align: left;
+/* or 28px */
+margin:10px;
+color: #232323;
 }
 .chat-item-receiver .chat-message {
   background: #7E98DF;

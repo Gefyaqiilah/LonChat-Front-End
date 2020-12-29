@@ -52,6 +52,16 @@ export default new Vuex.Store({
     },
     SET_CURRENT_LOCATION (state, payload) {
       state.currentLocation = payload
+    },
+    REMOVE_ALL_VALUE_STATE (state) {
+      state.userData = null
+      state.token.accessToken = null
+      state.token.refreshToken = null
+      state.forgotPasswordCode = null
+      state.contactList = null
+      state.userChatSelected = null
+      state.chatMessage = []
+      state.currentLocation = null
     }
   },
   actions: {
@@ -183,7 +193,7 @@ export default new Vuex.Store({
     },
     getAllMessageUserSelected (context, payload) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/messages/${payload}`)
+        axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/messages`, payload)
           .then((result) => {
             resolve(result.data.result)
           }).catch((err) => {
@@ -206,6 +216,7 @@ export default new Vuex.Store({
       }, function (error) {
         const errorStatusCode = error.response.data.statusCode
         const errorMessage = error.response.data.err.message
+        console.log(errorMessage)
         if (errorStatusCode === 401) {
           // login
           if (errorMessage === 'Invalid email or password') {
@@ -215,6 +226,7 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
+            return
           } else if (errorMessage === 'Wrong email') {
             Swal.fire({
               icon: 'error',
@@ -222,10 +234,20 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
+            return
           }
           // forgotpassword
-        } else if (errorStatusCode === 500) {
-
+        } else if (errorStatusCode === 400) {
+          console.log('400')
+          if (errorMessage === 'Email has been used by other user') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops, your email has been used by other user',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            return
+          }
         }
         // const errorStatusCode = error.response.data.err
         return Promise.reject(error)

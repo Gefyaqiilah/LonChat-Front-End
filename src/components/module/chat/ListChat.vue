@@ -44,6 +44,12 @@
               </div>
               <p class="m-0 ml-4">Telegram FAQ</p>
             </div>
+            <div class="contacts mb-4 d-flex" @click="logout(getUserChat && getDataUser ? {userSelectedChat: getUserChat.id, user: getDataUser.id} : '')">
+              <div class="icon">
+                <img src="../../../assets/Contacts.png" alt="">
+              </div>
+              <p class="m-0 ml-4">Logout</p>
+            </div>
           </div>
           </div>
         </div>
@@ -76,7 +82,7 @@
               <div class="photo">
               <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
               </div>
-              <div class="online">
+              <div class="online" v-if="contact.status === 'online'">
               </div>
             </div>
             <div class="details-chat col-8 p-0 pl-2 m-0">
@@ -84,7 +90,7 @@
                 <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
               <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet awd</p>
+                <p class="m-0 p-0">Lorem ipsum dolor sit amet.</p>
               </div>
             </div>
             <div class="info-chat col-2 p-0 m-0">
@@ -103,20 +109,22 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
   name: 'ListChat',
   data () {
     return {
       input: {
         optionMenuStatus: 'important',
-        showMenuProfile: false
+        showMenuProfile: false,
+        userSelectedId: null
       }
     }
   },
   props: ['socket', 'updateScroll'],
   methods: {
     ...mapActions(['getUser', 'getUserChatSelected', 'getAllMessageUserSelected']),
-    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE']),
+    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE']),
     showMenu () {
       const menu = document.getElementById('show-menu')
       if (this.showMenuProfile) {
@@ -147,7 +155,11 @@ export default {
           }
           this.socket.emit('joinPersonalChat', data)
           this.SET_USER_CHAT_SELECTED(result)
-          this.getAllMessageUserSelected(id)
+          const payload = {
+            userReceiverId: id,
+            userSenderId: this.getDataUser.id
+          }
+          this.getAllMessageUserSelected(payload)
             .then(async (result) => {
               await this.SET_CHAT_MESSAGE(result)
               this.updateScroll('awd')
@@ -157,12 +169,28 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    async logout (data) {
+      this.showMenuProfile = false
+      console.log(data)
+      if (data !== '') {
+        console.log('berhasil logout')
+      }
+      this.socket.emit('leave', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
+      this.socket.emit('logout', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
+      this.REMOVE_ALL_VALUE_STATE()
+      Swal.fire({
+        title: 'See you later :)',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      this.$router.push({ path: '/auth/login' })
     }
   },
   computed: {
     ...mapGetters(['getContactList', 'getDataUser', 'getUserChat'])
   },
-  mounted () {
+  async mounted () {
     this.handleGetUser()
   }
 }
