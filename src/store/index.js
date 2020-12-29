@@ -165,18 +165,28 @@ export default new Vuex.Store({
           })
       })
     },
-    getUser (context) {
+    getFriendsData (context, payload) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users`)
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/friends/${payload}`)
           .then((result) => {
-            const allUser = result.data.result.users
-            // const pagination = result.data.result.pagination
-            const resultCopy = allUser.filter((el) => el.id !== `${context.state.userData.id}`)
-            context.commit('SET_CONTACT_LIST', resultCopy)
-            resolve(resultCopy)
+            console.log('result friends:>> ', result)
+            const allFriends = result.data.result.friends
+            context.commit('SET_CONTACT_LIST', allFriends)
+            resolve(allFriends)
           }).catch((err) => {
             reject(err)
+          })
+      })
+    },
+    searchFriend (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/search?search=${payload}`)
+          .then((result) => {
+            resolve(result.data.result.search)
+          }).catch((err) => {
+            console.log('err :>> ', err)
           })
       })
     },

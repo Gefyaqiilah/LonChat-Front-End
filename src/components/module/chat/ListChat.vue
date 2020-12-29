@@ -55,7 +55,7 @@
         </div>
         <div class="search-box d-flex justify-content-between mt-5">
           <img class="search-icon" src="../../../assets/Search.png" alt="">
-          <input type="text" class="search-input form-control shadow-none" placeholder="Type your message...">
+          <input type="text" @keyup.enter="handleSearchFriend" v-model="input.searchUser" class="search-input form-control shadow-none" placeholder="Type your message...">
           <div class="plus-icon ml-4">
            <img src="../../../assets/Plus.png" alt="">
           </div>
@@ -77,7 +77,7 @@
       </div>
       <div class="left-side-body mt-3">
         <div class="list-chat">
-          <div v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-3">
+          <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-3">
             <div class="photo-profile col-2 p-0 m-0">
               <div class="photo">
               <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
@@ -102,6 +102,28 @@
               </div>
             </div>
           </div>
+          <div v-show="input.searchUser" v-for="(contact, index) in dataSearch" :key="index" class="item-chat row p-0 m-0 mb-3">
+            <div class="photo-profile col-2 p-0 m-0">
+              <div class="photo">
+              <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
+              </div>
+              <div class="online" v-if="contact.status === 'online'">
+              </div>
+            </div>
+            <div class="details-chat col-8 p-0 pl-2 m-0">
+              <div class="name h-50 p-0 m-0">
+                <p class="m-0 p-0">{{ contact.name }}</p>
+              </div>
+              <div class="message h-50 p-0 m-0">
+                <p class="m-0 p-0">Lorem ipsum dolor sit amet.</p>
+              </div>
+            </div>
+            <div class="info-chat-search col-2 p-0 m-0 d-flex align-items-center justify-content-center">
+                <div class="icon-add-friend d-flex">
+                <img class="d-block align-self-center mx-auto" src="../../../assets/Invite friends.png" alt="">
+                </div>
+            </div>
+          </div>
         </div>
       </div>
   </div>
@@ -117,13 +139,15 @@ export default {
       input: {
         optionMenuStatus: 'important',
         showMenuProfile: false,
-        userSelectedId: null
-      }
+        userSelectedId: null,
+        searchUser: ''
+      },
+      dataSearch: []
     }
   },
   props: ['socket', 'updateScroll'],
   methods: {
-    ...mapActions(['getUser', 'getUserChatSelected', 'getAllMessageUserSelected']),
+    ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend']),
     ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE']),
     showMenu () {
       const menu = document.getElementById('show-menu')
@@ -138,12 +162,9 @@ export default {
     toSettings () {
       this.$router.push({ path: '/profile' })
     },
-    handleGetUser () {
-      this.getUser()
-        .then((result) => {
-        }).catch((err) => {
-          console.log('err :>> ', err)
-        })
+    async handleGetFriendsData () {
+      console.log('this.getDataUser.id :>> ', this.getDataUser.id)
+      await this.getFriendsData(this.getDataUser.id)
     },
     selectedChat (id) {
       this.getUserChatSelected(id)
@@ -185,13 +206,30 @@ export default {
         timer: 1500
       })
       this.$router.push({ path: '/auth/login' })
+    },
+    handleSearchFriend () {
+      if (!this.input.searchUser) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Input cannot empty',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+      this.searchFriend(this.input.searchUser)
+        .then((result) => {
+          console.log('result search:>> ', result)
+          this.dataSearch = result
+        }).catch((err) => {
+          console.log('err :>> ', err)
+        })
     }
   },
   computed: {
     ...mapGetters(['getContactList', 'getDataUser', 'getUserChat'])
   },
   async mounted () {
-    this.handleGetUser()
+    this.handleGetFriendsData()
   }
 }
 </script>
@@ -521,5 +559,13 @@ export default {
   height:100%;
   object-fit: cover;
   border-radius: 20px;
+}
+
+.info-chat-search .icon-add-friend {
+  background-color: #7E98DF;
+  border-radius:50%;
+  height:50px;
+  width:50px;
+  cursor: pointer;
 }
 </style>
