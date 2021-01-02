@@ -107,7 +107,7 @@
               <div class="photo">
               <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
               </div>
-              <div class="online" v-if="contact.status === 'online'">
+              <div class="online" v-if="contact.status ==='online'">
               </div>
             </div>
             <div class="details-chat col-8 p-0 pl-2 m-0">
@@ -142,7 +142,8 @@ export default {
         userSelectedId: null,
         searchUser: ''
       },
-      dataSearch: []
+      dataSearch: [],
+      userLoginStatus: []
     }
   },
   props: ['socket', 'updateScroll'],
@@ -190,9 +191,10 @@ export default {
         })
     },
     async logout (data) {
+      console.log('data logout:>> ', data)
       this.showMenuProfile = false
       this.socket.emit('leave', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
-      this.socket.emit('logout', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
+      this.socket.emit('logout', this.getDataUser.id)
       this.REMOVE_ALL_VALUE_STATE()
       Swal.fire({
         title: 'See you later :)',
@@ -232,6 +234,27 @@ export default {
   },
   async mounted () {
     this.handleGetFriendsData()
+    this.socket.on('userOnline', (data) => {
+      if (!this.userLoginStatus.find(value => value === data && data !== this.getDataUser.id)) {
+        this.getContactList.map((el) => {
+          if (el.id === data) {
+            el.status = 'online'
+          }
+          return el
+        })
+      }
+    })
+    this.socket.on('userOffline', (data) => {
+      console.log('offline')
+      if (!this.userLoginStatus.find(value => value === data && data !== this.getDataUser.id)) {
+        this.getContactList.map((el) => {
+          if (el.id === data) {
+            el.status = 'offline'
+          }
+          return el
+        })
+      }
+    })
   }
 }
 </script>

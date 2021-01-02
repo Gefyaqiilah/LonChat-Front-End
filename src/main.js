@@ -6,11 +6,14 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import Vuelidate from 'vuelidate'
+import LeafLetMaps from './components/module/maps/Maps.vue'
 import 'leaflet/dist/leaflet.css'
 import { Icon } from 'leaflet'
 import VueGeolocation from 'vue-browser-geolocation'
-import LeafLetMaps from './components/module/maps/Maps.vue'
+import VueNoty from 'vuejs-noty'
+import 'vuejs-noty/dist/vuejs-noty.css'
 
+Vue.use(VueNoty)
 Vue.use(VueGeolocation)
 delete Icon.Default.prototype._getIconUrl
 Icon.Default.mergeOptions({

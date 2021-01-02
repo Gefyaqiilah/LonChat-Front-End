@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     ...mapActions(['getFriendsData', 'updateProfile']),
-    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION']),
+    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
       element.scrollTop = element.scrollHeight - element.clientHeight
@@ -175,12 +175,36 @@ export default {
     },
     currentLocationUserSelected () {
       return this.getuserChatSelected.currentLocation ? JSON.parse(this.getuserChatSelected.currentLocation) : ''
+    },
+    handlegetuserChatSelected () {
+      return this.getuserChatSelected !== null
     }
   },
   async mounted () {
-    if (this.getuserChatSelected !== null) {
+    const self = this
+    if (this.handlegetuserChatSelected) {
       this.updateScroll()
     }
+    this.socket.on('userOnline', async (data) => {
+      if (self.getuserChatSelected.id === data) {
+        console.log('ini datauser', self.getuserChatSelected)
+        const userSelectedCopy = {
+          ...self.getuserChatSelected,
+          status: 'online'
+        }
+        this.SET_USER_CHAT_SELECTED(userSelectedCopy)
+      }
+    })
+    this.socket.on('userOffline', (data) => {
+      if (self.getuserChatSelected.id === data) {
+        console.log('ini datauser', self.getuserChatSelected)
+        const userSelectedCopy = {
+          ...self.getuserChatSelected,
+          status: 'offline'
+        }
+        this.SET_USER_CHAT_SELECTED(userSelectedCopy)
+      }
+    })
     this.loginRoomSelf()
     this.socket.on('receiveMessage', async (data) => {
       if (data.userSenderId === this.getDataUser.id || data.userSenderId === this.getuserChatSelected.id) {
