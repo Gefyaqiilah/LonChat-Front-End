@@ -120,7 +120,6 @@ export default new Vuex.Store({
     updatePhotoProfile (context, payload) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        console.log('payload :>> ', payload)
         axios.patch(`${process.env.VUE_APP_SERVICE_API}/v1/users/photo-profile/${context.state.userData.id}`, payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
@@ -170,7 +169,6 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/friends/${payload}`)
           .then((result) => {
-            console.log('result friends:>> ', result)
             const allFriends = result.data.result.friends
             context.commit('SET_CONTACT_LIST', allFriends)
             resolve(allFriends)
@@ -184,9 +182,22 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/search?search=${payload}`)
           .then((result) => {
-            resolve(result.data.result.search)
+            const filter = result.data.result.search.filter(item => item.id !== context.state.userData.id)
+            resolve(filter)
           }).catch((err) => {
-            console.log('err :>> ', err)
+            reject(err)
+          })
+      })
+    },
+    addNewFriend (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/friends`, payload)
+          .then((result) => {
+            context.dispatch('getFriendsData', context.state.userData.id)
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
           })
       })
     },
@@ -221,12 +232,10 @@ export default new Vuex.Store({
     },
     interceptorResponse (context, payload) {
       axios.interceptors.response.use(function (response) {
-        console.log(response)
         return response
       }, function (error) {
         const errorStatusCode = error.response.data.statusCode
         const errorMessage = error.response.data.err.message
-        console.log(errorMessage)
         if (errorStatusCode === 401) {
           // login
           if (errorMessage === 'Invalid email or password') {
@@ -248,7 +257,6 @@ export default new Vuex.Store({
           }
           // forgotpassword
         } else if (errorStatusCode === 400) {
-          console.log('400')
           if (errorMessage === 'Email has been used by other user') {
             Swal.fire({
               icon: 'error',

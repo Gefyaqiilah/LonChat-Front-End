@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid m-0 p-0 mh-100">
-    <div class="card mx-auto">
+  <div class="container-fluid m-0 p-3 d-flex">
+    <div class="card mx-auto m-0 p-0 align-self-center">
     <router-view></router-view>
     </div>
   </div>

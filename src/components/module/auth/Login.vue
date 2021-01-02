@@ -1,5 +1,5 @@
 <template>
-  <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
+  <div class="login container p-5">
     <div class="card-header container-fluid row m-0 p-0">
       <div class="col-4 pt-3 p-0">
         <img src="../../../assets/back.png" alt="">
@@ -253,4 +253,25 @@ color: #7E98DF;
 .separator::after {
     margin-left: .25em;
 }
+/* Small devices (landscape phones, 576px and up)*/
+@media (max-width: 575.98px) {
+  .login {
+    padding:40px !important;
+  }
+ }
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+
+ }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+ }
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+ }
 </style>

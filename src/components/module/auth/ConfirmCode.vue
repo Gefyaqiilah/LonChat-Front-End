@@ -1,7 +1,7 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-3 pt-3 p-0">
+      <div class="col-3 pt-3 p-0" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-9 pt-3">
@@ -65,13 +65,15 @@ export default {
         return
       }
       this.$router.push({ path: '/auth/confirm-password', query: { email: this.$route.query.email } })
+    },
+    back () {
+      this.$router.go(-1)
     }
   },
   computed: {
     ...mapGetters(['getForgotPassword'])
   },
   mounted () {
-    console.log(this.getForgotPassword)
     this.input.trueCode = this.getForgotPassword
   }
 }

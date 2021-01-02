@@ -1,7 +1,7 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-4 pt-3 p-0">
+      <div class="col-4 pt-3 p-0" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-8 pt-3">
@@ -106,7 +106,6 @@ export default {
     handleRegister () {
       // stop here if form is invalid
       this.$v.$touch()
-      console.log(this.$v)
       if (this.$v.$invalid) {
         return
       }
@@ -124,9 +123,11 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
-        }).catch((err) => {
-          console.log('err :>> ', err)
+        }).catch(() => {
         })
+    },
+    back () {
+      this.$router.go(-1)
     }
   }
 }

@@ -34,17 +34,6 @@
         </div>
         </div>
       </div>
-      <!-- sender messsage
-      <div class="chat-item-sender row p-0 m-0 mt-3" v-if="senderMessage.senderId !== getDataUser.id">
-        <div class="col-12 p-0 m-0 d-flex flex-row-reverse">
-        <div class="chat-photo-profile align-self-end">
-          <img src="../../assets/Rectangle 9.png" alt="">
-        </div>
-        <div class="chat-message mr-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam optio quam asperiores aliquam hic corrupti quaerat, reiciendis possimus, debitis tempore placeat provident doloribus? Rerum, doloremque?
-        </div>
-        </div>
-      </div> -->
     </div>
       </div>
       <div class="type-message pl-4 pr-4 w-100">
@@ -130,11 +119,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getUser', 'updateProfile']),
+    ...mapActions(['getFriendsData', 'updateProfile']),
     ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
-      console.log(element.scrollHeight)
       element.scrollTop = element.scrollHeight - element.clientHeight
     },
     showContactInfo () {
@@ -151,13 +139,11 @@ export default {
         time: moment(new Date()).format('LT'),
         userReceiverId: this.getuserChatSelected.id
       }
-      console.log('data :>> ', data)
       this.socket.emit('personalChat', data, async (message) => {
         await this.PUSH_CHAT_MESSAGE(message)
         this.updateScroll()
         this.input.message = ''
       })
-      console.log('this.chatMegetChatMessagessage :>> ', this.getChatMessage)
     },
     loginRoomSelf () {
       const payload = {
@@ -179,9 +165,6 @@ export default {
       }
       this.updateProfile(data)
         .then((result) => {
-          console.log('result :>> ', result)
-        }).catch((err) => {
-          console.log('err :>> ', err)
         })
     }
   },
@@ -200,9 +183,6 @@ export default {
     }
     this.loginRoomSelf()
     this.socket.on('receiveMessage', async (data) => {
-      console.log('data receive message :>> ', data)
-      console.log('this.getDataUser.id :>> ', this.getDataUser.id)
-      console.log('this.getUserChatSelected.id :>> ', this.getuserChatSelected.id)
       if (data.userSenderId === this.getDataUser.id || data.userSenderId === this.getuserChatSelected.id) {
         if (data.userReceiverId === this.getDataUser.id || data.userReceiverId === this.getuserChatSelected.id) {
           await this.PUSH_CHAT_MESSAGE(data)

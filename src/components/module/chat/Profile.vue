@@ -70,7 +70,6 @@ export default {
       const target = e.target.id
       let inputName = ''
       const payload = {}
-      console.log(target)
       if (target === 'phone-number') {
         if (this.input.phoneNumber === '' || this.input.phoneNumber === 'Phone number not set') {
           return this.alert('Phone number cannot empty', 'error')
@@ -100,9 +99,6 @@ export default {
         .then((result) => {
           e.target.focus = false
           this.alert(`${inputName} updated`, 'success')
-          console.log('result :>> ', result)
-        }).catch((err) => {
-          console.log('err :>> ', err)
         })
     },
     detectChangePhoto () {
@@ -123,13 +119,9 @@ export default {
           }).then((result) => {
             if (result.isConfirmed) {
               const form = new FormData()
-              console.log('this.files[0] :>> ', this.files[0])
               form.append('photoProfile', this.files[0])
               self.updatePhotoProfile(form)
-                .then((result) => {
-                  console.log('result :>> ', result)
-                }).catch((err) => {
-                  console.log('err :>> ', err)
+                .then(() => {
                 })
             }
           })
@@ -179,8 +171,6 @@ export default {
       })
     },
     assignValueInput () {
-      const photoProfile = document.getElementById('photo-profile')
-      console.log('photoProfile :>> ', photoProfile)
       this.getDataUser.name ? this.input.name = this.getDataUser.name : this.input.name = 'Name not set'
       this.getDataUser.phoneNumber ? this.input.phoneNumber = this.getDataUser.phoneNumber : this.input.phoneNumber = 'Phone number not set'
       this.getDataUser.bio ? this.input.bio = this.getDataUser.bio : this.input.bio = 'bio not set'
@@ -201,7 +191,6 @@ export default {
       this.detectChangePhoto()
       this.$getLocation()
         .then(coordinates => {
-          console.log(coordinates)
         })
     } catch (error) {
       console.log('error :>> ', error)

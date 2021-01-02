@@ -1,7 +1,7 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-2 pt-3 p-0">
+      <div class="col-2 pt-3 p-0" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-10 pt-3">
@@ -75,6 +75,9 @@ export default {
           })
           this.$router.push({ path: '/auth/confirm-code', query: { email: this.input.email } })
         })
+    },
+    back () {
+      this.$router.go(-1)
     }
   }
 }

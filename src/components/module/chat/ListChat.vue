@@ -55,7 +55,7 @@
         </div>
         <div class="search-box d-flex justify-content-between mt-5">
           <img class="search-icon" src="../../../assets/Search.png" alt="">
-          <input type="text" @keyup.enter="handleSearchFriend" v-model="input.searchUser" class="search-input form-control shadow-none" placeholder="Type your message...">
+          <input type="text" @keyup.enter="handleSearchFriend" v-model="input.searchUser" class="search-input form-control shadow-none" placeholder="type and enter to search your friends">
           <div class="plus-icon ml-4">
            <img src="../../../assets/Plus.png" alt="">
           </div>
@@ -118,8 +118,8 @@
                 <p class="m-0 p-0">Lorem ipsum dolor sit amet.</p>
               </div>
             </div>
-            <div class="info-chat-search col-2 p-0 m-0 d-flex align-items-center justify-content-center">
-                <div class="icon-add-friend d-flex">
+            <div v-if="!getContactList.find(item=>item.id === contact.id)" class="info-chat-search col-2 p-0 m-0 d-flex align-items-center justify-content-center">
+                <div class="icon-add-friend d-flex" @click="handleAddNewFriend(contact.id)">
                 <img class="d-block align-self-center mx-auto" src="../../../assets/Invite friends.png" alt="">
                 </div>
             </div>
@@ -147,7 +147,7 @@ export default {
   },
   props: ['socket', 'updateScroll'],
   methods: {
-    ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend']),
+    ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend']),
     ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE']),
     showMenu () {
       const menu = document.getElementById('show-menu')
@@ -163,7 +163,6 @@ export default {
       this.$router.push({ path: '/profile' })
     },
     async handleGetFriendsData () {
-      console.log('this.getDataUser.id :>> ', this.getDataUser.id)
       await this.getFriendsData(this.getDataUser.id)
     },
     selectedChat (id) {
@@ -187,16 +186,11 @@ export default {
             }).catch((err) => {
               console.error(err)
             })
-        }).catch((err) => {
-          console.log(err)
+        }).catch(() => {
         })
     },
     async logout (data) {
       this.showMenuProfile = false
-      console.log(data)
-      if (data !== '') {
-        console.log('berhasil logout')
-      }
       this.socket.emit('leave', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
       this.socket.emit('logout', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
       this.REMOVE_ALL_VALUE_STATE()
@@ -218,10 +212,18 @@ export default {
       }
       this.searchFriend(this.input.searchUser)
         .then((result) => {
-          console.log('result search:>> ', result)
           this.dataSearch = result
-        }).catch((err) => {
-          console.log('err :>> ', err)
+        })
+    },
+    handleAddNewFriend (friendId) {
+      const data = {
+        userId: this.getDataUser.id,
+        friendId: friendId
+      }
+      this.addNewFriend(data)
+        .then((result) => {
+          this.input.searchUser = ''
+          this.dataSearch = []
         })
     }
   },
