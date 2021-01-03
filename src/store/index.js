@@ -154,6 +154,18 @@ export default new Vuex.Store({
           })
       })
     },
+    getLastMessage (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/messages/last-message/${payload}`)
+          .then((result) => {
+            console.log('result :>> ', result)
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     forgotPassword (context, payload) {
       return new Promise((resolve, reject) => {
         axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/users/forgot-password`, payload)
@@ -169,9 +181,7 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/friends/${payload}`)
           .then((result) => {
-            const allFriends = result.data.result.friends
-            context.commit('SET_CONTACT_LIST', allFriends)
-            resolve(allFriends)
+            resolve(result.data.result.friends)
           }).catch((err) => {
             reject(err)
           })
@@ -214,11 +224,23 @@ export default new Vuex.Store({
     },
     getAllMessageUserSelected (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/messages`, payload)
           .then((result) => {
             resolve(result.data.result)
           }).catch((err) => {
             reject(err)
+          })
+      })
+    },
+    readMessage (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/messages/read-message`, payload)
+          .then(() => {
+            console.log('all message has bean readed')
+          }).catch(() => {
+            console.log('failed to read message')
           })
       })
     },

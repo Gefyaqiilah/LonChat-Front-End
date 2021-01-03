@@ -119,7 +119,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getFriendsData', 'updateProfile']),
+    ...mapActions(['getFriendsData', 'updateProfile', 'readMessage']),
     ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
@@ -136,9 +136,11 @@ export default {
       const data = {
         message: this.input.message,
         userSenderId: this.getDataUser.id,
+        senderName: this.getDataUser.name,
         time: moment(new Date()).format('LT'),
         userReceiverId: this.getuserChatSelected.id
       }
+      console.log('data send message :>> ', data)
       this.socket.emit('personalChat', data, async (message) => {
         await this.PUSH_CHAT_MESSAGE(message)
         this.updateScroll()
@@ -211,7 +213,15 @@ export default {
         if (data.userReceiverId === this.getDataUser.id || data.userReceiverId === this.getuserChatSelected.id) {
           await this.PUSH_CHAT_MESSAGE(data)
           this.updateScroll()
+          await this.readMessage({ userSenderId: data.userSenderId, userReceiverId: data.userReceiverId })
         }
+      } else {
+        this.$noty.info('You have new message from ' + data.senderName + ' go checkout now !', {
+          killer: true,
+          timeout: 6000,
+          layout: 'topRight',
+          theme: 'mint'
+        })
       }
     })
     this.userChatSelected = await this.getuserChatSelected

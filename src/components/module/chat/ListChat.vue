@@ -90,15 +90,15 @@
                 <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
               <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet.</p>
+                <p class="m-0 p-0">{{ contact.message }}</p>
               </div>
             </div>
             <div class="info-chat col-2 p-0 m-0">
               <div class="time h-50">
-                <p class="m-0 p-0">15.20</p>
+                <p class="m-0 p-0">{{ contact.lastMessageTime }}</p>
               </div>
-              <div class="chat-amount h-50">
-                <p class="m-0 p-0">2</p>
+              <div class="chat-amount h-50" v-if="contact.unreadMessage>0">
+                <p class="m-0 p-0">{{ contact.unreadMessage }}</p>
               </div>
             </div>
           </div>
@@ -148,8 +148,8 @@ export default {
   },
   props: ['socket', 'updateScroll'],
   methods: {
-    ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend']),
-    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE']),
+    ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend', 'readMessage', 'getLastMessage']),
+    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE', 'SET_CONTACT_LIST']),
     showMenu () {
       const menu = document.getElementById('show-menu')
       if (this.showMenuProfile) {
@@ -164,7 +164,27 @@ export default {
       this.$router.push({ path: '/profile' })
     },
     async handleGetFriendsData () {
-      await this.getFriendsData(this.getDataUser.id)
+      const result = await this.getFriendsData(this.getDataUser.id)
+      const resultMapping = await Promise.all(result.map(async (el) => {
+        const resultLastMessage = await this.getLastMessage(el.id)
+        console.log('resultLastMessage :>> ', resultLastMessage)
+        const resultMessage = resultLastMessage.message
+        console.log('slice :>> ', resultMessage)
+        if (resultLastMessage.unreadMessage > 0) {
+          this.$noty.info('You have new message from ' + el.name + ' go checkout now !', {
+            killer: true,
+            timeout: 6000,
+            layout: 'topRight',
+            theme: 'mint'
+          })
+        }
+        el.message = resultMessage ? resultMessage.substring(0, 20) + '......' : resultMessage
+        el.unreadMessage = resultLastMessage.unreadMessage
+        el.lastMessageTime = resultLastMessage.time
+        return el
+      }))
+      this.SET_CONTACT_LIST(resultMapping)
+      console.log('resultMapping :>> ', resultMapping)
     },
     selectedChat (id) {
       this.getUserChatSelected(id)
@@ -183,6 +203,7 @@ export default {
           this.getAllMessageUserSelected(payload)
             .then(async (result) => {
               await this.SET_CHAT_MESSAGE(result)
+              this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
               this.updateScroll('awd')
             }).catch((err) => {
               console.error(err)
@@ -226,11 +247,20 @@ export default {
         .then((result) => {
           this.input.searchUser = ''
           this.dataSearch = []
+          this.handleGetFriendsData()
+        })
+    },
+    handleGetLastMessage (userSenderId) {
+      console.log('userSenderId :>> ', userSenderId)
+      this.getLastMessage(userSenderId)
+        .then((result) => {
+          console.log('resultLastMessage :>> ', result.message)
+          return 'awdawd'
         })
     }
   },
   computed: {
-    ...mapGetters(['getContactList', 'getDataUser', 'getUserChat'])
+    ...mapGetters(['getContactList', 'getDataUser', 'getUserChat', 'getChatMessage'])
   },
   async mounted () {
     this.handleGetFriendsData()
