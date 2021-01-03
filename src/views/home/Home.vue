@@ -1,12 +1,15 @@
 <template>
   <div class="container-fluid grid m-0 p-0 row">
-    <div class="left-side col-4 pt-4 pr-4 pl-4 m-0">
-      <router-view :socket="socket" :updateScroll="updateScroll" :coordinates="coordinates"></router-view>
+    <div id="left-side" class="left-side col-sm-12 col-lg-4 pt-4 pr-4 pl-4 m-0">
+      <router-view :socket="socket" :mobileSelectedChat="mobileSelectedChat" :hideContactList="hideContactList" :updateScroll="updateScroll"  :coordinates="coordinates"></router-view>
     </div>
-    <div v-if="getuserChatSelected !== null" :class="!contactInfo ? 'right-side col-8 p-0' : 'right-side col-4 p-0'">
+    <div id="right-side" v-if="getuserChatSelected !== null" :class="!contactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show show col-sm-12 col-lg-4 p-0'">
       <div class="right-side container-fluid p-0 m-0">
     <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
       <div class="chat-info d-flex">
+        <div @click="handleBackMobile" class="back mr-3">
+          <img src="../../assets/back.png" alt="">
+        </div>
         <div class="photo-profile">
            <img :src="userSelectedPhotoProfile" @click="showContactInfo">
         </div>
@@ -45,10 +48,10 @@
         </div>
       </div>
     </div>
-    <div v-if="contactInfo" class="contact-info col-4 p-4">
+    <div v-if="contactInfo" class="contact-info col-sm-12 col-lg-4 p-4">
       <div class="header">
         <div class="username d-flex justify-content-start">
-          <div class="back">
+          <div class="back2">
             <img src="../../assets/back.png" alt=""  @click="showContactInfo">
           </div>
             <p class="m-0 mx-auto">{{getuserChatSelected && getuserChatSelected.username ? getuserChatSelected.username : '(username not set)'}}</p>
@@ -97,6 +100,11 @@
     <div v-if="getuserChatSelected === null" class="right-side col-8 p-0 d-flex align-items-center justify-content-center">
       <p class="welcome-chat">Please select a chat to start messaging</p>
     </div>
+    <!-- <div class="splash-screen d-flex justify-content-center align-items-center">
+      <div class="splash-image">
+      <img src="../../assets/Group 5856.png" alt="">
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -126,10 +134,20 @@ export default {
       element.scrollTop = element.scrollHeight - element.clientHeight
     },
     showContactInfo () {
-      if (this.contactInfo) {
-        this.contactInfo = false
+      if (screen.width <= 576) {
+        if (this.contactInfo) {
+          this.hideContactList()
+          this.contactInfo = false
+        } else {
+          // this.mobileSelectedChat()
+          this.contactInfo = true
+        }
       } else {
-        this.contactInfo = true
+        if (this.contactInfo) {
+          this.contactInfo = false
+        } else {
+          this.contactInfo = true
+        }
       }
     },
     sendMessage () {
@@ -168,6 +186,26 @@ export default {
       this.updateProfile(data)
         .then((result) => {
         })
+    },
+    mobileSelectedChat () {
+      if (document.getElementById('right-side').classList.contains('show')) {
+        document.getElementById('right-side').classList.remove('show')
+      } else {
+        document.getElementById('right-side').classList.add('show')
+      }
+      console.log(document.getElementById('right-side').classList)
+    },
+    hideContactList () {
+      if (document.getElementById('left-side').classList.contains('show')) {
+        document.getElementById('left-side').classList.remove('show')
+      } else {
+        document.getElementById('left-side').classList.add('show')
+      }
+      console.log(document.getElementById('left-side').classList)
+    },
+    handleBackMobile () {
+      this.mobileSelectedChat()
+      this.hideContactList()
     }
   },
   computed: {
@@ -180,6 +218,9 @@ export default {
     },
     handlegetuserChatSelected () {
       return this.getuserChatSelected !== null
+    },
+    screenWidth () {
+      return screen.width
     }
   },
   async mounted () {
@@ -501,6 +542,7 @@ color: #232323;
  height:60px;
  background: #FAFAFA;
 border-radius: 15px;
+padding: 0 0 0 110px;
 
 font-family: Rubik;
 font-style: normal;
@@ -513,9 +555,10 @@ color: #848484;
 
 }
 .type-message .icon {
-  position: relative;
+  position:relative;
   bottom:40px;
-  text-align:right;
+  left:10px;
+  width:max-content;
 }
 .type-message .icon img {
   margin: 0 10px 0 0;
@@ -632,4 +675,41 @@ line-height: 23px;
 
 color: #232323;
 }
+.splash-screen {
+  background-color:#7E98DF;
+  width:100%;
+  height:100vh;
+  position:fixed;
+  top:0;
+  z-index: 1;
+}
+.splash-screen .splash-image img {
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+.back {
+  display: none;
+}
+/* responsive */
+/* X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .show{
+    display:none;
+  }
+  #list-chat {
+  height:70vh !important;
+  overflow-y:auto;
+}
+.back {
+  display: block;
+}
+ }
 </style>

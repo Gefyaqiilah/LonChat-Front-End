@@ -18,7 +18,7 @@
               <div class="icon">
                 <img src="../../../assets/Contacts.png" alt="">
               </div>
-              <p class="m-0 ml-4">Contacts</p>
+              <p class="m-0 ml-4" @click="mobileSelectedChat">Contacts</p>
             </div>
             <div class="calls mb-4 d-flex">
                <div class="icon">
@@ -60,7 +60,7 @@
            <img src="../../../assets/Plus.png" alt="">
           </div>
         </div>
-        <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
+        <!-- <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
           <div class="col-4 p-2">
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="all" class="option-status" id="all">
           <label for="all" class="label-option">All</label>
@@ -73,9 +73,9 @@
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="unread" class="option-status" id="unread">
           <label for="unread" class="label-option">Unread</label>
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="left-side-body mt-3">
+      <div class="left-side-body mt-5">
         <div class="list-chat">
           <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-3">
             <div class="photo-profile col-2 p-0 m-0">
@@ -146,7 +146,7 @@ export default {
       userLoginStatus: []
     }
   },
-  props: ['socket', 'updateScroll'],
+  props: ['socket', 'updateScroll', 'mobileSelectedChat', 'hideContactList'],
   methods: {
     ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend', 'readMessage', 'getLastMessage']),
     ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE', 'SET_CONTACT_LIST']),
@@ -204,6 +204,10 @@ export default {
             .then(async (result) => {
               await this.SET_CHAT_MESSAGE(result)
               this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
+              if (screen.width <= 576) {
+                this.mobileSelectedChat()
+                this.hideContactList()
+              }
               this.updateScroll('awd')
             }).catch((err) => {
               console.error(err)
