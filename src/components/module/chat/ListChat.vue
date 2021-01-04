@@ -255,10 +255,8 @@ export default {
         })
     },
     handleGetLastMessage (userSenderId) {
-      console.log('userSenderId :>> ', userSenderId)
       this.getLastMessage(userSenderId)
-        .then((result) => {
-          console.log('resultLastMessage :>> ', result.message)
+        .then(() => {
           return 'awdawd'
         })
     },
@@ -297,7 +295,6 @@ export default {
       }
     })
     this.socket.on('userOffline', (data) => {
-      console.log('offline')
       if (!this.userLoginStatus.find(value => value === data && data !== this.getDataUser.id)) {
         this.getContactList.map((el) => {
           if (el.id === data) {

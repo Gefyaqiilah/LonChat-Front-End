@@ -159,7 +159,6 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/messages/last-message/${payload}`)
           .then((result) => {
-            console.log('result :>> ', result)
             resolve(result.data.result)
           }).catch((err) => {
             reject(err)
@@ -238,9 +237,7 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/messages/read-message`, payload)
           .then(() => {
-            console.log('all message has bean readed')
           }).catch(() => {
-            console.log('failed to read message')
           })
       })
     },

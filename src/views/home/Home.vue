@@ -101,11 +101,6 @@
     <div v-if="getuserChatSelected === null" class="right-side col-8 p-0 d-flex align-items-center justify-content-center">
       <p class="welcome-chat">Please select a chat to start messaging</p>
     </div>
-    <!-- <div class="splash-screen d-flex justify-content-center align-items-center">
-      <div class="splash-image">
-      <img src="../../assets/Group 5856.png" alt="">
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -200,7 +195,6 @@ export default {
       } else {
         document.getElementById('right-side').classList.add('show')
       }
-      console.log(document.getElementById('right-side').classList)
     },
     hideContactList () {
       if (document.getElementById('left-side').classList.contains('show')) {
@@ -208,7 +202,6 @@ export default {
       } else {
         document.getElementById('left-side').classList.add('show')
       }
-      console.log(document.getElementById('left-side').classList)
     },
     handleBackMobile () {
       this.mobileSelectedChat()
@@ -288,7 +281,9 @@ export default {
     await this.getLocation()
   },
   updated () {
-    this.updateScroll()
+    if (this.getuserChatSelected) {
+      this.updateScroll()
+    }
   }
 }
 </script>
@@ -724,14 +719,6 @@ color: #232323;
 }
 .hidden {
   display: none;
-}
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
 }
 .back {
   display: none;

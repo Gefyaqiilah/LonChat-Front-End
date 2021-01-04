@@ -11,15 +11,21 @@ import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
 import ListChat from '../components/module/chat/ListChat.vue'
 import Profile from '../components/module/chat/Profile.vue'
 import LeafletMaps from '../components/module/maps/Maps.vue'
-
+import LandingPage from '../components/module/landing-page/LandingPage.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/landing-page',
+    name: 'LandingPage',
+    component: LandingPage,
+    meta: { requiresVisitor: true }
+  },
+  {
     path: '/',
     name: 'Home',
     component: Home,
-    redirect: '/list-chat',
+    redirect: '/landing-page',
     meta: { requiresAuth: true },
     children: [
       {
@@ -111,7 +117,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresVisitor)) {
     if (store.getters.checkAccessToken) {
       next({
-        path: '/'
+        path: '/list-chat'
       })
     } else {
       next()

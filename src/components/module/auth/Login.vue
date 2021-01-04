@@ -114,7 +114,7 @@ export default {
             timer: 1500
           })
           this.alert('success', 'Welcome :)', 'let\'s cheer up for today', false)
-          this.$router.push({ path: '/' })
+          this.$router.push({ path: '/list-chat' })
         },
         error => {
           if (error === 'Invalid email or password') {
