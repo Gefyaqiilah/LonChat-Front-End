@@ -23,7 +23,7 @@
     <div class="account d-flex flex-column mt-4">
       <p class="text-left m-0 account-title">Account</p>
       <div class="phone-number mt-2"  @click="tapPhoneNumber">
-        <input type="text" class="form-control text-left text shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
+        <input type="text" class="form-control text-left text shadow-none input-phone-number" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
         <p class="text-left m-0 desc">Tap to change phone number</p>
       </div>
       <div class="username mt-2" @click="tapUserName">
@@ -31,7 +31,7 @@
         <p class="text-left m-0 desc">Username</p>
       </div>
       <div class="bio mt-2" @click="tapBio">
-        <input type="text" class="form-control text-left text shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.bio" id="bio" value="bio not set" disabled>
+        <input type="text" class="form-control text-left text shadow-none input-bio" @keyup.enter="handleUpdateProfile" v-model="input.bio" id="bio" value="bio not set" disabled>
         <p class="text-left m-0 desc">
           Bio
         </p>
@@ -102,8 +102,8 @@ export default {
           this.$noty.success(`${inputName} has been updated`, {
             killer: true,
             timeout: 6000,
-            layout: 'bottomRight',
-            theme: 'mint'
+            layout: 'topRight',
+            theme: 'relax'
           })
         })
     },
@@ -130,8 +130,9 @@ export default {
                 self.updatePhotoProfile(form),
                 resp => {
                   self.$noty.success('Your profile photo has been updated', {
-                    theme: 'bootstrap-v4'
+                    theme: 'relax'
                   })
+                  this.value = ''
                 }
               )
             }
@@ -238,10 +239,15 @@ color: #232323;
   text-transform: capitalize;
   /* identical to box height */
 
-  letter-spacing: -0.165px;
-
   color: #232323;
   border:none;
+  transition: font-size 1s;
+}
+.profile .name .fullname:focus {
+  /* border: 1px solid #7E98DF; */
+  background-color:rgb(126,152,223);
+  color: white;
+  font-size: 17px;
 }
 .profile .name .fullname:disabled {
 border:none;
@@ -295,16 +301,23 @@ background-color:white;
   font-weight: 500;
   border:none;
   padding: 0;
+  transition: font-size 1s;
 }
 .account .phone-number .desc {
   color:#7E98DF;
 }
 .account .phone-number .text:disabled {
-  color:#232323;
   border:none;
   padding: 0;
   background-color:white;
 }
+.input-phone-number:focus {
+  background-color:#7E98DF;
+  color: white !important;
+  font-size: 15px;
+  padding: 5px !important;
+}
+
 .account .username {
   font-family: Rubik;
   font-style: normal;
@@ -314,9 +327,16 @@ background-color:white;
 }
 .account .username .text {
   font-weight: 500;
-  color: #232323;
   border:none;
   padding: 0;
+  color: #232323;
+  transition: font-size 1s;
+}
+.account .username .text:focus {
+  background-color:#7E98DF;
+  color: white !important;
+  font-size: 15px;
+  padding: 5px;
 }
 .account .username .text:disabled {
   font-weight: 500;
@@ -338,6 +358,13 @@ background-color:white;
   border:none;
   padding:0;
   color: #232323;
+  transition: font-size 1s;
+}
+.account .bio .text:focus {
+  background-color:#7E98DF;
+  color: white !important;
+  font-size: 15px;
+  padding: 5px !important;
 }
 .account .bio .text:disabled {
   border:none;
@@ -381,4 +408,5 @@ background-color:white;
   object-fit: cover;
   border-radius: 30px;
 }
+
 </style>

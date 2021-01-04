@@ -32,7 +32,7 @@
               </div>
               <p class="m-0 ml-4">Save Messages</p>
             </div>
-            <div class="invite-friends mb-4 d-flex">
+            <div class="invite-friends mb-4 d-flex" @click="inviteFriends">
                <div class="icon">
                 <img src="../../../assets/Invite friends.png" alt="">
               </div>
@@ -55,8 +55,11 @@
         </div>
         <div class="search-box d-flex justify-content-between mt-5">
           <img class="search-icon" src="../../../assets/Search.png" alt="">
-          <input type="text" @keyup.enter="handleSearchFriend" v-model="input.searchUser" class="search-input form-control shadow-none" placeholder="type and enter to search your friends">
-          <div class="plus-icon ml-4">
+          <input type="text" id="searchInput" @keyup.enter="handleSearchFriend" v-model="input.searchUser" class="search-input form-control shadow-none" placeholder="type and enter to search your friends">
+          <div class="plus-icon ml-4" v-if="!input.searchUser">
+           <img src="../../../assets/Plus.png" alt="">
+          </div>
+          <div @click="clearSearchInput" class="clear-icon ml-4" v-if="input.searchUser">
            <img src="../../../assets/Plus.png" alt="">
           </div>
         </div>
@@ -167,9 +170,7 @@ export default {
       const result = await this.getFriendsData(this.getDataUser.id)
       const resultMapping = await Promise.all(result.map(async (el) => {
         const resultLastMessage = await this.getLastMessage(el.id)
-        console.log('resultLastMessage :>> ', resultLastMessage)
         const resultMessage = resultLastMessage.message
-        console.log('slice :>> ', resultMessage)
         if (resultLastMessage.unreadMessage > 0) {
           this.$noty.info('You have new message from ' + el.name + ' go checkout now !', {
             killer: true,
@@ -184,7 +185,6 @@ export default {
         return el
       }))
       this.SET_CONTACT_LIST(resultMapping)
-      console.log('resultMapping :>> ', resultMapping)
     },
     selectedChat (id) {
       this.getUserChatSelected(id)
@@ -203,7 +203,7 @@ export default {
           this.getAllMessageUserSelected(payload)
             .then(async (result) => {
               await this.SET_CHAT_MESSAGE(result)
-              this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
+              await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
               if (screen.width <= 576) {
                 this.mobileSelectedChat()
                 this.hideContactList()
@@ -216,7 +216,6 @@ export default {
         })
     },
     async logout (data) {
-      console.log('data logout:>> ', data)
       this.showMenuProfile = false
       this.socket.emit('leave', { userSenderId: data.user, userReceiverId: data.userSelectedChat })
       this.socket.emit('logout', this.getDataUser.id)
@@ -271,6 +270,15 @@ export default {
         showConfirmButton: false,
         timer: 1500
       })
+    },
+    clearSearchInput () {
+      this.input.searchUser = ''
+    },
+    async inviteFriends () {
+      const searchInput = document.getElementById('searchInput')
+      const menu = document.getElementById('show-menu')
+      menu.style.display = 'none'
+      searchInput.focus()
     }
   },
   computed: {
@@ -344,10 +352,37 @@ export default {
   color: #848484;
 
 }
+.search-input:focus {
+  border:3px solid #7E98DF;
+}
 .plus-icon img{
   height:100%;
   width:100%;
   object-fit: contain;
+  cursor: pointer;
+}
+.clear-icon img{
+  height:100%;
+  width:100%;
+  object-fit: contain;
+  transform: rotate(45deg);  /* This timing applies on the way OUT */
+  animation: close 2s linear infinite;
+  cursor: pointer;
+}
+.clear-icon img:hover {
+  animation-play-state: paused;
+}
+
+@keyframes close {
+  0% {
+    width:100%;
+  }
+  50% {
+    width:130%;
+  }
+  100% {
+    width:100%;
+  }
 }
 .option-status {
   display:none;
@@ -419,9 +454,10 @@ export default {
   color: #848484;
 }
 .info-chat .chat-amount p {
-  text-align: center;
-  width:20px;
-  height:20px;
+  display:flex;
+  justify-content: center;
+  width:25px;
+  height:25px;
   background: #7E98DF;
   border-radius: 30px;
   color:white;

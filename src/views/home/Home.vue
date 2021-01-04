@@ -11,7 +11,7 @@
           <img src="../../assets/back.png" alt="">
         </div>
         <div class="photo-profile">
-           <img :src="userSelectedPhotoProfile" @click="showContactInfo">
+           <img :src="userSelectedPhotoProfile" @click="showContactInfo" class="cursor-pointer">
         </div>
         <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
           <p class="name m-0 align-items-start text-left">{{ getuserChatSelected.name }}</p>
@@ -24,16 +24,17 @@
     </div>
     <div class="right-side-body p-4" id="list-chat"  >
       <!-- receive messsage -->
-      <div :class="message.userSenderId === getDataUser.id ? 'chat-item-sender' : 'chat-item-receiver'" class="chat-item-receiver row p-0 m-0 mt-3" v-for="message in getChatMessage" :key="message.index">
-        <div :class="message.userSenderId === getDataUser.id ?'col-12 p-0 m-0 d-flex flex-row-reverse' : 'col-12 p-0 m-0 d-flex flex-row'">
+      <div :class="message.userSenderId === getDataUser.id ? 'chat-item-sender' : 'chat-item-receiver'" class="chat-item-receiver show-date row p-0 m-0 mt-3" v-for="message in getChatMessage" :key="message.index">
+        <div @click="showDateOnClick" :class="message.userSenderId === getDataUser.id ?'col-12 p-0 m-0 d-flex flex-row-reverse' : 'col-12 p-0 m-0 d-flex flex-row'">
         <div class="chat-photo-profile align-self-end">
           <img :src="message.userSenderId === getDataUser.id ? getDataUser.photoProfile : userSelectedPhotoProfile " alt="">
         </div>
         <div class="chat-message ml-3">
-          {{message.message}}
+          <p>{{message.message}}</p>
         </div>
         <div class="time align-self-end">
-          <p>{{ message.time }}</p>
+          <p>{{ message.time }} </p>
+          <p v-if= "showDateInfo">{{convertDate(message.createdAt)}}</p>
         </div>
         </div>
       </div>
@@ -76,11 +77,11 @@
         </div>
         <div class="menu d-flex justify-content-center">
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="location" value="location">
-          <label for="location" class="d-flex align-items-center justify-content-center">Location</label>
+          <label for="location" class="cursor-pointer d-flex align-items-center justify-content-center">Location</label>
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="image" value="image">
-          <label for="image" class="d-flex align-items-center justify-content-center">Image</label>
+          <label for="image" class="cursor-pointer d-flex align-items-center justify-content-center">Image</label>
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="documents" value="documents">
-          <label for="documents" class="d-flex align-items-center justify-content-center">Documents</label>
+          <label for="documents" class="cursor-pointer d-flex align-items-center justify-content-center">Documents</label>
         </div>
         <div class="menu-option">
           <div v-if="input.menuOption === 'image'" class="image d-flex d-flex justify-content-around">
@@ -112,6 +113,7 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import io from 'socket.io-client'
 import moment from 'moment'
+
 export default {
   name: 'Home',
   data () {
@@ -123,7 +125,10 @@ export default {
         menuOption: ''
       },
       contactInfo: false,
-      coordinates: null
+      coordinates: null,
+      showDateInfo: false,
+      longPress: 0,
+      intervalClick: null
     }
   },
   methods: {
@@ -139,7 +144,6 @@ export default {
           this.hideContactList()
           this.contactInfo = false
         } else {
-          // this.mobileSelectedChat()
           this.contactInfo = true
         }
       } else {
@@ -209,6 +213,16 @@ export default {
     handleBackMobile () {
       this.mobileSelectedChat()
       this.hideContactList()
+    },
+    convertDate (createdAt) {
+      return moment(createdAt).format('LL')
+    },
+    showDateOnClick () {
+      if (this.showDateInfo) {
+        this.showDateInfo = false
+      } else {
+        this.showDateInfo = true
+      }
     }
   },
   computed: {
@@ -233,7 +247,6 @@ export default {
     }
     this.socket.on('userOnline', async (data) => {
       if (self.getuserChatSelected.id === data) {
-        console.log('ini datauser', self.getuserChatSelected)
         const userSelectedCopy = {
           ...self.getuserChatSelected,
           status: 'online'
@@ -243,7 +256,6 @@ export default {
     })
     this.socket.on('userOffline', (data) => {
       if (self.getuserChatSelected.id === data) {
-        console.log('ini datauser', self.getuserChatSelected)
         const userSelectedCopy = {
           ...self.getuserChatSelected,
           status: 'offline'
@@ -274,6 +286,9 @@ export default {
     })
     this.userChatSelected = await this.getuserChatSelected
     await this.getLocation()
+  },
+  updated () {
+    this.updateScroll()
   }
 }
 </script>
@@ -456,7 +471,7 @@ export default {
   background-color:#7E98DF;
 }
 .right-side {
-  background-color: #FAFAFA;
+  background-color: #FAFAFA !important;
 }
 .item-chat {
   cursor: pointer;
@@ -512,15 +527,20 @@ color: #232323;
   background: #7E98DF;
   border-radius: 35px 35px 35px 10px;
   padding: 17px 33px;
-
+  width: max-content;
+  max-width: 70%;
+  height:max-content;
   font-family: Rubik;
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-text-align: left;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  text-align: left;
 /* or 28px */
 
 color: #FFFFFF;
+}
+.chat-item-receiver .chat-message p {
+  word-wrap: break-word;
 }
 .chat-item-sender .chat-message{
   background: #FFFFFF;
@@ -534,6 +554,9 @@ font-size: 15px;
 /* or 28px */
 text-align: right;
 color: #232323;
+}
+.chat-item-sender .time p{
+  text-align:right;
 }
 .right-side-body {
   height:550px;
@@ -693,7 +716,15 @@ color: #232323;
 .splash-screen .splash-image img {
   animation: rotation 2s infinite linear;
 }
-
+.chat-item-receiver {
+  overflow: hidden;
+}
+.chat-item-receiver .time p {
+  color: #848484;
+}
+.hidden {
+  display: none;
+}
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -704,6 +735,12 @@ color: #232323;
 }
 .back {
   display: none;
+}
+.back2 {
+  cursor: pointer;
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 .detail-profile .name {
   text-transform: capitalize;

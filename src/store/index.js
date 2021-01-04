@@ -260,7 +260,10 @@ export default new Vuex.Store({
         const errorMessage = error.response.data.err.message
         if (errorStatusCode === 400) {
           if (errorMessage === 'Email has been used by other user') {
-            console.log('errorMessage :>> ', errorMessage)
+            return Promise.reject(errorMessage)
+          }
+        } else if (errorStatusCode === 401) {
+          if (errorMessage === 'Invalid email or password') {
             return Promise.reject(errorMessage)
           }
         }

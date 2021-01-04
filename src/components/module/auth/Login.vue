@@ -104,8 +104,9 @@ export default {
         email: this.input.email,
         password: this.input.password
       }
-      this.login(data)
-        .then((results) => {
+      this.$awn.asyncBlock(
+        this.login(data),
+        resp => {
           Swal.fire({
             icon: 'success',
             title: 'Welcome :)',
@@ -114,7 +115,13 @@ export default {
           })
           this.alert('success', 'Welcome :)', 'let\'s cheer up for today', false)
           this.$router.push({ path: '/' })
-        })
+        },
+        error => {
+          if (error === 'Invalid email or password') {
+            this.alert('error', 'Invalid email or password', 'Please check your email and password')
+          }
+        }
+      )
     },
     toForgotPassword () {
       this.$router.push({ path: '/auth/forgot-password' })
