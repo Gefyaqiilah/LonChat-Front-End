@@ -4,7 +4,7 @@
       <router-view :socket="socket" :mobileSelectedChat="mobileSelectedChat" :hideContactList="hideContactList" :updateScroll="updateScroll"  :coordinates="coordinates"></router-view>
     </div>
     <div id="right-side" v-if="getuserChatSelected !== null" :class="!contactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show show col-sm-12 col-lg-4 p-0'">
-      <div class="right-side container-fluid p-0 m-0">
+    <div class="right-side container-fluid p-0 m-0">
     <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
       <div class="chat-info d-flex">
         <div @click="handleBackMobile" class="back mr-3">
@@ -159,8 +159,9 @@ export default {
           time: moment(new Date()).format('LT'),
           userReceiverId: this.getuserChatSelected.id
         }
-        console.log('data send message :>> ', data)
         this.socket.emit('personalChat', data, async (message) => {
+          const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
+          audio.play()
           await this.PUSH_CHAT_MESSAGE(message)
           this.updateScroll()
           this.input.message = ''
@@ -257,6 +258,8 @@ export default {
           await this.PUSH_CHAT_MESSAGE(data)
           this.updateScroll()
           await this.readMessage({ userSenderId: data.userSenderId, userReceiverId: data.userReceiverId })
+          const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
+          audio.play()
         }
       } else {
         this.$noty.info('You have new message from ' + data.senderName + ' go checkout now !', {
@@ -265,6 +268,8 @@ export default {
           layout: 'topRight',
           theme: 'mint'
         })
+        const audio = new Audio('/audio/new_message_tone.mp3')
+        audio.play()
       }
     })
     this.userChatSelected = await this.getuserChatSelected
@@ -473,11 +478,11 @@ export default {
 .status {
   font-family: Rubik;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 15px;
   line-height: 18px;
   /* identical to box height */
-
+  text-transform: capitalize;
   text-align: center;
   letter-spacing: -0.165px;
 
@@ -699,6 +704,9 @@ color: #232323;
 }
 .back {
   display: none;
+}
+.detail-profile .name {
+  text-transform: capitalize;
 }
 /* responsive */
 /* X-Small devices (portrait phones, less than 576px) */
