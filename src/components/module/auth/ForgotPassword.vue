@@ -1,7 +1,7 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-2 pt-3 p-0" @click="back">
+      <div class="back col-2 pt-3 p-0" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-10 pt-3">
@@ -64,20 +64,26 @@ export default {
         email: this.input.email,
         code
       }
-      this.forgotPassword(data)
-        .then((result) => {
+      this.$awn.asyncBlock(
+        this.forgotPassword(data),
+        resp => {
           this.SET_FORGOT_PASSWORD_CODE(code)
-          Swal.fire({
-            icon: 'success',
-            title: 'Check your email ',
-            text: 'Please check the email we have sent',
-            showConfirmButton: true
-          })
+          this.alert('success', 'Check your email ', 'Please check the email we have sent', true)
           this.$router.push({ path: '/auth/confirm-code', query: { email: this.input.email } })
-        })
+        }
+      )
     },
     back () {
       this.$router.go(-1)
+    },
+    alert (icon, title, text, confirmButton) {
+      Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: confirmButton,
+        timer: 1500
+      })
     }
   }
 }
@@ -185,5 +191,8 @@ color: #7E98DF;
 }
 .separator::after {
     margin-left: .25em;
+}
+.back {
+  cursor: pointer;
 }
 </style>

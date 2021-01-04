@@ -1,7 +1,7 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-3 pt-3 p-0" @click="back">
+      <div class="back col-3 pt-3 p-0" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-9 pt-3">
@@ -119,8 +119,9 @@ export default {
           password: this.input.password
         }
       }
-      this.forgotAndChangePassword(payload)
-        .then((result) => {
+      this.$awn.asyncBlock(
+        this.forgotAndChangePassword(payload),
+        resp => {
           Swal.fire({
             icon: 'success',
             title: 'Your Password has been changed',
@@ -128,7 +129,8 @@ export default {
             showConfirmButton: false
           })
           this.$router.push({ path: '/auth/login' })
-        })
+        }
+      )
     },
     back () {
       this.$router.go(-1)
@@ -244,5 +246,8 @@ color: #7E98DF;
 }
 .separator::after {
     margin-left: .25em;
+}
+.back {
+  cursor: pointer;
 }
 </style>

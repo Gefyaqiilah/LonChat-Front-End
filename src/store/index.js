@@ -258,38 +258,12 @@ export default new Vuex.Store({
       }, function (error) {
         const errorStatusCode = error.response.data.statusCode
         const errorMessage = error.response.data.err.message
-        if (errorStatusCode === 401) {
-          // login
-          if (errorMessage === 'Invalid email or password') {
-            Swal.fire({
-              icon: 'error',
-              title: 'Email or Password invalid',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            return
-          } else if (errorMessage === 'Wrong email') {
-            Swal.fire({
-              icon: 'error',
-              title: 'Invalid Email',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            return
-          }
-          // forgotpassword
-        } else if (errorStatusCode === 400) {
+        if (errorStatusCode === 400) {
           if (errorMessage === 'Email has been used by other user') {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops, your email has been used by other user',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            return
+            console.log('errorMessage :>> ', errorMessage)
+            return Promise.reject(errorMessage)
           }
         }
-        // const errorStatusCode = error.response.data.err
         return Promise.reject(error)
       })
     }

@@ -108,10 +108,11 @@ export default {
         .then((results) => {
           Swal.fire({
             icon: 'success',
-            title: 'Login Success',
+            title: 'Welcome :)',
             showConfirmButton: false,
             timer: 1500
           })
+          this.alert('success', 'Welcome :)', 'let\'s cheer up for today', false)
           this.$router.push({ path: '/' })
         })
     },
@@ -120,6 +121,15 @@ export default {
     },
     toSignUp () {
       this.$router.push({ path: '/auth/register' })
+    },
+    alert (icon, title, text, confirmButton) {
+      Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   }
 }

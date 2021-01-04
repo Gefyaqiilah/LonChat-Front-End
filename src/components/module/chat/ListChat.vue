@@ -119,7 +119,7 @@
               </div>
             </div>
             <div v-if="!getContactList.find(item=>item.id === contact.id)" class="info-chat-search col-2 p-0 m-0 d-flex align-items-center justify-content-center">
-                <div class="icon-add-friend d-flex" @click="handleAddNewFriend(contact.id)">
+                <div class="icon-add-friend d-flex" @click="handleAddNewFriend(contact.id, contact.name)">
                 <img class="d-block align-self-center mx-auto" src="../../../assets/Invite friends.png" alt="">
                 </div>
             </div>
@@ -242,7 +242,7 @@ export default {
           this.dataSearch = result
         })
     },
-    handleAddNewFriend (friendId) {
+    handleAddNewFriend (friendId, name) {
       const data = {
         userId: this.getDataUser.id,
         friendId: friendId
@@ -252,6 +252,7 @@ export default {
           this.input.searchUser = ''
           this.dataSearch = []
           this.handleGetFriendsData()
+          this.alert('success', 'Congratulations now you are friends😁', name + ' is your friend right now')
         })
     },
     handleGetLastMessage (userSenderId) {
@@ -261,6 +262,15 @@ export default {
           console.log('resultLastMessage :>> ', result.message)
           return 'awdawd'
         })
+    },
+    alert (icon, title, text) {
+      Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   },
   computed: {

@@ -151,19 +151,21 @@ export default {
       }
     },
     sendMessage () {
-      const data = {
-        message: this.input.message,
-        userSenderId: this.getDataUser.id,
-        senderName: this.getDataUser.name,
-        time: moment(new Date()).format('LT'),
-        userReceiverId: this.getuserChatSelected.id
+      if (this.input.message.length > 0) {
+        const data = {
+          message: this.input.message,
+          userSenderId: this.getDataUser.id,
+          senderName: this.getDataUser.name,
+          time: moment(new Date()).format('LT'),
+          userReceiverId: this.getuserChatSelected.id
+        }
+        console.log('data send message :>> ', data)
+        this.socket.emit('personalChat', data, async (message) => {
+          await this.PUSH_CHAT_MESSAGE(message)
+          this.updateScroll()
+          this.input.message = ''
+        })
       }
-      console.log('data send message :>> ', data)
-      this.socket.emit('personalChat', data, async (message) => {
-        await this.PUSH_CHAT_MESSAGE(message)
-        this.updateScroll()
-        this.input.message = ''
-      })
     },
     loginRoomSelf () {
       const payload = {

@@ -1,7 +1,7 @@
 <template>
   <div class="container m-0 pl-5 pr-5 pb-5 pt-4">
     <div class="card-header container-fluid row m-0 p-0">
-      <div class="col-4 pt-3 p-0" @click="back">
+      <div class="back col-4 pt-3 p-0" @click="back">
         <img src="../../../assets/back.png" alt="">
       </div>
       <div class="col-8 pt-3">
@@ -114,20 +114,30 @@ export default {
         password: this.input.password,
         name: this.input.name
       }
-      this.register(data)
-        .then((result) => {
+      this.$awn.asyncBlock(
+        this.register(data),
+        resp => {
           this.$router.push({ path: '/auth/login' })
-          Swal.fire({
-            icon: 'success',
-            title: 'Your data has been created',
-            showConfirmButton: false,
-            timer: 1500
-          })
-        }).catch(() => {
-        })
+          this.alert('success', 'Yeayy!', 'Your data has been created')
+        },
+        err => {
+          if (err === 'Email has been used by other user') {
+            this.alert('error', 'Sorry', 'Your Email has been used by other user')
+          }
+        }
+      )
     },
     back () {
       this.$router.go(-1)
+    },
+    alert (icon, title, text) {
+      Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   }
 }
@@ -240,5 +250,8 @@ color: #7E98DF;
 }
 .separator::after {
     margin-left: .25em;
+}
+.back {
+  cursor: pointer;
 }
 </style>

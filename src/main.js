@@ -12,7 +12,9 @@ import { Icon } from 'leaflet'
 import VueGeolocation from 'vue-browser-geolocation'
 import VueNoty from 'vuejs-noty'
 import 'vuejs-noty/dist/vuejs-noty.css'
+import VueAWN from 'vue-awesome-notifications'
 
+Vue.use(VueAWN)
 Vue.use(VueNoty)
 Vue.use(VueGeolocation)
 delete Icon.Default.prototype._getIconUrl

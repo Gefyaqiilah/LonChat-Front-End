@@ -98,7 +98,13 @@ export default {
       this.updateProfile(payload)
         .then((result) => {
           e.target.focus = false
-          this.alert(`${inputName} updated`, 'success')
+          this.alert(`${inputName} has been updated`, 'success')
+          this.$noty.success(`${inputName} has been updated`, {
+            killer: true,
+            timeout: 6000,
+            layout: 'bottomRight',
+            theme: 'mint'
+          })
         })
     },
     detectChangePhoto () {
@@ -120,9 +126,14 @@ export default {
             if (result.isConfirmed) {
               const form = new FormData()
               form.append('photoProfile', this.files[0])
-              self.updatePhotoProfile(form)
-                .then(() => {
-                })
+              self.$awn.asyncBlock(
+                self.updatePhotoProfile(form),
+                resp => {
+                  self.$noty.success('Your profile photo has been updated', {
+                    theme: 'bootstrap-v4'
+                  })
+                }
+              )
             }
           })
         }
