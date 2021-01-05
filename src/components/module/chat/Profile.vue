@@ -23,7 +23,7 @@
     <div class="account d-flex flex-column mt-4">
       <p class="text-left m-0 account-title">Account</p>
       <div class="phone-number mt-2"  @click="tapPhoneNumber">
-        <input type="text" class="form-control text-left text shadow-none input-phone-number" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
+        <input type="number" class="form-control text-left text shadow-none input-phone-number" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
         <p class="text-left m-0 desc">Tap to change phone number</p>
       </div>
       <div class="username mt-2" @click="tapUserName">
