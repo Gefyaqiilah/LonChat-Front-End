@@ -63,7 +63,7 @@
            <img src="../../../assets/Plus.png" alt="">
           </div>
         </div>
-        <!-- <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
+        <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
           <div class="col-4 p-2">
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="all" class="option-status" id="all">
           <label for="all" class="label-option">All</label>
@@ -76,7 +76,7 @@
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="unread" class="option-status" id="unread">
           <label for="unread" class="label-option">Unread</label>
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="left-side-body mt-5">
         <div class="list-chat">
@@ -200,14 +200,17 @@ export default {
             userReceiverId: id,
             userSenderId: this.getDataUser.id
           }
+          const screenWidth = screen.width
           this.getAllMessageUserSelected(payload)
             .then(async (result) => {
-              await this.SET_CHAT_MESSAGE(result)
-              await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
-              if (screen.width <= 576) {
+              if (screenWidth <= 576) {
+                console.log('awda')
                 this.mobileSelectedChat()
                 this.hideContactList()
               }
+              this.SET_CHAT_MESSAGE(result)
+              await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
+              console.log(screenWidth)
               this.updateScroll('awd')
             }).catch((err) => {
               console.error(err)

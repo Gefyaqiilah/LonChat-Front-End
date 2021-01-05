@@ -191,6 +191,7 @@ export default {
         })
     },
     mobileSelectedChat () {
+      console.log('mobil')
       if (document.getElementById('right-side').classList.contains('show')) {
         document.getElementById('right-side').classList.remove('show')
       } else {
