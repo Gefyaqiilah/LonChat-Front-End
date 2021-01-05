@@ -70,6 +70,11 @@ export default {
           this.SET_FORGOT_PASSWORD_CODE(code)
           this.alert('success', 'Check your email ', 'Please check the email we have sent', true)
           this.$router.push({ path: '/auth/confirm-code', query: { email: this.input.email } })
+        },
+        error => {
+          if (error === 'Wrong email') {
+            this.alert('error', 'Invalid E-mail', 'Invalid email, please check your email again', false)
+          }
         }
       )
     },

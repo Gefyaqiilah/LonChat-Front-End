@@ -241,6 +241,18 @@ export default new Vuex.Store({
           })
       })
     },
+    deleteAllMessage (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        console.log('payload :>> ', payload)
+        axios.delete(`${process.env.VUE_APP_SERVICE_API}/v1/messages/delete-all-message`, { data: payload })
+          .then((result) => {
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     interceptorRequest ({ state }, payload) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${state.token.accessToken}`
@@ -255,8 +267,11 @@ export default new Vuex.Store({
       }, function (error) {
         const errorStatusCode = error.response.data.statusCode
         const errorMessage = error.response.data.err.message
+        console.log('errorMessage :>> ', errorMessage)
         if (errorStatusCode === 400) {
           if (errorMessage === 'Email has been used by other user') {
+            return Promise.reject(errorMessage)
+          } else if (errorMessage === 'Wrong email') {
             return Promise.reject(errorMessage)
           }
         } else if (errorStatusCode === 401) {

@@ -2,7 +2,7 @@
   <div class="p-0 m-0">
           <div class="left-side-header p-0 m-0">
         <div class="title d-flex m-0 justify-content-between">
-          <p class="p-0 m-0 title-text">Telegram</p>
+          <p class="p-0 m-0 title-text">Lon-Chat</p>
           <div class="menu-icon">
           <img class="m-0 p-0" @click="showMenu" src="../../../assets/Menu.png" alt="">
           </div>

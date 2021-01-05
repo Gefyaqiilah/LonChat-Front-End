@@ -18,8 +18,8 @@
           <p class="status m-0 align-items-end text-left">{{ getuserChatSelected.status }}</p>
         </div>
       </div>
-        <div class="profile-menu align-self-top">
-          <img src="../../assets/Profile menu.png" alt="">
+        <div class="clear-chat align-self-top">
+          <img @click="handleDeleteAllMessage" src="../../assets/Trash.png" alt="">
         </div>
     </div>
     <div class="right-side-body p-4" id="list-chat"  >
@@ -108,6 +108,7 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import io from 'socket.io-client'
 import moment from 'moment'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'Home',
@@ -127,7 +128,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getFriendsData', 'updateProfile', 'readMessage']),
+    ...mapActions(['getFriendsData', 'updateProfile', 'readMessage', 'deleteAllMessage']),
     ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
@@ -216,6 +217,59 @@ export default {
       } else {
         this.showDateInfo = true
       }
+    },
+    async handleDeleteAllMessage () {
+      Swal.fire({
+        title: 'Delete All Message Sender ?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$awn.asyncBlock(
+            this.deleteAllMessage({ userSenderId: this.getDataUser.id, userReceiverId: this.getuserChatSelected.id }),
+            resp => {
+              console.log(resp)
+              this.SET_CHAT_MESSAGE([])
+              this.alert('success', 'All Message Deleted', 'now your history chat message will be empty', false)
+            },
+            () => {
+              this.alert('error', 'Server Error', 'Looks like server having trouble', false)
+            }
+          )
+        }
+      })
+    },
+    alert (icon, title, text, confirmButton) {
+      Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 1500
+      })
+    },
+    alertConfirmation (title, text, icon) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
     }
   },
   computed: {
@@ -731,6 +785,19 @@ color: #232323;
 }
 .detail-profile .name {
   text-transform: capitalize;
+}
+.clear-chat {
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  border-radius: 50%;
+  background-color:#7E98DF;
+  width:50px;
+  height:50px;
+  transition:border 2s;
+}
+.clear-chat:hover {
+  border: 5px solid #7390df;
 }
 /* responsive */
 /* X-Small devices (portrait phones, less than 576px) */
