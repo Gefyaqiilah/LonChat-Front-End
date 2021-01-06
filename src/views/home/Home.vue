@@ -41,7 +41,7 @@
     </div>
       </div>
       <div class="type-message pl-4 pr-4 w-100">
-        <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="form-control shadow-none" id="">
+        <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus form-control shadow-none" id="input-message">
         <div class="icon">
         <img src="../../assets/Plus.png" alt="">
         <img src="../../assets/Vector (2).png" alt="">
@@ -67,13 +67,17 @@
           <p class="m-0">{{getuserChatSelected && getuserChatSelected.name ? getuserChatSelected.name : 'Name not set'}}</p>
           <p class="m-0">{{getuserChatSelected && getuserChatSelected.status ? getuserChatSelected.status : 'Status not set'}}</p>
           </div>
-          <div class="chat-icon">
+          <div class="chat-icon cursor-pointer" @click="directChat">
             <img src="../../assets/Chat-purple.png" alt="">
           </div>
         </div>
         <div class="phone-number mt-2">
           <p class="m-0">Phone Number</p>
           <p class="m-0">{{getuserChatSelected && getuserChatSelected.phoneNumber ? getuserChatSelected.phoneNumber : 'Phone number not been set'}}</p>
+        </div>
+        <div class="phone-number mt-2">
+          <p class="m-0">Bio</p>
+          <p class="m-0">{{getuserChatSelected && getuserChatSelected.bio ? getuserChatSelected.bio : 'Bio not been set'}}</p>
         </div>
         <div class="menu d-flex justify-content-center">
           <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="location" value="location">
@@ -271,6 +275,20 @@ export default {
           )
         }
       })
+    },
+    directChat () {
+      if (screen.width <= 576) {
+        console.log('576')
+        this.contactInfo = false
+        this.hideContactList()
+      } else {
+        this.contactInfo = false
+      }
+      document.getElementById('input-message').focus()
+      // if (document.getElementById('right-side').classList.contains('show')) {
+      //   document.getElementById('right-side').classList.remove('show')
+      // } else {
+      // }
     }
   },
   computed: {
@@ -322,7 +340,7 @@ export default {
           audio.play()
         }
       } else {
-        this.$noty.info('You have new message from ' + data.senderName + ' go checkout now !', {
+        this.$noty.info('new message from ' + data.senderName + ': " ' + data.message.substring(0, 15) + ' "', {
           killer: true,
           timeout: 6000,
           layout: 'topRight',
@@ -427,7 +445,7 @@ export default {
   color: #232323;
 }
 #list-chat {
-  height:450px !important;
+  height:490px !important;
   overflow-y:auto;
 }
 .details-chat .name p {
@@ -799,6 +817,9 @@ color: #232323;
 }
 .clear-chat:hover {
   border: 5px solid #7390df;
+}
+.focus:focus {
+  border:2px solid #7E98DF;
 }
 /* responsive */
 /* X-Small devices (portrait phones, less than 576px) */

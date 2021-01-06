@@ -13,7 +13,7 @@
     <form action="" class="form mt-4">
       <div class="form-group">
       <label for="email" class="input-label">Email</label>
-      <input type="text" id="email" v-model="input.email" placeholder="Ex: telegram@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
+      <input type="text" id="email" v-model="input.email" placeholder="Ex: lonchat@gmail.com" :class="{ 'is-invalid': $v.input.email.$error }" class="input-email form-control shadow-none">
       <div v-if="!$v.input.email.required" class="invalid-feedback">Email is required</div>
       <div v-if="!$v.input.email.email" class="invalid-feedback">Invalid format email</div>
       </div>

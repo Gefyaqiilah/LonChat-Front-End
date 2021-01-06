@@ -14,24 +14,6 @@
               </div>
               <p class="m-0 ml-4">Settings</p>
             </div>
-            <div class="contacts mb-4 d-flex">
-              <div class="icon">
-                <img src="../../../assets/Contacts.png" alt="">
-              </div>
-              <p class="m-0 ml-4" @click="mobileSelectedChat">Contacts</p>
-            </div>
-            <div class="calls mb-4 d-flex">
-               <div class="icon">
-                <img src="../../../assets/Vector (3).png" alt="">
-              </div>
-              <p class="m-0 ml-4">Calls</p>
-            </div>
-            <div class="save-messages mb-4 d-flex">
-              <div class="icon">
-                <img src="../../../assets/Rectangle 37.png" alt="">
-              </div>
-              <p class="m-0 ml-4">Save Messages</p>
-            </div>
             <div class="invite-friends mb-4 d-flex" @click="inviteFriends">
                <div class="icon">
                 <img src="../../../assets/Invite friends.png" alt="">
@@ -78,9 +60,9 @@
           </div>
         </div>
       </div>
-      <div class="left-side-body mt-5">
+      <div class="left-side-body mt-3">
         <div class="list-chat">
-          <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-3">
+          <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-4">
             <div class="photo-profile col-2 p-0 m-0">
               <div class="photo">
               <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
@@ -93,7 +75,7 @@
                 <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
               <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">{{ contact.message }}</p>
+                <p class="m-0 p-0">{{ contact.message || contact.bio }}</p>
               </div>
             </div>
             <div class="info-chat col-2 p-0 m-0">
@@ -118,7 +100,7 @@
                 <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
               <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">Lorem ipsum dolor sit amet.</p>
+                <p class="m-0 p-0">{{ contact.bio }}</p>
               </div>
             </div>
             <div v-if="!getContactList.find(item=>item.id === contact.id)" class="info-chat-search col-2 p-0 m-0 d-flex align-items-center justify-content-center">
@@ -204,13 +186,17 @@ export default {
           this.getAllMessageUserSelected(payload)
             .then(async (result) => {
               if (screenWidth <= 576) {
-                console.log('awda')
                 this.mobileSelectedChat()
                 this.hideContactList()
               }
               this.SET_CHAT_MESSAGE(result)
               await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
-              console.log(screenWidth)
+              this.getContactList.map(el => {
+                if (el.id === id) {
+                  el.unreadMessage = 0
+                }
+                return el
+              })
               this.updateScroll('awd')
             }).catch((err) => {
               console.error(err)
