@@ -80,5 +80,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 ## Author Info
 
 - Instagram - [@gefyaqshal](https://www.instagram.com/gefyaqshal/)
+- LinkedIn - [Gefy Aqiilah Aqshal](www.linkedin.com/in/gefyaqiilahaqshal)
 
 [Back To The Top](#lon-chat)
