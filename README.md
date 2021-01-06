@@ -12,7 +12,6 @@ List Section :
 - [Description](#description)
 - [How To Use](#how-to-use)
 - [Notes](#notes)
-- [License](#license)
 - [Author Info](#author-info)
 
 ---
