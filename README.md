@@ -1,7 +1,7 @@
 # Lon Chat
 
-![Project Image](![collage image](https://user-images.githubusercontent.com/54069791/103716007-937d2980-4ff4-11eb-832a-ed7e6e025d00.jpg)))
 ![Project Image](https://user-images.githubusercontent.com/54069791/103716007-937d2980-4ff4-11eb-832a-ed7e6e025d00.jpg)
+
 > Lon Chat is a chat application that comes with interesting features.
 
 ---
