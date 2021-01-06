@@ -11,7 +11,7 @@ List Section :
 
 - [Description](#description)
 - [How To Use](#how-to-use)
-- [References](#references)
+- [Notes](#notes)
 - [License](#license)
 - [Author Info](#author-info)
 
@@ -65,7 +65,7 @@ VUE_APP_ACCESS_TOKEN_KEY = (`your access token key in backend`)
 
 ---
 
-## Note
+## Notes
 
 Copyright (c) [2021] [Gefy Aqiilah Aqshal]
 
