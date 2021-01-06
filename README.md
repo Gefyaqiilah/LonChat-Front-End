@@ -30,6 +30,8 @@ Other more important information is that users can get unread message notificati
 - Mysql
 - XAMPP
 - EsLint
+- Geo Location
+- LeafLet
 - Bootstrap
 - Visual Studio Code
 
