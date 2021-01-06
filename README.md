@@ -1,18 +1,8 @@
 # Lon Chat
-![Screenshot (599)](https://user-images.githubusercontent.com/54069791/103714105-6b8bc700-4ff0-11eb-93ef-1f46e54bbfc0.png)
-![Screenshot (600)](https://user-images.githubusercontent.com/54069791/103714111-70507b00-4ff0-11eb-80db-7f514206be9f.png)
-![Screenshot (601)](https://user-images.githubusercontent.com/54069791/103714121-77778900-4ff0-11eb-817c-58d1684a7be2.png)
-![Screenshot (590)](https://user-images.githubusercontent.com/54069791/103714139-81998780-4ff0-11eb-8ee2-13252b10b42d.png)
-![Screenshot (591)](https://user-images.githubusercontent.com/54069791/103714142-83fbe180-4ff0-11eb-81f5-4f9f153f731f.png)
-![Screenshot (592)](https://user-images.githubusercontent.com/54069791/103714146-878f6880-4ff0-11eb-9a13-42996e87365e.png)
-![Screenshot (593)](https://user-images.githubusercontent.com/54069791/103714150-8bbb8600-4ff0-11eb-8f27-43d0ef2b50e7.png)
-![Screenshot (594)](https://user-images.githubusercontent.com/54069791/103714151-8e1de000-4ff0-11eb-803c-8cb2f254cef4.png)
-![Screenshot (595)](https://user-images.githubusercontent.com/54069791/103714153-8fe7a380-4ff0-11eb-98c6-d3ee643f9763.png)
-![Screenshot (596)](https://user-images.githubusercontent.com/54069791/103714158-9249fd80-4ff0-11eb-92c4-c8d3cee26f05.png)
-![Screenshot (597)](https://user-images.githubusercontent.com/54069791/103714162-95dd8480-4ff0-11eb-8c48-78f3f8d0f6eb.png)
-![Screenshot (598)](https://user-images.githubusercontent.com/54069791/103714174-9d9d2900-4ff0-11eb-9524-7d7b56633fdf.png)
 
-> This is a ReadMe template to help save you time and effort.
+![Project Image](![collage image](https://user-images.githubusercontent.com/54069791/103716007-937d2980-4ff4-11eb-832a-ed7e6e025d00.jpg))
+
+> Lon Chat is a chat application that comes with interesting features.
 
 ---
 
