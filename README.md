@@ -79,7 +79,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 ## Author Info
 
-- Instagram - [@gefyaqshal](https://www.instagram.com/gefyaqshal/)
-- LinkedIn - [Gefy Aqiilah Aqshal](https://www.linkedin.com/in/gefyaqiilahaqshal)
+- LinkedIn - [@GefyAqiilahAqshal](https://linkedin.com/in/gefyaqiilahaqshal)
+- GitHub - [GefyAqiilah](https://github.com/Gefyaqiilah)
 
 [Back To The Top](#lon-chat)
