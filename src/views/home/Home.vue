@@ -2,7 +2,6 @@
   <div class="container-fluid grid m-0 p-0 row">
     <div id="left-side" class="left-side col-sm-12 col-lg-4 pt-4 pr-4 pl-4 m-0">
       <router-view :socket="socket" :mobileSelectedChat="mobileSelectedChat" :hideContactList="hideContactList" :updateScroll="updateScroll"  :coordinates="coordinates"></router-view>
-      {{getShowContactInfo}}
     </div>
     <div id="right-side" v-if="getuserChatSelected !== null" :class="!getShowContactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show col-sm-12 col-lg-4 p-0'">
     <div class="right-side container-fluid p-0 m-0">
@@ -24,7 +23,7 @@
         </div>
     </div>
     <div class="right-side-body p-4" id="list-chat"  >
-      <!-- receive messsage -->
+
       <div :class="message.userSenderId === getDataUser.id ? 'chat-item-sender' : 'chat-item-receiver'" class="show-date row p-0 m-0 mt-3" v-for="message in getChatMessage" :key="message.index">
         <div @click="showDateOnClick" :class="message.userSenderId === getDataUser.id ?'col-12 p-0 m-0 d-flex flex-row-reverse' : 'col-12 p-0 m-0 d-flex flex-row'">
         <div class="chat-photo-profile align-self-end">
@@ -41,68 +40,16 @@
       </div>
     </div>
     </div>
-      <div class="type-message pl-4 pr-4 w-100">
+    <div class="type-message pl-4 pr-4 w-100">
         <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus form-control shadow-none" id="input-message">
         <div class="icon">
         <img src="../../assets/Plus.png" alt="">
         <img src="../../assets/Vector (2).png" alt="">
         <img src="../../assets/Group 181.png" alt="">
         </div>
-      </div>
     </div>
-    <!-- <div v-if="contactInfo" class="contact-info col-sm-12 col-lg-4 p-4">
-      <div class="header">
-        <div class="username d-flex justify-content-start">
-          <div class="back2">
-            <img src="../../assets/back.png" alt=""  @click="showContactInfo">
-          </div>
-            <p class="m-0 mx-auto">{{getuserChatSelected && getuserChatSelected.username ? getuserChatSelected.username : '(username not set)'}}</p>
-        </div>
-        <div class="photo mx-auto mt-3">
-          <img :src="getuserChatSelected && getuserChatSelected.photoProfile ? getuserChatSelected.photoProfile : '/img/user-avatar.png'" alt="">
-        </div>
-      </div>
-      <div class="body mt-3">
-        <div class="name d-flex justify-content-between">
-          <div>
-          <p class="m-0">{{getuserChatSelected && getuserChatSelected.name ? getuserChatSelected.name : 'Name not set'}}</p>
-          <p class="m-0">{{getuserChatSelected && getuserChatSelected.status ? getuserChatSelected.status : 'Status not set'}}</p>
-          </div>
-          <div class="chat-icon cursor-pointer" @click="directChat">
-            <img src="../../assets/Chat-purple.png" alt="">
-          </div>
-        </div>
-        <div class="phone-number mt-2">
-          <p class="m-0">Phone Number</p>
-          <p class="m-0">{{getuserChatSelected && getuserChatSelected.phoneNumber ? getuserChatSelected.phoneNumber : 'Phone number not been set'}}</p>
-        </div>
-        <div class="phone-number mt-2">
-          <p class="m-0">Bio</p>
-          <p class="m-0">{{getuserChatSelected && getuserChatSelected.bio ? getuserChatSelected.bio : 'Bio not been set'}}</p>
-        </div>
-        <div class="menu d-flex justify-content-center">
-          <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="location" value="location">
-          <label for="location" class="cursor-pointer d-flex align-items-center justify-content-center">Location</label>
-          <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="image" value="image">
-          <label for="image" class="cursor-pointer d-flex align-items-center justify-content-center">Image</label>
-          <input type="radio" class="d-none" v-model="input.menuOption" name="menu-option" id="documents" value="documents">
-          <label for="documents" class="cursor-pointer d-flex align-items-center justify-content-center">Documents</label>
-        </div>
-        <div class="menu-option">
-          <div v-if="input.menuOption === 'image'" class="image d-flex d-flex justify-content-around">
-            <img src="../../assets/Rectangle 3.png" alt="">
-            <img src="../../assets/Rectangle 3.png" alt="">
-            <img src="../../assets/Rectangle 3.png" alt="">
-            <img src="../../assets/Rectangle 3.png" alt="">
-            <img src="../../assets/Rectangle 3.png" alt="">
-          </div>
-          <div v-if="input.menuOption ==='location'" class="location">
-          <LeafLetMaps v-if="getuserChatSelected.currentLocation" :coordinates="getuserChatSelected.currentLocation "/>
-          </div>
-          <div v-if="input.menuOption ==='documents'" class="documents"></div>
-        </div>
-      </div>
-    </div> -->
+    </div>
+    <!-- <MainChat id="right-side" :socket="socket" :handleBackMobile="handleBackMobile" :hideContactList="hideContactList" v-if="getuserChatSelected !== null" :class="!getShowContactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show col-sm-12 col-lg-4 p-0'"/> -->
     <ContactInfo v-if="getShowContactInfo" :menuOption="input.menuOption" class="col-sm-12 col-lg-4 p-4"/>
     <DefaultPage v-if="getuserChatSelected === null" class="right-side col-8" text="Please select a chat to start messaging"/>
 
@@ -116,6 +63,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import DefaultPage from '../../components/module/chat/default-page/DefaultPage'
 import ContactInfo from '../../components/module/chat/contact-info/ContactInfo'
+// import MainChat from '../../components/module/chat/main-chat/MainChat'
 export default {
   name: 'Home',
   components: {
