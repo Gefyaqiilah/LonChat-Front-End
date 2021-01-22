@@ -116,6 +116,9 @@ color: #7E98DF;
   border-radius: 0;
   border-bottom:1px solid black;
 }
+.input-email:focus {
+  border-bottom: 2px solid #7E98DF;
+}
 .input-password {
   border:none;
   border-radius: 0;
@@ -136,12 +139,11 @@ color: #7E98DF;
 .input-label {
   font-family: Rubik;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 15px;
   line-height: 17px;
   /* identical to box height */
-  color: #848484;
-  opacity: 0.75;
+  color: #232323;
 }
 .form-control {
   font-family: Rubik;

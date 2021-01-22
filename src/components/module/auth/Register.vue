@@ -13,7 +13,7 @@
     <form action="" class="form mt-4">
       <div class="form-group">
       <label for="name" class="input-label">Name</label>
-      <input type="text" id="name" v-model="input.name" placeholder="Telegram app" :class="{ 'is-invalid':  $v.input.name.$error }" class="input-name form-control shadow-none">
+      <input type="text" id="name" v-model="input.name" placeholder="Telegram app" :class="{ 'is-invalid':  $v.form.name.$error }" class="input-name form-control shadow-none">
        <div v-if="!$v.input.name.required" class="invalid-feedback">Name is required</div>
       </div>
       <div class="form-group">
@@ -40,6 +40,7 @@
             ><img
               @click="showPassword"
               id="btnShowPassword"
+              class="pointer"
               src="../../../assets/ic_sharp-remove-red-eye.png"
               alt=""
           /></span>
@@ -252,6 +253,9 @@ color: #7E98DF;
     margin-left: .25em;
 }
 .back {
+  cursor: pointer;
+}
+.pointer {
   cursor: pointer;
 }
 </style>
