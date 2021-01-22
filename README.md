@@ -30,8 +30,11 @@ Other more important information is that users can get unread message notificati
 - Mysql
 - XAMPP
 - EsLint
+- Geo Location
+- LeafLet
 - Bootstrap
 - Visual Studio Code
+- etc.
 
 [Back To The Top](#lon-chat)
 
@@ -76,6 +79,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 ## Author Info
 
-- Instagram - [@gefyaqshal](https://www.instagram.com/gefyaqshal/)
+- LinkedIn - [@GefyAqiilahAqshal](https://linkedin.com/in/gefyaqiilahaqshal)
+- GitHub - [GefyAqiilah](https://github.com/Gefyaqiilah)
 
 [Back To The Top](#lon-chat)
