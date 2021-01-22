@@ -4,31 +4,31 @@
         <div class="title d-flex m-0 justify-content-between">
           <p class="p-0 m-0 title-text">Lon-Chat</p>
           <div class="menu-icon">
-          <img class="m-0 p-0" @click="showMenu" src="../../../assets/Menu.png" alt="">
+          <img class="m-0 p-0" @click="showMenu" src="../../../../assets/Menu.png" alt="">
           </div>
           <div class="show p-0 m-0" id="show-menu">
           <div class="show-menu d-flex flex-column p-4">
             <div class="settings mb-4 d-flex" @click="toSettings">
               <div class="icon">
-                <img src="../../../assets/Settings.png" alt="">
+                <img src="../../../../assets/Settings.png" alt="">
               </div>
               <p class="m-0 ml-4">Settings</p>
             </div>
             <div class="invite-friends mb-4 d-flex" @click="inviteFriends">
                <div class="icon">
-                <img src="../../../assets/Invite friends.png" alt="">
+                <img src="../../../../assets/Invite friends.png" alt="">
               </div>
               <p class="m-0 ml-4">Invite Friends</p>
             </div>
             <div class="faq mb-4 d-flex">
               <div class="icon">
-                <img src="../../../assets/FAQ.png" alt="">
+                <img src="../../../../assets/FAQ.png" alt="">
               </div>
               <p class="m-0 ml-4">Telegram FAQ</p>
             </div>
             <div class="contacts mb-4 d-flex" @click="logout(getUserChat && getDataUser ? {userSelectedChat: getUserChat.id, user: getDataUser.id} : '')">
               <div class="icon">
-                <img src="../../../assets/Contacts.png" alt="">
+                <img src="../../../../assets/Contacts.png" alt="">
               </div>
               <p class="m-0 ml-4">Logout</p>
             </div>
@@ -36,13 +36,13 @@
           </div>
         </div>
         <div class="search-box d-flex justify-content-between mt-5">
-          <img class="search-icon" src="../../../assets/Search.png" alt="">
+          <img class="search-icon" src="../../../../assets/Search.png" alt="">
           <input type="text" id="searchInput" @keyup.enter="handleSearchFriend" v-model="input.searchUser" class="search-input form-control shadow-none" placeholder="type and enter to search your friends">
           <div class="plus-icon ml-4" v-if="!input.searchUser">
-           <img src="../../../assets/Plus.png" alt="">
+           <img src="../../../../assets/Plus.png" alt="">
           </div>
           <div @click="clearSearchInput" class="clear-icon ml-4" v-if="input.searchUser">
-           <img src="../../../assets/Plus.png" alt="">
+           <img src="../../../../assets/Plus.png" alt="">
           </div>
         </div>
         <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
@@ -105,7 +105,7 @@
             </div>
             <div v-if="!getContactList.find(item=>item.id === contact.id)" class="info-chat-search col-2 p-0 m-0 d-flex align-items-center justify-content-center">
                 <div class="icon-add-friend d-flex" @click="handleAddNewFriend(contact.id, contact.name)">
-                <img class="d-block align-self-center mx-auto" src="../../../assets/Invite friends.png" alt="">
+                <img class="d-block align-self-center mx-auto" src="../../../../assets/Invite friends.png" alt="">
                 </div>
             </div>
           </div>

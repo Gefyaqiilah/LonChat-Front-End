@@ -2,8 +2,9 @@
   <div class="container-fluid grid m-0 p-0 row">
     <div id="left-side" class="left-side col-sm-12 col-lg-4 pt-4 pr-4 pl-4 m-0">
       <router-view :socket="socket" :mobileSelectedChat="mobileSelectedChat" :hideContactList="hideContactList" :updateScroll="updateScroll"  :coordinates="coordinates"></router-view>
+      {{getShowContactInfo}}
     </div>
-    <div id="right-side" v-if="getuserChatSelected !== null" :class="!contactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show show col-sm-12 col-lg-4 p-0'">
+    <div id="right-side" v-if="getuserChatSelected !== null" :class="!getShowContactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show col-sm-12 col-lg-4 p-0'">
     <div class="right-side container-fluid p-0 m-0">
     <div class="right-side-header pl-4 pt-4 pr-4 pb-3 d-flex  justify-content-between">
       <div class="chat-info d-flex">
@@ -39,7 +40,7 @@
         </div>
       </div>
     </div>
-      </div>
+    </div>
       <div class="type-message pl-4 pr-4 w-100">
         <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus form-control shadow-none" id="input-message">
         <div class="icon">
@@ -49,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div v-if="contactInfo" class="contact-info col-sm-12 col-lg-4 p-4">
+    <!-- <div v-if="contactInfo" class="contact-info col-sm-12 col-lg-4 p-4">
       <div class="header">
         <div class="username d-flex justify-content-start">
           <div class="back2">
@@ -101,10 +102,10 @@
           <div v-if="input.menuOption ==='documents'" class="documents"></div>
         </div>
       </div>
-    </div>
-    <div v-if="getuserChatSelected === null" class="right-side col-8 p-0 d-flex align-items-center justify-content-center">
-      <p class="welcome-chat">Please select a chat to start messaging</p>
-    </div>
+    </div> -->
+    <ContactInfo v-if="getShowContactInfo" :menuOption="input.menuOption" class="col-sm-12 col-lg-4 p-4"/>
+    <DefaultPage v-if="getuserChatSelected === null" class="right-side col-8" text="Please select a chat to start messaging"/>
+
   </div>
 </template>
 
@@ -113,9 +114,14 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import io from 'socket.io-client'
 import moment from 'moment'
 import Swal from 'sweetalert2'
-
+import DefaultPage from '../../components/module/chat/default-page/DefaultPage'
+import ContactInfo from '../../components/module/chat/contact-info/ContactInfo'
 export default {
   name: 'Home',
+  components: {
+    DefaultPage,
+    ContactInfo
+  },
   data () {
     return {
       userChatSelected: null,
@@ -124,7 +130,6 @@ export default {
         message: '',
         menuOption: ''
       },
-      contactInfo: false,
       coordinates: null,
       showDateInfo: false,
       longPress: 0,
@@ -133,24 +138,25 @@ export default {
   },
   methods: {
     ...mapActions(['getFriendsData', 'updateProfile', 'readMessage', 'deleteAllMessage']),
-    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED']),
+    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
       element.scrollTop = element.scrollHeight - element.clientHeight
     },
     showContactInfo () {
+      console.log('this.getShowContactInfo', this.getShowContactInfo)
       if (screen.width <= 576) {
-        if (this.contactInfo) {
+        if (this.getShowContactInfo) {
           this.hideContactList()
-          this.contactInfo = false
+          this.SET_SHOW_CONTACT_INFO(false)
         } else {
-          this.contactInfo = true
+          this.SET_SHOW_CONTACT_INFO(true)
         }
       } else {
-        if (this.contactInfo) {
-          this.contactInfo = false
+        if (this.getShowContactInfo) {
+          this.SET_SHOW_CONTACT_INFO(false)
         } else {
-          this.contactInfo = true
+          this.SET_SHOW_CONTACT_INFO(true)
         }
       }
     },
@@ -279,10 +285,10 @@ export default {
     directChat () {
       if (screen.width <= 576) {
         console.log('576')
-        this.contactInfo = false
+        this.SET_SHOW_CONTACT_INFO(false)
         this.hideContactList()
       } else {
-        this.contactInfo = false
+        this.SET_SHOW_CONTACT_INFO(false)
       }
       document.getElementById('input-message').focus()
       // if (document.getElementById('right-side').classList.contains('show')) {
@@ -292,7 +298,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getContactList', 'getuserChatSelected', 'getDataUser', 'getChatMessage']),
+    ...mapGetters(['getContactList', 'getuserChatSelected', 'getDataUser', 'getChatMessage', 'getShowContactInfo']),
     userSelectedPhotoProfile () {
       return this.getuserChatSelected.photoProfile ? this.getuserChatSelected.photoProfile : '/img/user-avatar.png'
     },

@@ -2,7 +2,7 @@
   <div class="p-0 m-0">
     <div class="header d-flex">
       <div class="back" @click="back">
-        <img src="../../../assets/back.png" alt="">
+        <img src="../../../../assets/back.png" alt="">
       </div>
       <div class="username mx-auto">
         <p class="m-0">{{this.getDataUser.username}}</p>
@@ -417,7 +417,7 @@ background-color:white;
  transition: filter 0.25s ease-out;
  cursor:pointer;
 }
-.profile .photo .img img:hover{
+.profile .photo .img:hover img{
   filter: brightness(70%);
  transition: filter 0.25s ease-in;
 }
@@ -447,5 +447,7 @@ font-size:20px !important;
   font-weight:700;
   line-height: 19px;
   color:white;
+  width:max-content;
+  height:max-content;
 }
 </style>

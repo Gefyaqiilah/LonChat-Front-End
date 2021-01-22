@@ -8,8 +8,8 @@ import ForgotPassword from '../components/module/auth/ForgotPassword.vue'
 import ConfirmPassword from '../components/module/auth/ConfirmPassword.vue'
 import store from '../store/index'
 import ConfirmCode from '../components/module/auth/ConfirmCode.vue'
-import ListChat from '../components/module/chat/ListChat.vue'
-import Profile from '../components/module/chat/Profile.vue'
+import ListChat from '../components/module/chat/list-chat/ListChat.vue'
+import Profile from '../components/module/chat/profile/Profile.vue'
 import LeafletMaps from '../components/module/maps/Maps.vue'
 import LandingPage from '../components/module/landing-page/LandingPage.vue'
 Vue.use(VueRouter)
@@ -79,14 +79,6 @@ const routes = [
     path: '/maps',
     name: 'Maps',
     component: LeafletMaps
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
 

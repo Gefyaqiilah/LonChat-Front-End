@@ -20,7 +20,8 @@ export default new Vuex.Store({
     contactList: null,
     userChatSelected: null,
     chatMessage: [],
-    currentLocation: null
+    currentLocation: null,
+    showContactInfo: false
   },
   plugins: [
     createPersistedState()
@@ -62,6 +63,10 @@ export default new Vuex.Store({
       state.userChatSelected = null
       state.chatMessage = []
       state.currentLocation = null
+    },
+    SET_SHOW_CONTACT_INFO (state, payload) {
+      console.log('payload kiriman', payload)
+      state.showContactInfo = payload
     }
   },
   actions: {
@@ -316,6 +321,9 @@ export default new Vuex.Store({
     },
     getCurrentLocation (state) {
       return state.currentLocation
+    },
+    getShowContactInfo ({ showContactInfo }) {
+      return showContactInfo
     }
   },
   modules: {
