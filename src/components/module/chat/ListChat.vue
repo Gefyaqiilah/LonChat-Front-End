@@ -70,7 +70,7 @@
               <div class="online" v-if="contact.status === 'online'">
               </div>
             </div>
-            <div class="details-chat col-8 p-0 pl-2 m-0">
+            <div class="details-chat col-8 p-0 pl-lg-2 m-0">
               <div class="name h-50 p-0 m-0">
                 <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
@@ -658,5 +658,49 @@ export default {
   height:50px;
   width:50px;
   cursor: pointer;
+}
+@media screen and (max-width: 575.98px) {
+
+.photo-profile .photo {
+  width:64px;
+  height:64px;
+}
+.photo-profile .photo img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+.label-option {
+  font-size: 1em;
+}
+.menu-message-status input[type="radio"]:checked + label {
+  font-size: 1em;
+}
+}
+@media screen and (max-width: 461px) {
+
+.photo-profile .photo {
+  width:80%;
+  height:80%;
+}
+.photo-profile .photo img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+.online {
+  left: 0;
+}
+.label-option {
+  font-size: 0.9em;
+}
+.menu-message-status input[type="radio"]:checked + label {
+  font-size: 4vw;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 }
 </style>

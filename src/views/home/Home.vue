@@ -24,7 +24,7 @@
     </div>
     <div class="right-side-body p-4" id="list-chat"  >
       <!-- receive messsage -->
-      <div :class="message.userSenderId === getDataUser.id ? 'chat-item-sender' : 'chat-item-receiver'" class="chat-item-receiver show-date row p-0 m-0 mt-3" v-for="message in getChatMessage" :key="message.index">
+      <div :class="message.userSenderId === getDataUser.id ? 'chat-item-sender' : 'chat-item-receiver'" class="show-date row p-0 m-0 mt-3" v-for="message in getChatMessage" :key="message.index">
         <div @click="showDateOnClick" :class="message.userSenderId === getDataUser.id ?'col-12 p-0 m-0 d-flex flex-row-reverse' : 'col-12 p-0 m-0 d-flex flex-row'">
         <div class="chat-photo-profile align-self-end">
           <img :src="message.userSenderId === getDataUser.id ? getDataUser.photoProfile : userSelectedPhotoProfile " alt="">
@@ -362,6 +362,9 @@ export default {
 </script>
 
 <style scoped>
+/* * {
+  border: 1px solid red;
+} */
 .grid {
   height:100vh;
 }
@@ -567,7 +570,6 @@ export default {
   /* identical to box height */
   text-transform: capitalize;
   text-align: center;
-  letter-spacing: -0.165px;
 
   color: #7E98DF;
 }
@@ -610,21 +612,28 @@ color: #FFFFFF;
 .chat-item-receiver .chat-message p {
   word-wrap: break-word;
 }
+.chat-item-sender .chat-message p {
+  word-wrap: break-word;
+}
 .chat-item-sender .chat-message{
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 35px 35px 35px 10px;
   padding: 17px 33px;
-
+  width: max-content;
+  max-width: 70%;
+  height:max-content;
   font-family: Rubik;
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  text-align: left;
 /* or 28px */
-text-align: right;
+
 color: #232323;
 }
 .chat-item-sender .time p{
   text-align:right;
+   word-wrap: break-word;
 }
 .right-side-body {
   height:550px;
@@ -787,6 +796,9 @@ color: #232323;
 .chat-item-receiver {
   overflow: hidden;
 }
+.chat-item-sender {
+  overflow: hidden;
+}
 .chat-item-receiver .time p {
   color: #848484;
 }
@@ -833,6 +845,21 @@ color: #232323;
 }
 .back {
   display: block;
+}
+.chat-photo-profile {
+  width:64px;
+  height: 64px;
+}
+.chat-photo-profile img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  border-radius:20px;
+}
+ }
+@media (max-width: 417px) {
+.chat-photo-profile {
+  display:none;
 }
  }
 </style>

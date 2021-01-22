@@ -12,10 +12,13 @@
       <div class="photo mx-auto">
         <input type="file" name="" id="input-photo-profile" accept="image/png,image/gif,image/jpeg,/image/jpg">
         <label for="input-photo-profile">
-        <img id="photo-profile" :src="defaultImage" alt="">
+          <div class="img">
+            <img id="photo-profile" :src="defaultImage" alt="">
+            <i class="fa fa-edit icon-edit-image"><span class="edit-text">Edit</span></i>
+          </div>
         </label>
       </div>
-      <div class="name mx-auto mt-3"  @click="tapName">
+      <div class="name mx-auto mt-1"  @click="tapName">
         <input type="text" class="form-control text-center fullname shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.name" id="name" value="+375(29)9638433" disabled>
         <p class="text-center m-0 username">{{this.getDataUser.username}}</p>
       </div>
@@ -212,6 +215,9 @@ export default {
 </script>
 
 <style scoped>
+/* * {
+  border:1px solid red;
+} */
 .header .username p {
   font-family: Rubik;
 font-style: normal;
@@ -398,15 +404,48 @@ background-color:white;
 .back {
   cursor: pointer;
 }
-.profile .photo {
-  width:82px;
-  height:82px;
+.profile .photo .img {
+  width:100px;
+  height:100px;
 }
-.profile .photo img {
+.profile .photo .img img{
   width:100%;
   height:100%;
   object-fit: cover;
-  border-radius: 30px;
+  border-radius: 50px;
+  filter: brightness(100%);
+ transition: filter 0.25s ease-out;
+ cursor:pointer;
 }
-
+.profile .photo .img img:hover{
+  filter: brightness(70%);
+ transition: filter 0.25s ease-in;
+}
+.profile .photo .img img:hover + .icon-edit-image{
+  display:inline;
+ transition: display 0.25s ease-in;
+}
+.icon-edit-image {
+  display:none;
+position: absolute;
+margin-left: auto;
+margin-right: auto;
+top:115px;
+left: 0;
+right: 0;
+text-align: center;
+width:max-content;
+height:max-content;
+color:white !important;
+opacity:0.9;
+font-size:20px !important;
+}
+.icon-edit-image .edit-text{
+  font-family: Rubik;
+  font-style: normal;
+  font-size: 15px;
+  font-weight:700;
+  line-height: 19px;
+  color:white;
+}
 </style>
