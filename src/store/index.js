@@ -17,7 +17,7 @@ export default new Vuex.Store({
       refreshToken: null
     },
     forgotPasswordCode: null,
-    contactList: null,
+    contactList: [],
     userChatSelected: null,
     chatMessage: [],
     currentLocation: null,

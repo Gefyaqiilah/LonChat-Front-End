@@ -20,11 +20,17 @@
               </div>
               <p class="m-0 ml-4">Invite Friends</p>
             </div>
-            <div class="faq mb-4 d-flex">
+            <div class="guide mb-4 d-flex" @click="alertNewUser()">
+              <div class="icon">
+                <i class="far fa-hands-helping"></i>
+              </div>
+              <p class="m-0 ml-4">Show Guide</p>
+            </div>
+            <div class="about mb-4 d-flex">
               <div class="icon">
                 <img src="../../../../assets/FAQ.png" alt="">
               </div>
-              <p class="m-0 ml-4">Telegram FAQ</p>
+              <p class="m-0 ml-4">About</p>
             </div>
             <div class="contacts mb-4 d-flex" @click="logout(getUserChat && getDataUser ? {userSelectedChat: getUserChat.id, user: getDataUser.id} : '')">
               <div class="icon">
@@ -113,7 +119,7 @@
           <DefaultPage text="Looking for friends? 🧐" class="item-chat row p-0 m-0 mb-3"/>
           <DefaultPage text="You can search for your friends by email, username and phone number" class="item-chat row p-0 m-0 mb-3"/>
           </div>
-          <div class="item-chat"  v-show="!input.searchUser && getContactList.length === 0">
+          <div class="item-chat"  v-show="!input.searchUser && dataSearch.length===0 &&getContactList.length === 0">
           <DefaultPage :text="'Welcome to Lon-Chat 🥳'" class="item-chat row p-0 m-0 mb-3"/>
           <DefaultPage text="You don't have a friend contact, , get the contact now in the search column above" class="item-chat row p-0 m-0 mb-3"/>
           </div>
@@ -126,11 +132,14 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Swal from 'sweetalert2'
 import DefaultPage from '../default-page/DefaultPage'
+import mixin from '../../../../mixins/index'
+
 export default {
   name: 'ListChat',
   components: {
     DefaultPage
   },
+  mixins: [mixin],
   data () {
     return {
       input: {
@@ -162,6 +171,11 @@ export default {
     },
     async handleGetFriendsData () {
       const result = await this.getFriendsData(this.getDataUser.id)
+      if (result.length === 0) {
+        if (!this.getContactList) {
+          this.alertNewUser()
+        }
+      }
       const resultMapping = await Promise.all(result.map(async (el) => {
         const resultLastMessage = await this.getLastMessage(el.id)
         const resultMessage = resultLastMessage.message
@@ -659,6 +673,44 @@ export default {
   object-fit: contain;
 }
 .faq p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.about {
+  cursor: pointer;
+}
+.about .icon {
+  width:22px;
+  height:22px;
+}
+.about .icon img {
+  width:100%;
+  height:100%;
+  object-fit: contain;
+}
+.about p {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF;
+}
+.guide {
+  cursor: pointer;
+}
+.guide .icon {
+  width:22px;
+  height:22px;
+  color:white;
+}
+.guide p {
   font-family: Rubik;
   font-style: normal;
   font-weight: normal;

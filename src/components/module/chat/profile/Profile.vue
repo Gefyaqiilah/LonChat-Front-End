@@ -1,11 +1,14 @@
 <template>
   <div class="p-0 m-0">
-    <div class="header d-flex">
+    <div class="header d-flex justify-content-between">
       <div class="back" @click="back">
         <img src="../../../../assets/back.png" alt="">
       </div>
-      <div class="username mx-auto">
+      <div class="username">
         <p class="m-0">{{this.getDataUser.username}}</p>
+      </div>
+      <div class="div show-guide-profile" @click="alertNewUser()">
+        <i class="fa fa-question"></i>
       </div>
     </div>
     <div class="profile d-flex flex-column mt-4">
@@ -51,9 +54,12 @@
 import { mapActions, mapGetters } from 'vuex'
 import $ from 'jquery'
 import Swal from 'sweetalert2'
+import mixin from '../../../../mixins/index'
+
 export default {
   name: 'Profile',
   props: ['coordinates'],
+  mixins: [mixin],
   data () {
     return {
       input: {
@@ -449,5 +455,10 @@ font-size:20px !important;
   color:white;
   width:max-content;
   height:max-content;
+}
+.show-guide-profile {
+  color: #7E98DF;
+  font-size:20px;
+  cursor: pointer;
 }
 </style>

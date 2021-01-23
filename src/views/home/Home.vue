@@ -64,6 +64,7 @@ import Swal from 'sweetalert2'
 import DefaultPage from '../../components/module/chat/default-page/DefaultPage'
 import ContactInfo from '../../components/module/chat/contact-info/ContactInfo'
 // import MainChat from '../../components/module/chat/main-chat/MainChat'
+
 export default {
   name: 'Home',
   components: {
