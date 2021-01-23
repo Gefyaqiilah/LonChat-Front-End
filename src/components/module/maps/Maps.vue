@@ -21,8 +21,8 @@ import { latLng } from 'leaflet'
 import { LMap, LTileLayer, LMarker, LIconDefault } from 'vue2-leaflet'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'CustomPath',
-  props: ['coordinates'],
+  name: 'Maps',
+  props: ['coordinatesUserSelected'],
   components: {
     LMap,
     LTileLayer,
@@ -41,22 +41,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCurrentLocation'])
+    ...mapGetters(['getCurrentLocation', 'getDataUser'])
   },
   async mounted () {
-    // this.$getLocation()
-    //   .then(coordinates => {
-    //     this.center = latLng(coordinates.lat, coordinates.lng)
-    //     this.marker = latLng(coordinates.lat, coordinates.lng)
-    //   })
-    if (typeof this.coordinates === 'string') {
-      JSON.parse(this.coordinates)
-      this.center = latLng(JSON.parse(this.coordinates).lat, JSON.parse(this.coordinates).lng)
-      this.marker = latLng(JSON.parse(this.coordinates).lat, JSON.parse(this.coordinates).lng)
-      return
+    if (this.coordinatesUserSelected) {
+      this.center = latLng(JSON.parse(this.coordinatesUserSelected).lat, JSON.parse(this.coordinatesUserSelected).lng)
+      this.marker = latLng(JSON.parse(this.coordinatesUserSelected).lat, JSON.parse(this.coordinatesUserSelected).lng)
+    } else {
+      console.log('koordinat gaada')
+      const locationUser = JSON.parse(this.getDataUser.currentLocation)
+      console.log('locationUser', locationUser)
+      this.center = latLng(locationUser.lat, locationUser.lng)
+      this.marker = latLng(locationUser.lat, locationUser.lng)
     }
-    this.center = latLng(this.coordinates.lat, this.coordinates.lng)
-    this.marker = latLng(this.coordinates.lat, this.coordinates.lng)
   }
 }
 </script>

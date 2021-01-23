@@ -131,7 +131,7 @@ export default {
       console.log('login room self', payload)
       this.socket.emit('loginRoomSelf', payload)
     },
-    getLocation () {
+    getCurLocation () {
       this.$getLocation()
         .then(coordinates => {
           this.coordinates = coordinates

@@ -45,7 +45,7 @@
     </div>
     <div class="settings d-flex flex-column mt-2">
       <p class="settings-title"> My Current Location :</p>
-      <LeafLetMaps :coordinates="coordinates"/>
+      <LeafLetMaps/>
     </div>
   </div>
 </template>
@@ -58,7 +58,6 @@ import mixin from '../../../../mixins/index'
 
 export default {
   name: 'Profile',
-  props: ['coordinates'],
   mixins: [mixin],
   data () {
     return {
@@ -210,9 +209,6 @@ export default {
       await this.getUserData()
       this.assignValueInput()
       this.detectChangePhoto()
-      this.$getLocation()
-        .then(coordinates => {
-        })
     } catch (error) {
       console.log('error :>> ', error)
     }

@@ -46,7 +46,7 @@
             <img src="../../../../assets/Rectangle 3.png" alt="">
           </div>
           <div v-if="menuOption ==='location'" class="location">
-          <LeafLetMaps v-if="getuserChatSelected.currentLocation" :coordinates="getuserChatSelected.currentLocation "/>
+          <LeafLetMaps v-if="getuserChatSelected.currentLocation" :coordinatesUserSelected="getuserChatSelected.currentLocation "/>
           </div>
           <div v-if="menuOption ==='documents'" class="documents"></div>
         </div>

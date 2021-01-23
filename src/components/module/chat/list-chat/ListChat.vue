@@ -192,6 +192,7 @@ export default {
         el.lastMessageTime = resultLastMessage.time
         return el
       }))
+      console.log('resultMapping', resultMapping)
       this.SET_CONTACT_LIST(resultMapping)
     },
     selectedChat (id) {

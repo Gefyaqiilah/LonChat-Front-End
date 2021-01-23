@@ -85,8 +85,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
-    ...mapMutations(['SET_USER_DATA']),
+    ...mapActions(['login', 'updateProfile']),
+    ...mapMutations(['SET_USER_DATA', 'SET_CURRENT_LOCATION']),
     showPassword () {
       const inputPassword = document.getElementById('password')
       if (inputPassword.type === 'password') {
@@ -114,6 +114,7 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
+          this.getLocation()
           this.alert('success', 'Welcome :)', 'let\'s cheer up for today', false)
           this.$router.push({ path: '/list-chat' })
         },
@@ -129,6 +130,21 @@ export default {
     },
     toSignUp () {
       this.$router.push({ path: '/auth/register' })
+    },
+    getLocation () {
+      this.$getLocation()
+        .then(coordinates => {
+          this.SET_CURRENT_LOCATION(coordinates)
+          this.updateCurrentLocation(coordinates)
+          console.log('coordinates', coordinates)
+        })
+    },
+    async updateCurrentLocation (coordinates) {
+      const data = {
+        currentLocation: JSON.stringify(coordinates)
+      }
+      const result = await this.updateProfile(data)
+      console.log('result update currentLocation', result)
     },
     alert (icon, title, text, confirmButton) {
       Swal.fire({

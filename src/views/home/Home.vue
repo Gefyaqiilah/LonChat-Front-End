@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid grid m-0 p-0 row">
     <div id="left-side" class="left-side col-sm-12 col-lg-4 pt-4 pr-4 pl-4 m-0">
-      <router-view :socket="socket" :mobileSelectedChat="mobileSelectedChat" :hideContactList="hideContactList" :updateScroll="updateScroll"  :coordinates="coordinates"></router-view>
+      <router-view :socket="socket" :mobileSelectedChat="mobileSelectedChat" :hideContactList="hideContactList" :updateScroll="updateScroll"></router-view>
     </div>
     <div id="right-side" v-if="getuserChatSelected !== null" :class="!getShowContactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show col-sm-12 col-lg-4 p-0'">
     <div class="right-side container-fluid p-0 m-0">
@@ -79,7 +79,6 @@ export default {
         message: '',
         menuOption: ''
       },
-      coordinates: null,
       showDateInfo: false,
       longPress: 0,
       intervalClick: null
@@ -132,22 +131,6 @@ export default {
         id: this.getDataUser.id
       }
       this.socket.emit('loginRoomSelf', payload)
-    },
-    getLocation () {
-      this.$getLocation()
-        .then(coordinates => {
-          this.coordinates = coordinates
-          this.SET_CURRENT_LOCATION(coordinates)
-          this.updateCurrentLocation(coordinates)
-        })
-    },
-    updateCurrentLocation (coordinates) {
-      const data = {
-        currentLocation: JSON.stringify(coordinates)
-      }
-      this.updateProfile(data)
-        .then((result) => {
-        })
     },
     mobileSelectedChat () {
       console.log('mobil')
@@ -306,7 +289,6 @@ export default {
       }
     })
     this.userChatSelected = await this.getuserChatSelected
-    await this.getLocation()
   },
   updated () {
     if (this.getuserChatSelected) {

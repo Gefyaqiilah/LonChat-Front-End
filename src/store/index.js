@@ -59,7 +59,7 @@ export default new Vuex.Store({
       state.token.accessToken = null
       state.token.refreshToken = null
       state.forgotPasswordCode = null
-      state.contactList = null
+      state.contactList = []
       state.userChatSelected = null
       state.chatMessage = []
       state.currentLocation = null
