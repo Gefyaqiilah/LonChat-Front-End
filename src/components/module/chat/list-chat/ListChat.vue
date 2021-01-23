@@ -113,6 +113,10 @@
           <DefaultPage text="Looking for friends? 🧐" class="item-chat row p-0 m-0 mb-3"/>
           <DefaultPage text="You can search for your friends by email, username and phone number" class="item-chat row p-0 m-0 mb-3"/>
           </div>
+          <div class="item-chat"  v-show="!input.searchUser && getContactList.length === 0">
+          <DefaultPage :text="'Welcome to Lon-Chat 🥳'" class="item-chat row p-0 m-0 mb-3"/>
+          <DefaultPage text="You don't have a friend contact, , get the contact now in the search column above" class="item-chat row p-0 m-0 mb-3"/>
+          </div>
         </div>
       </div>
   </div>
@@ -237,6 +241,7 @@ export default {
       this.$awn.asyncBlock(
         this.searchFriend(this.input.searchUser),
         result => {
+          console.log('result friend ', result)
           if (result.length === 0) {
             return self.$noty.error('there is no suitable friend data', {
               theme: 'relax'

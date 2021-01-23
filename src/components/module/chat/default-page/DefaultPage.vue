@@ -18,7 +18,7 @@ export default {
   font-weight: normal;
   font-size: 24px;
   line-height: 28px;
-
+  text-align:center;
   color: #848484;
 }
 </style>
