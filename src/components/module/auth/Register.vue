@@ -186,6 +186,16 @@ color: #7E98DF;
   border-radius: 0;
   border-bottom:1px solid black;
 }
+.input-name:focus {
+  border-bottom: 2px solid #7E98DF;
+}
+
+.input-email:focus {
+  border-bottom: 2px solid #7E98DF;
+}
+.input-password:focus {
+  border-bottom: 2px solid #7E98DF;
+}
 ::placeholder {
   font-family: Rubik;
   font-style: normal;
@@ -193,7 +203,7 @@ color: #7E98DF;
   font-size: 16px;
   line-height: 19px;
   /* identical to box height */
-  color: #232323 !important;
+  color: #615d5d !important;
 }
 .form-group {
   margin-bottom:35px;
@@ -201,12 +211,11 @@ color: #7E98DF;
 .input-label {
   font-family: Rubik;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 15px;
   line-height: 17px;
   /* identical to box height */
-  color: #848484;
-  opacity: 0.75;
+  color: #232323;
 }
 .form-control {
   font-family: Rubik;
@@ -219,7 +228,6 @@ color: #7E98DF;
 }
 .input-group-text {
   border: none !important;
-  border-bottom:1px solid black !important;
   border-radius: 0 !important;
   background-color: transparent !important;
 }
@@ -228,6 +236,10 @@ color: #7E98DF;
   border:none !important;
   border-radius: 0 !important;
   background-color: transparent !important;
+  border-bottom: 1px solid black !important;
+}
+.input-password:focus + .input-group-prepend {
+  border-bottom: 2px solid #7E98DF !important;
 }
 .separator {
   display: flex;
