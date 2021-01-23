@@ -109,6 +109,10 @@
                 </div>
             </div>
           </div>
+          <div class="item-chat"  v-show="input.searchUser && dataSearch.length===0">
+          <DefaultPage text="Looking for friends? 🧐" class="item-chat row p-0 m-0 mb-3"/>
+          <DefaultPage text="You can search for your friends by email, username and phone number" class="item-chat row p-0 m-0 mb-3"/>
+          </div>
         </div>
       </div>
   </div>
@@ -117,8 +121,12 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Swal from 'sweetalert2'
+import DefaultPage from '../default-page/DefaultPage'
 export default {
   name: 'ListChat',
+  components: {
+    DefaultPage
+  },
   data () {
     return {
       input: {
@@ -217,6 +225,7 @@ export default {
       this.$router.push({ path: '/auth/login' })
     },
     handleSearchFriend () {
+      const self = this
       if (!this.input.searchUser) {
         Swal.fire({
           icon: 'error',
@@ -225,10 +234,21 @@ export default {
           timer: 1500
         })
       }
-      this.searchFriend(this.input.searchUser)
-        .then((result) => {
+      this.$awn.asyncBlock(
+        this.searchFriend(this.input.searchUser),
+        result => {
+          if (result.length === 0) {
+            return self.$noty.error('there is no suitable friend data', {
+              theme: 'relax'
+            })
+          }
           this.dataSearch = result
-        })
+          console.log('result.length', result.length)
+        },
+        err => {
+          console.log('err', err)
+        }
+      )
     },
     handleAddNewFriend (friendId, name) {
       const data = {
@@ -260,6 +280,7 @@ export default {
     },
     clearSearchInput () {
       this.input.searchUser = ''
+      this.dataSearch = []
     },
     async inviteFriends () {
       const searchInput = document.getElementById('searchInput')
