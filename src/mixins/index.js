@@ -46,6 +46,51 @@ const mixins = {
           })
         }
       })
+    },
+    alertGuideProfile () {
+      Swal.mixin({
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: true,
+        progressSteps: ['1', '2', '3', '4']
+      }).queue([
+        {
+          title: '<strong>How to update your profile!</strong> 🙋‍♂️',
+          html: '<strong>I will guide you to update your personal profile<br/>Lets Get it</strong> 🚀'
+        },
+        {
+          title: '<strong>You can change your Photo Profile & Name</strong>✍',
+          imageUrl: require('../assets/header-field.png'),
+          background: '#FFFFFF',
+          imageWidth: 343,
+          imageHeight: 207,
+          imageAlt: 'Custom image'
+        },
+        {
+          title: '<strong>You can change 3 fields in form account</strong>',
+          imageUrl: require('../assets/account-field-arrow.png'),
+          background: '#FFFFFF',
+          imageWidth: 233,
+          imageHeight: 232,
+          imageAlt: 'Custom image'
+        },
+        {
+          title: '<strong>Update Example</strong>✍',
+          imageUrl: require('../assets/update-profile-page.gif'),
+          background: '#FFFFFF',
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: 'Custom image'
+        }
+      ]).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            // eslint-disable-next-line quotes
+            title: `<strong>okay let's do it right now</strong> 😎`,
+            // eslint-disable-next-line quotes
+            confirmButtonText: `Let's go! 🚀'`
+          })
+        }
+      })
     }
   }
 }

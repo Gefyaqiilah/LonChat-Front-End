@@ -7,7 +7,7 @@
       <div class="username">
         <p class="m-0">{{this.getDataUser.username}}</p>
       </div>
-      <div class="div show-guide-profile" @click="alertNewUser()">
+      <div class="div show-guide-profile" @click="alertGuideProfile()">
         <i class="fa fa-question"></i>
       </div>
     </div>
@@ -30,7 +30,7 @@
       <p class="text-left m-0 account-title">Account</p>
       <div class="phone-number mt-2"  @click="tapPhoneNumber">
         <input type="text" class="form-control text-left text shadow-none input-phone-number" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
-        <p class="text-left m-0 desc">Tap to change phone number</p>
+        <p class="text-left m-0 desc">Phone Number</p>
       </div>
       <div class="username mt-2" @click="tapUserName">
         <input type="text" class="form-control text-left text shadow-none input-username" @keyup.enter="handleUpdateProfile" v-model="input.username" id="username" value="@wdlam" disabled>
@@ -316,7 +316,7 @@ background-color:white;
   transition: font-size 1s;
 }
 .account .phone-number .desc {
-  color:#7E98DF;
+  color:#848484;
 }
 .account .phone-number .text:disabled {
   border:none;
