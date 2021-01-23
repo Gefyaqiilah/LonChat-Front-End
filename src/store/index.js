@@ -63,6 +63,7 @@ export default new Vuex.Store({
       state.userChatSelected = null
       state.chatMessage = []
       state.currentLocation = null
+      state.showContactInfo = false
     },
     SET_SHOW_CONTACT_INFO (state, payload) {
       console.log('payload kiriman', payload)

@@ -51,7 +51,7 @@
     </div>
     <!-- <MainChat id="right-side" :socket="socket" :handleBackMobile="handleBackMobile" :hideContactList="hideContactList" v-if="getuserChatSelected !== null" :class="!getShowContactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show col-sm-12 col-lg-4 p-0'"/> -->
     <ContactInfo v-if="getShowContactInfo" :menuOption="input.menuOption" class="col-sm-12 col-lg-4 p-4"/>
-    <DefaultPage v-if="getuserChatSelected === null" class="right-side col-8" text="Please select a chat to start messaging"/>
+    <DefaultPage v-if="getuserChatSelected === null" class="hide-in-mobile hide-in-medium right-side col-8" text="Please select a chat to start messaging"/>
 
   </div>
 </template>
@@ -772,7 +772,15 @@ color: #232323;
 }
 /* responsive */
 /* X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 991.98px) {
+  .hide-in-medium {
+    display: none !important;
+  }
+}
 @media (max-width: 575.98px) {
+  .hide-in-mobile {
+    display:none !important;
+  }
   .show{
     display:none;
   }
