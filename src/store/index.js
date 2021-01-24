@@ -259,6 +259,20 @@ export default new Vuex.Store({
           })
       })
     },
+    postImageChat (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        console.log('payload image chat', payload)
+        axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/messages/post-image`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+          .then((result) => {
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     interceptorRequest ({ state }, payload) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${state.token.accessToken}`

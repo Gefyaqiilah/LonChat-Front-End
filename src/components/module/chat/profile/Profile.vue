@@ -80,24 +80,28 @@ export default {
       const payload = {}
       if (target === 'phone-number') {
         if (this.input.phoneNumber === '' || this.input.phoneNumber === 'Phone number not set') {
+          this.assignValueInput()
           return this.alert('Phone number cannot empty', 'error')
         }
         inputName = 'Phone number'
         payload.phoneNumber = this.input.phoneNumber
       } else if (target === 'username') {
         if (this.input.username === '' || this.input.username === 'username not set') {
+          this.assignValueInput()
           return this.alert('Username cannot empty', 'error')
         }
         inputName = 'Username'
         payload.username = this.input.username.toLowerCase()
       } else if (target === 'bio') {
         if (this.input.bio === '' || this.input.bio === 'bio not set') {
+          this.assignValueInput()
           return this.alert('Bio cannot empty', 'error')
         }
         inputName = 'Bio'
         payload.bio = this.input.bio
       } else if (target === 'name') {
         if (this.input.name === '' || this.input.name === 'Name not set') {
+          this.assignValueInput()
           return this.alert('Name cannot empty', 'error')
         }
         inputName = 'Name'

@@ -29,8 +29,11 @@
         <div class="chat-photo-profile align-self-end">
           <img :src="message.userSenderId === getDataUser.id ? getDataUser.photoProfile : userSelectedPhotoProfile " alt="">
         </div>
-        <div class="chat-message ml-3">
+        <div class="chat-message ml-3" v-if="message.message && !message.photo">
           <p>{{message.message}}</p>
+        </div>
+        <div class="chat-image ml-3" v-if="!message.message && message.photo">
+          <img :src="message.photo" alt="">
         </div>
         <div class="time align-self-end">
           <p>{{ message.time }} </p>
@@ -41,11 +44,15 @@
     </div>
     </div>
     <div class="type-message pl-4 pr-4 w-100">
-        <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus form-control shadow-none" id="input-message">
+        <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus input-message form-control shadow-none" id="input-message">
+        <input type="file" name="" @change="sendImage" class="d-none" id="input-image">
         <div class="icon">
-        <img src="../../assets/Plus.png" alt="">
-        <img src="../../assets/Vector (2).png" alt="">
-        <img src="../../assets/Group 181.png" alt="">
+          <label for="">
+            <img src="../../assets/Vector (2).png" alt="">
+          </label>
+          <label for="input-image">
+            <img src="../../assets/Group 181.png" alt="">
+          </label>
         </div>
     </div>
     </div>
@@ -85,9 +92,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getFriendsData', 'updateProfile', 'readMessage', 'deleteAllMessage']),
+    ...mapActions(['getFriendsData', 'updateProfile', 'readMessage', 'deleteAllMessage', 'postImageChat']),
     ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
     updateScroll (as) {
+      console.log('terpanggil')
       const element = document.getElementById('list-chat')
       element.scrollTop = element.scrollHeight - element.clientHeight
     },
@@ -113,6 +121,7 @@ export default {
         const data = {
           message: this.input.message,
           userSenderId: this.getDataUser.id,
+          photo: null,
           senderName: this.getDataUser.name,
           time: moment(new Date()).format('LT'),
           userReceiverId: this.getuserChatSelected.id
@@ -124,6 +133,27 @@ export default {
           this.updateScroll()
           this.input.message = ''
         })
+      }
+    },
+    async sendImage () {
+      const image = document.getElementById('input-image').files[0]
+      const form = new FormData()
+      console.log('image', image)
+      form.append('photo', image)
+      form.append('userReceiverId', this.getuserChatSelected.id)
+      form.append('time', moment(new Date()).format('LT'))
+      try {
+        const result = await this.postImageChat(form)
+        this.socket.emit('personalChat', result, async (message) => {
+          const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
+          audio.play()
+          await this.PUSH_CHAT_MESSAGE(message)
+          setTimeout(() => this.updateScroll(), 1000)
+          // this.updateScroll()
+          document.getElementById('input-image').value = ''
+        })
+      } catch (error) {
+        console.log('error sendImage', error)
       }
     },
     loginRoomSelf () {
@@ -271,11 +301,18 @@ export default {
     this.socket.on('receiveMessage', async (data) => {
       if (data.userSenderId === this.getDataUser.id || data.userSenderId === this.getuserChatSelected.id) {
         if (data.userReceiverId === this.getDataUser.id || data.userReceiverId === this.getuserChatSelected.id) {
-          await this.PUSH_CHAT_MESSAGE(data)
-          this.updateScroll()
+          console.log('data receive message', data)
+          this.PUSH_CHAT_MESSAGE(data)
+          if (data.photo) {
+            console.log('tunggu dulu')
+            setTimeout(() => self.updateScroll(), 1000)
+          } else {
+            self.updateScroll()
+          }
           await this.readMessage({ userSenderId: data.userSenderId, userReceiverId: data.userReceiverId })
           const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
           audio.play()
+          self.updateScroll()
         }
       } else {
         this.$noty.info('new message from ' + data.senderName + ': " ' + data.message.substring(0, 15) + ' "', {
@@ -546,6 +583,34 @@ color: #232323;
 
 color: #FFFFFF;
 }
+.chat-item-receiver .chat-image {
+  background: #7E98DF;
+  border-radius: 35px 35px 35px 10px;
+  padding: 17px 33px;
+  width: max-content;
+  max-width: 70%;
+  height:max-content;
+}
+.chat-item-receiver .chat-image img{
+width:100%;
+height:100%;
+object-fit: contain;
+border-radius:10px;
+}
+.chat-item-sender .chat-image {
+  background: #ffffff;
+  border-radius: 35px 35px 35px 10px;
+  padding: 17px 33px;
+  width: max-content;
+  max-width: 70%;
+  height:max-content;
+}
+.chat-item-sender .chat-image img{
+width:100%;
+height:100%;
+object-fit: contain;
+border-radius:10px;
+}
 .chat-item-receiver .chat-message p {
   word-wrap: break-word;
 }
@@ -581,12 +646,12 @@ color: #232323;
   bottom: 10px;
   height: max-content;
 }
-.type-message input{
+.type-message .input-message{
  width:100%;
  height:60px;
  background: #FAFAFA;
 border-radius: 15px;
-padding: 0 0 0 110px;
+padding: 0 0 0 70px;
 
 font-family: Rubik;
 font-style: normal;
