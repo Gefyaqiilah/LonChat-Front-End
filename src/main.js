@@ -13,7 +13,9 @@ import VueGeolocation from 'vue-browser-geolocation'
 import VueNoty from 'vuejs-noty'
 import 'vuejs-noty/dist/vuejs-noty.css'
 import VueAWN from 'vue-awesome-notifications'
+import { EmojiPickerPlugin } from 'vue-emoji-picker'
 
+Vue.use(EmojiPickerPlugin)
 Vue.use(VueAWN)
 Vue.use(VueNoty)
 Vue.use(VueGeolocation)

@@ -310,7 +310,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getContactList', 'getDataUser', 'getUserChat', 'getChatMessage'])
+    ...mapGetters(['getContactList', 'getuserChatSelected', 'getDataUser', 'getUserChat', 'getChatMessage'])
   },
   async mounted () {
     this.handleGetFriendsData()
