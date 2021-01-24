@@ -54,15 +54,15 @@
         <div class="menu-message-status container-fluid p-0 m-0 mt-3 d-flex">
           <div class="col-4 p-2">
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="all" class="option-status" id="all">
-          <label for="all" class="label-option">All</label>
+          <label for="all" @click="chooseOptionStatus" class="label-option">All</label>
           </div>
           <div class="col-4 p-2">
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="important" class="option-status" id="important">
-          <label for="important" class="label-option">Important</label>
+          <label for="important" @click="chooseOptionStatus" class="label-option">Important</label>
           </div>
           <div class="col-4 p-2">
           <input type="radio" name="option-status" v-model="input.optionMenuStatus" value="unread" class="option-status" id="unread">
-          <label for="unread" class="label-option">Unread</label>
+          <label for="unread" @click="chooseOptionStatus" class="label-option">Unread</label>
           </div>
         </div>
       </div>
@@ -190,10 +190,17 @@ export default {
         el.message = resultMessage ? resultMessage.substring(0, 20) + '......' : resultMessage
         el.unreadMessage = resultLastMessage.unreadMessage
         el.lastMessageTime = resultLastMessage.time
+        el.LastMessageTimeStamp = resultLastMessage.createdAt
         return el
       }))
       console.log('resultMapping', resultMapping)
-      this.SET_CONTACT_LIST(resultMapping)
+      const sortingResult = resultMapping.sort((a, b) => {
+        return new Date(b.LastMessageTimeStamp) - new Date(a.LastMessageTimeStamp)
+      })
+      this.SET_CONTACT_LIST(sortingResult)
+      return new Promise((resolve, reject) => {
+        resolve(resultMapping)
+      })
     },
     selectedChat (id) {
       this.getUserChatSelected(id)
@@ -307,6 +314,24 @@ export default {
       const menu = document.getElementById('show-menu')
       menu.style.display = 'none'
       searchInput.focus()
+    },
+    chooseOptionStatus (e) {
+      setTimeout(async () => {
+        const copyContactList = [...this.getContactList]
+        console.log('copyContactList', copyContactList)
+        if (this.input.optionMenuStatus === 'all') {
+          return await this.handleGetFriendsData()
+        } else if (this.input.optionMenuStatus === 'important') {
+          console.log('ini important')
+        } else if (this.input.optionMenuStatus === 'unread') {
+          await this.handleGetFriendsData()
+          const sorting = copyContactList.sort((a, b) => {
+            return b.unreadMessage - a.unreadMessage
+          })
+          console.log('sorting', sorting)
+          return this.SET_CONTACT_LIST(sorting)
+        }
+      }, 300)
     }
   },
   computed: {

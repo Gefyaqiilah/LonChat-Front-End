@@ -85,7 +85,6 @@
         </div>
     </div>
     </div>
-    <!-- <MainChat id="right-side" :socket="socket" :handleBackMobile="handleBackMobile" :hideContactList="hideContactList" v-if="getuserChatSelected !== null" :class="!getShowContactInfo ? 'right-side show col-sm-12 col-lg-8 p-0' : 'right-side show col-sm-12 col-lg-4 p-0'"/> -->
     <ContactInfo v-if="getShowContactInfo" :menuOption="input.menuOption" class="col-sm-12 col-lg-4 p-4"/>
     <DefaultPage v-if="getuserChatSelected === null" class="hide-in-mobile hide-in-medium right-side col-8" text="Please select a chat to start messaging"/>
 
@@ -99,7 +98,6 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import DefaultPage from '../../components/module/chat/default-page/DefaultPage'
 import ContactInfo from '../../components/module/chat/contact-info/ContactInfo'
-// import MainChat from '../../components/module/chat/main-chat/MainChat'
 
 export default {
   name: 'Home',
