@@ -93,7 +93,6 @@ export default {
     },
     directChat () {
       if (screen.width <= 576) {
-        console.log('576')
         this.SET_SHOW_CONTACT_INFO(false)
         this.hideContactList()
       } else {

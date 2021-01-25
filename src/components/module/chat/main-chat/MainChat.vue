@@ -86,7 +86,6 @@ export default {
       return moment(createdAt).format('LL')
     },
     showContactInfo () {
-      console.log('this.getShowContactInfo', this.getShowContactInfo)
       if (screen.width <= 576) {
         if (this.getShowContactInfo) {
           this.hideContactList()
@@ -128,7 +127,6 @@ export default {
       const payload = {
         id: this.getDataUser.id
       }
-      console.log('login room self', payload)
       this.socket.emit('loginRoomSelf', payload)
     },
     getCurLocation () {
@@ -168,7 +166,6 @@ export default {
           this.$awn.asyncBlock(
             this.deleteAllMessage({ userSenderId: this.getDataUser.id, userReceiverId: this.getuserChatSelected.id }),
             resp => {
-              console.log(resp)
               this.SET_CHAT_MESSAGE([])
               this.alert('success', 'All Message Deleted', 'now your history chat message will be empty', false)
             },

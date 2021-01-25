@@ -120,10 +120,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getFriendsData', 'updateProfile', 'readMessage', 'deleteAllMessage', 'postImageChat']),
-    ...mapMutations(['SET_CHAT_MESSAGE', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
+    ...mapActions(['getFriendsData', 'getLastMessage', 'updateProfile', 'readMessage', 'deleteAllMessage', 'postImageChat']),
+    ...mapMutations(['SET_CHAT_MESSAGE', 'SET_CONTACT_LIST', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
     updateScroll (as) {
-      console.log('terpanggil')
       const element = document.getElementById('list-chat')
       element.scrollTop = element.scrollHeight - element.clientHeight
     },
@@ -166,7 +165,6 @@ export default {
     async sendImage () {
       const image = document.getElementById('input-image').files[0]
       const form = new FormData()
-      console.log('image', image)
       form.append('photo', image)
       form.append('userReceiverId', this.getuserChatSelected.id)
       form.append('time', moment(new Date()).format('LT'))
@@ -191,7 +189,6 @@ export default {
       this.socket.emit('loginRoomSelf', payload)
     },
     mobileSelectedChat () {
-      console.log('mobil')
       if (document.getElementById('right-side').classList.contains('show')) {
         document.getElementById('right-side').classList.remove('show')
       } else {
@@ -233,7 +230,6 @@ export default {
           this.$awn.asyncBlock(
             this.deleteAllMessage({ userSenderId: this.getDataUser.id, userReceiverId: this.getuserChatSelected.id }),
             resp => {
-              console.log(resp)
               this.SET_CHAT_MESSAGE([])
               this.alert('success', 'All Message Deleted', 'now your history chat message will be empty', false)
             },
@@ -272,9 +268,41 @@ export default {
         }
       })
     },
+    async handleGetFriendsData () {
+      const self = this
+      const result = await this.getFriendsData(this.getDataUser.id)
+      if (result.length === 0) {
+        if (!this.getContactList) {
+          this.alertNewUser()
+        }
+      }
+      const resultMapping = await Promise.all(result.map(async (el) => {
+        const resultLastMessage = await self.getLastMessage(el.id)
+        const resultMessage = resultLastMessage.message
+        if (resultLastMessage.unreadMessage > 0) {
+          this.$noty.info('You have new message from ' + el.name + ' go checkout now !', {
+            killer: true,
+            timeout: 6000,
+            layout: 'topRight',
+            theme: 'mint'
+          })
+        }
+        el.message = resultMessage ? resultMessage.substring(0, 20) + '......' : resultMessage
+        el.unreadMessage = resultLastMessage.unreadMessage
+        el.lastMessageTime = resultLastMessage.time
+        el.LastMessageTimeStamp = resultLastMessage.createdAt || 0
+        return el
+      }))
+      const sortingResult = resultMapping.sort((a, b) => {
+        return new Date(b.LastMessageTimeStamp) - new Date(a.LastMessageTimeStamp)
+      })
+      this.SET_CONTACT_LIST(sortingResult)
+      return new Promise((resolve, reject) => {
+        resolve(resultMapping)
+      })
+    },
     directChat () {
       if (screen.width <= 576) {
-        console.log('576')
         this.SET_SHOW_CONTACT_INFO(false)
         this.hideContactList()
       } else {
@@ -339,10 +367,8 @@ export default {
     this.socket.on('receiveMessage', async (data) => {
       if (data.userSenderId === this.getDataUser.id || data.userSenderId === this.getuserChatSelected.id) {
         if (data.userReceiverId === this.getDataUser.id || data.userReceiverId === this.getuserChatSelected.id) {
-          console.log('data receive message', data)
           this.PUSH_CHAT_MESSAGE(data)
           if (data.photo) {
-            console.log('tunggu dulu')
             setTimeout(() => self.updateScroll(), 1000)
           } else {
             self.updateScroll()
@@ -353,6 +379,7 @@ export default {
           self.updateScroll()
         }
       } else {
+        self.handleGetFriendsData()
         this.$noty.info('new message from ' + data.senderName + ': " ' + data.message.substring(0, 15) + ' "', {
           killer: true,
           timeout: 6000,

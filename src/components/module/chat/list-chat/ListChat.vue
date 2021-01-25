@@ -170,6 +170,7 @@ export default {
       this.$router.push({ path: '/profile' })
     },
     async handleGetFriendsData () {
+      console.log('terpanggil')
       const result = await this.getFriendsData(this.getDataUser.id)
       if (result.length === 0) {
         if (!this.getContactList) {
@@ -193,11 +194,11 @@ export default {
         el.LastMessageTimeStamp = resultLastMessage.createdAt || 0
         return el
       }))
-      console.log('resultMapping', resultMapping)
       const sortingResult = resultMapping.sort((a, b) => {
         return new Date(b.LastMessageTimeStamp) - new Date(a.LastMessageTimeStamp)
       })
       this.SET_CONTACT_LIST(sortingResult)
+      console.log('sortingResult', sortingResult)
       return new Promise((resolve, reject) => {
         resolve(resultMapping)
       })
@@ -225,6 +226,7 @@ export default {
               }
               this.SET_CHAT_MESSAGE(result)
               await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
+              await this.handleGetFriendsData()
               this.getContactList.map(el => {
                 if (el.id === id) {
                   el.unreadMessage = 0
@@ -263,14 +265,12 @@ export default {
       this.$awn.asyncBlock(
         this.searchFriend(this.input.searchUser),
         result => {
-          console.log('result friend ', result)
           if (result.length === 0) {
             return self.$noty.error('there is no suitable friend data', {
               theme: 'relax'
             })
           }
           this.dataSearch = result
-          console.log('result.length', result.length)
         },
         err => {
           console.log('err', err)
@@ -318,17 +318,14 @@ export default {
     chooseOptionStatus (e) {
       setTimeout(async () => {
         const copyContactList = [...this.getContactList]
-        console.log('copyContactList', copyContactList)
         if (this.input.optionMenuStatus === 'all') {
           return await this.handleGetFriendsData()
         } else if (this.input.optionMenuStatus === 'important') {
-          console.log('ini important')
         } else if (this.input.optionMenuStatus === 'unread') {
           await this.handleGetFriendsData()
           const sorting = copyContactList.sort((a, b) => {
             return b.unreadMessage - a.unreadMessage
           })
-          console.log('sorting', sorting)
           return this.SET_CONTACT_LIST(sorting)
         }
       }, 300)

@@ -136,15 +136,13 @@ export default {
         .then(coordinates => {
           this.SET_CURRENT_LOCATION(coordinates)
           this.updateCurrentLocation(coordinates)
-          console.log('coordinates', coordinates)
         })
     },
     async updateCurrentLocation (coordinates) {
       const data = {
         currentLocation: JSON.stringify(coordinates)
       }
-      const result = await this.updateProfile(data)
-      console.log('result update currentLocation', result)
+      await this.updateProfile(data)
     },
     alert (icon, title, text, confirmButton) {
       Swal.fire({

@@ -48,9 +48,7 @@ export default {
       this.center = latLng(JSON.parse(this.coordinatesUserSelected).lat, JSON.parse(this.coordinatesUserSelected).lng)
       this.marker = latLng(JSON.parse(this.coordinatesUserSelected).lat, JSON.parse(this.coordinatesUserSelected).lng)
     } else {
-      console.log('koordinat gaada')
       const locationUser = JSON.parse(this.getDataUser.currentLocation)
-      console.log('locationUser', locationUser)
       this.center = latLng(locationUser.lat, locationUser.lng)
       this.marker = latLng(locationUser.lat, locationUser.lng)
     }
