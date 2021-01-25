@@ -190,7 +190,7 @@ export default {
         el.message = resultMessage ? resultMessage.substring(0, 20) + '......' : resultMessage
         el.unreadMessage = resultLastMessage.unreadMessage
         el.lastMessageTime = resultLastMessage.time
-        el.LastMessageTimeStamp = resultLastMessage.createdAt
+        el.LastMessageTimeStamp = resultLastMessage.createdAt || 0
         return el
       }))
       console.log('resultMapping', resultMapping)
