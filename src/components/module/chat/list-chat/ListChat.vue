@@ -170,7 +170,6 @@ export default {
       this.$router.push({ path: '/profile' })
     },
     async handleGetFriendsData () {
-      console.log('terpanggil')
       const result = await this.getFriendsData(this.getDataUser.id)
       if (result.length === 0) {
         if (!this.getContactList) {
@@ -198,7 +197,6 @@ export default {
         return new Date(b.LastMessageTimeStamp) - new Date(a.LastMessageTimeStamp)
       })
       this.SET_CONTACT_LIST(sortingResult)
-      console.log('sortingResult', sortingResult)
       return new Promise((resolve, reject) => {
         resolve(resultMapping)
       })
