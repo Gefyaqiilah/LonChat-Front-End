@@ -6,7 +6,7 @@ const mixins = {
       Swal.mixin({
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
-        progressSteps: ['1', '2', '3', '4']
+        progressSteps: ['1', '2', '3', '4', '5']
       }).queue([
         {
           title: '<strong>Hello!</strong> 🙋‍♂️',
@@ -19,6 +19,11 @@ const mixins = {
           imageWidth: 400,
           imageHeight: 200,
           imageAlt: 'Custom image'
+        },
+        {
+          title: '<strong>Remember!</strong> 👨‍🏫',
+          html: `<strong>To be able to chat with each other.
+you and your friends must add friends each other.</strong>`
         },
         {
           title: '<strong>Update profile</strong>✍',

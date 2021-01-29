@@ -22,22 +22,22 @@
         </label>
       </div>
       <div class="name mx-auto mt-1"  @click="tapName">
-        <input type="text" class="form-control text-center fullname shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.name" id="name" value="+375(29)9638433" disabled>
+        <input type="text" class="cursor-pointer form-control text-center fullname shadow-none" @keyup.enter="handleUpdateProfile" v-model="input.name" id="name" value="+375(29)9638433" disabled>
         <p class="text-center m-0 username">{{this.getDataUser.username}}</p>
       </div>
     </div>
     <div class="account d-flex flex-column mt-4">
       <p class="text-left m-0 account-title">Account</p>
       <div class="phone-number mt-2"  @click="tapPhoneNumber">
-        <input type="text" class="form-control text-left text shadow-none input-phone-number" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
+        <input type="text" class="cursor-pointer form-control text-left text shadow-none input-phone-number" @keyup.enter="handleUpdateProfile" v-model="input.phoneNumber" id="phone-number" value="+375(29)9638433" disabled>
         <p class="text-left m-0 desc">Phone Number</p>
       </div>
       <div class="username mt-2" @click="tapUserName">
-        <input type="text" class="form-control text-left text shadow-none input-username" @keyup.enter="handleUpdateProfile" v-model="input.username" id="username" value="@wdlam" disabled>
+        <input type="text" class="cursor-pointer form-control text-left text shadow-none input-username" @keyup.enter="handleUpdateProfile" v-model="input.username" id="username" value="@wdlam" disabled>
         <p class="text-left m-0 desc">Username</p>
       </div>
       <div class="bio mt-2" @click="tapBio">
-        <input type="text" class="form-control text-left text shadow-none input-bio" @keyup.enter="handleUpdateProfile" v-model="input.bio" id="bio" value="bio not set" disabled>
+        <input type="text" class="cursor-pointer form-control text-left text shadow-none input-bio" @keyup.enter="handleUpdateProfile" v-model="input.bio" id="bio" value="bio not set" disabled>
         <p class="text-left m-0 desc">
           Bio
         </p>
@@ -257,8 +257,14 @@ color: #232323;
 }
 .profile .name .fullname:focus {
   /* border: 1px solid #7E98DF; */
-  background-color:rgb(126,152,223);
+  background-color:rgb(126,152,223) !important;
   color: white;
+  font-size: 17px;
+}
+.profile .name .fullname:hover {
+  /* border: 1px solid #7E98DF; */
+  background-color:rgb(126,152,223) !important;
+  color: white !important;
   font-size: 17px;
 }
 .profile .name .fullname:disabled {
@@ -329,6 +335,12 @@ background-color:white;
   font-size: 15px;
   padding: 5px !important;
 }
+.input-phone-number:hover {
+  background-color:#7E98DF !important;
+  color: white !important;
+  font-size: 15px;
+  padding: 5px !important;
+}
 
 .account .username {
   font-family: Rubik;
@@ -346,6 +358,12 @@ background-color:white;
 }
 .account .username .text:focus {
   background-color:#7E98DF;
+  color: white !important;
+  font-size: 15px;
+  padding: 5px;
+}
+.account .username .text:hover {
+  background-color:#7E98DF !important;
   color: white !important;
   font-size: 15px;
   padding: 5px;
@@ -374,6 +392,12 @@ background-color:white;
 }
 .account .bio .text:focus {
   background-color:#7E98DF;
+  color: white !important;
+  font-size: 15px;
+  padding: 5px !important;
+}
+.account .bio .text:hover {
+  background-color:#7E98DF !important;
   color: white !important;
   font-size: 15px;
   padding: 5px !important;
@@ -459,6 +483,9 @@ font-size:20px !important;
 .show-guide-profile {
   color: #7E98DF;
   font-size:20px;
+  cursor: pointer;
+}
+.cursor-pointer {
   cursor: pointer;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="p-0 m-0">
           <div class="left-side-header p-0 m-0">
         <div class="title d-flex m-0 justify-content-between">
-          <p class="p-0 m-0 title-text">Lon-Chat</p>
+          <p class="p-0 m-0 title-text cursor-pointer">Lon-Chat</p>
           <div class="menu-icon">
           <img class="m-0 p-0" @click="showMenu" src="../../../../assets/Menu.png" alt="">
           </div>
@@ -171,11 +171,6 @@ export default {
     },
     async handleGetFriendsData () {
       const result = await this.getFriendsData(this.getDataUser.id)
-      if (result.length === 0) {
-        if (!this.getContactList) {
-          this.alertNewUser()
-        }
-      }
       const resultMapping = await Promise.all(result.map(async (el) => {
         const resultLastMessage = await this.getLastMessage(el.id)
         const resultMessage = resultLastMessage.message
@@ -223,7 +218,7 @@ export default {
                 this.hideContactList()
               }
               this.SET_CHAT_MESSAGE(result)
-              this.SET_CHAT_IMAGE(result.filter(value => value.photo !== null))
+              this.SET_CHAT_IMAGE(this.getChatMessage.filter(value => value.photo !== null))
               await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
               await this.handleGetFriendsData()
               this.getContactList.map(el => {
@@ -757,6 +752,9 @@ export default {
   border-radius:50%;
   height:50px;
   width:50px;
+  cursor: pointer;
+}
+.cursor-pointer {
   cursor: pointer;
 }
 @media screen and (max-width: 575.98px) {

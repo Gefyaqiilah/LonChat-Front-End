@@ -2,7 +2,7 @@
   <div class="login container p-5">
     <div class="card-header container-fluid row m-0 p-0">
       <div class="col-4 pt-3 p-0">
-        <img src="../../../assets/back.png" alt="">
+        <!-- <img src="../../../assets/back.png" alt=""> -->
       </div>
       <div class="col-8 pt-3">
         <p class="card-header-title">Login</p>
@@ -259,7 +259,6 @@ color: #7E98DF;
   line-height: 34px;
   text-align: center;
   letter-spacing: -0.165px;
-  cursor: pointer;
   color: #313131;
 }
 .sign-up .purple {

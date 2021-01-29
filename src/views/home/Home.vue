@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     ...mapActions(['getFriendsData', 'getLastMessage', 'updateProfile', 'readMessage', 'deleteAllMessage', 'postImageChat']),
-    ...mapMutations(['SET_CHAT_MESSAGE', 'SET_CONTACT_LIST', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
+    ...mapMutations(['SET_CHAT_MESSAGE', 'SET_CHAT_IMAGE', 'SET_CONTACT_LIST', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
       element.scrollTop = element.scrollHeight - element.clientHeight
@@ -176,6 +176,7 @@ export default {
           audio.play()
           await this.PUSH_CHAT_MESSAGE(message)
           setTimeout(() => this.updateScroll(), 1000)
+          this.SET_CHAT_IMAGE(this.getChatMessage.filter(value => value.photo !== null))
           document.getElementById('input-message').focus()
           document.getElementById('input-image').value = ''
         })
@@ -219,7 +220,7 @@ export default {
     },
     async handleDeleteAllMessage () {
       Swal.fire({
-        title: 'Delete All Message Sender ?',
+        title: 'Delete All Message ?',
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
@@ -272,11 +273,6 @@ export default {
     async handleGetFriendsData () {
       const self = this
       const result = await this.getFriendsData(this.getDataUser.id)
-      if (result.length === 0) {
-        if (!this.getContactList) {
-          this.alertNewUser()
-        }
-      }
       const resultMapping = await Promise.all(result.map(async (el) => {
         const resultLastMessage = await self.getLastMessage(el.id)
         const resultMessage = resultLastMessage.message
@@ -369,6 +365,7 @@ export default {
       if (data.userSenderId === this.getDataUser.id || data.userSenderId === this.getuserChatSelected.id) {
         if (data.userReceiverId === this.getDataUser.id || data.userReceiverId === this.getuserChatSelected.id) {
           this.PUSH_CHAT_MESSAGE(data)
+          this.SET_CHAT_IMAGE(this.getChatMessage.filter(value => value.photo !== null))
           if (data.photo) {
             setTimeout(() => self.updateScroll(), 1000)
           } else {
