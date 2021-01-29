@@ -14,7 +14,14 @@ import VueNoty from 'vuejs-noty'
 import 'vuejs-noty/dist/vuejs-noty.css'
 import VueAWN from 'vue-awesome-notifications'
 import { EmojiPickerPlugin } from 'vue-emoji-picker'
+import VueLazyload from 'vue-lazyload'
 
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: '/img/error-image2.jpg',
+  loading: '/img/img-loading3.gif',
+  attempt: 1
+})
 Vue.use(EmojiPickerPlugin)
 Vue.use(VueAWN)
 Vue.use(VueNoty)

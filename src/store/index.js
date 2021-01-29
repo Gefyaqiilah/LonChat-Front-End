@@ -185,6 +185,7 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/friends/${payload}`)
           .then((result) => {
+            console.log('friends', result.data.result)
             resolve(result.data.result.friends)
           }).catch((err) => {
             reject(err)

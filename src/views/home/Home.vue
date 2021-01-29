@@ -14,12 +14,12 @@
            <img :src="userSelectedPhotoProfile" @click="showContactInfo" class="cursor-pointer">
         </div>
         <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
-          <p class="name m-0 align-items-start text-left">{{ getuserChatSelected.name }}</p>
+          <p @click="showContactInfo" class="name cursor-pointer m-0 align-items-start text-left">{{ getuserChatSelected.name }}</p>
           <p class="status m-0 align-items-end text-left">{{ getuserChatSelected.status }}</p>
         </div>
       </div>
-        <div class="clear-chat align-self-top">
-          <img @click="handleDeleteAllMessage" src="../../assets/Trash.png" alt="">
+        <div class="clear-chat align-self-top" @click="handleDeleteAllMessage" >
+          <img src="../../assets/Trash.png" alt="">
         </div>
     </div>
     <div class="right-side-body p-4" id="list-chat"  >
@@ -33,7 +33,7 @@
           <p>{{message.message}}</p>
         </div>
         <div class="chat-image ml-3" v-if="!message.message && message.photo">
-          <img :src="message.photo" alt="">
+          <img v-lazy="message.photo" alt="">
         </div>
         <div class="time align-self-end">
           <p>{{ message.time }} </p>
@@ -85,7 +85,7 @@
         </div>
     </div>
     </div>
-    <ContactInfo v-if="getShowContactInfo" :menuOption="input.menuOption" class="col-sm-12 col-lg-4 p-4"/>
+    <ContactInfo v-show="getShowContactInfo" id="transition" :menuOption="input.menuOption" class="transition col-sm-12 col-lg-4 p-4"/>
     <DefaultPage v-if="getuserChatSelected === null" class="hide-in-mobile hide-in-medium right-side col-8" text="Please select a chat to start messaging"/>
 
   </div>
@@ -137,7 +137,13 @@ export default {
       } else {
         if (this.getShowContactInfo) {
           this.SET_SHOW_CONTACT_INFO(false)
+          // document.getElementById('transition').classList.remove('transition-click')
+          document.getElementById('transition').style.opacity = '0'
+          document.getElementById('transition').style.visibility = 'hidden'
         } else {
+          document.getElementById('transition').style.opacity = '1'
+          document.getElementById('transition').style.visibility = 'visible'
+
           this.SET_SHOW_CONTACT_INFO(true)
         }
       }
@@ -404,6 +410,19 @@ export default {
 /* * {
   border: 1px solid red;
 } */
+.transition {
+  visibility: hidden;
+  opacity:0;
+  transition: display 600ms, visibility 600ms;
+}
+/* .transition-click {
+  visibility: visible !important;
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+} */
+.left-side{
+  background-color:#FFFFFF;
+}
 .grid {
   height:100vh;
 }
@@ -415,6 +434,11 @@ export default {
   width:100%;
   height:100%;
   object-fit: cover;
+  border-radius: 20px;
+  transition: border 600ms ease-in;
+}
+.photo-profile img:hover {
+  border:3px solid transparent;
   border-radius: 20px;
 }
 .title-text {
