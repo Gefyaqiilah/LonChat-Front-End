@@ -20,6 +20,7 @@ export default new Vuex.Store({
     contactList: [],
     userChatSelected: null,
     chatMessage: [],
+    chatImage: [],
     currentLocation: null,
     showContactInfo: false
   },
@@ -29,6 +30,9 @@ export default new Vuex.Store({
   mutations: {
     SET_USER_DATA (state, payload) {
       state.userData = payload
+    },
+    SET_CHAT_IMAGE (state, payload) {
+      state.chatImage = payload
     },
     SET_ACCESS_TOKEN (state, payload) {
       state.token.accessToken = payload
@@ -126,7 +130,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
         axios.patch(`${process.env.VUE_APP_SERVICE_API}/v1/users/photo-profile/${context.state.userData.id}`, payload, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+          headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Methods': 'GET, POST, PATCH' }
         })
           .then((result) => {
             context.dispatch('getUserData')
@@ -336,6 +340,9 @@ export default new Vuex.Store({
     },
     getShowContactInfo ({ showContactInfo }) {
       return showContactInfo
+    },
+    getChatImage (state) {
+      return state.chatImage
     }
   },
   modules: {

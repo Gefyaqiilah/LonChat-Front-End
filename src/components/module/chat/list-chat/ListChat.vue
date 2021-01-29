@@ -71,7 +71,7 @@
           <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-4">
             <div class="photo-profile col-2 p-0 m-0">
               <div class="photo">
-              <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
+              <img v-lazy="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
               </div>
               <div class="online" v-if="contact.status === 'online'">
               </div>
@@ -96,7 +96,7 @@
           <div v-show="input.searchUser" v-for="(contact, index) in dataSearch" :key="index" class="item-chat row p-0 m-0 mb-3">
             <div class="photo-profile col-2 p-0 m-0">
               <div class="photo">
-              <img :src="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
+              <img v-lazy="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
               </div>
               <div class="online" v-if="contact.status ==='online'">
               </div>
@@ -155,7 +155,7 @@ export default {
   props: ['socket', 'updateScroll', 'mobileSelectedChat', 'hideContactList'],
   methods: {
     ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend', 'readMessage', 'getLastMessage']),
-    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE', 'SET_CONTACT_LIST']),
+    ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_IMAGE', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE', 'SET_CONTACT_LIST']),
     showMenu () {
       const menu = document.getElementById('show-menu')
       if (this.showMenuProfile) {
@@ -223,6 +223,7 @@ export default {
                 this.hideContactList()
               }
               this.SET_CHAT_MESSAGE(result)
+              this.SET_CHAT_IMAGE(result.filter(value => value.photo !== null))
               await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
               await this.handleGetFriendsData()
               this.getContactList.map(el => {

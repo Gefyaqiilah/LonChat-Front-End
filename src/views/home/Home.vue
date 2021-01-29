@@ -11,7 +11,7 @@
           <img src="../../assets/back.png" alt="">
         </div>
         <div class="photo-profile">
-           <img :src="userSelectedPhotoProfile" @click="showContactInfo" class="cursor-pointer">
+           <img v-lazy="userSelectedPhotoProfile" @click="showContactInfo" class="cursor-pointer">
         </div>
         <div class="detail-profile m-0 p-0 ml-4 d-flex flex-column justify-content-between">
           <p @click="showContactInfo" class="name cursor-pointer m-0 align-items-start text-left">{{ getuserChatSelected.name }}</p>
@@ -138,12 +138,7 @@ export default {
         if (this.getShowContactInfo) {
           this.SET_SHOW_CONTACT_INFO(false)
           // document.getElementById('transition').classList.remove('transition-click')
-          document.getElementById('transition').style.opacity = '0'
-          document.getElementById('transition').style.visibility = 'hidden'
         } else {
-          document.getElementById('transition').style.opacity = '1'
-          document.getElementById('transition').style.visibility = 'visible'
-
           this.SET_SHOW_CONTACT_INFO(true)
         }
       }
@@ -407,19 +402,6 @@ export default {
 </script>
 
 <style scoped>
-/* * {
-  border: 1px solid red;
-} */
-.transition {
-  visibility: hidden;
-  opacity:0;
-  transition: display 600ms, visibility 600ms;
-}
-/* .transition-click {
-  visibility: visible !important;
-  opacity: 1;
-  transition: opacity 600ms ease-in;
-} */
 .left-side{
   background-color:#FFFFFF;
 }
@@ -435,6 +417,7 @@ export default {
   height:100%;
   object-fit: cover;
   border-radius: 20px;
+  transition: border 600ms ease-in;
   transition: border 600ms ease-in;
 }
 .photo-profile img:hover {

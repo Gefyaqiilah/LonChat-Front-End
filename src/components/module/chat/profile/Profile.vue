@@ -16,7 +16,7 @@
         <input type="file" name="" id="input-photo-profile" accept="image/png,image/gif,image/jpeg,/image/jpg">
         <label for="input-photo-profile">
           <div class="img">
-            <img id="photo-profile" :src="defaultImage" alt="">
+            <img id="photo-profile" v-lazy="defaultImage" alt="">
             <i class="fa fa-edit icon-edit-image"><span class="edit-text">Edit</span></i>
           </div>
         </label>
@@ -202,7 +202,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getDataUser']),
+    ...mapGetters(['getDataUser', 'getChatImage']),
     defaultImage () {
       // eslint-disable-next-line quotes
       return this.getDataUser.photoProfile ? this.getDataUser.photoProfile : "/img/user-avatar.png"

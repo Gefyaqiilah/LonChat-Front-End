@@ -38,12 +38,10 @@
           <label for="documents" class="cursor-pointer d-flex align-items-center justify-content-center">Documents</label>
         </div>
         <div class="menu-option">
-          <div v-if="menuOption === 'image'" class="image d-flex d-flex justify-content-around">
-            <img src="../../../../assets/Rectangle 3.png" alt="">
-            <img src="../../../../assets/Rectangle 3.png" alt="">
-            <img src="../../../../assets/Rectangle 3.png" alt="">
-            <img src="../../../../assets/Rectangle 3.png" alt="">
-            <img src="../../../../assets/Rectangle 3.png" alt="">
+          <div v-if="menuOption === 'image'" class="image d-flex flex-wrap justify-content-center">
+            <div class="item-image" v-for="(message, index) in getChatImage" :key="index">
+            <img v-lazy="message.photo" alt="">
+            </div>
           </div>
           <div v-if="menuOption ==='location'" class="location">
           <LeafLetMaps v-if="getuserChatSelected.currentLocation" :coordinatesUserSelected="getuserChatSelected.currentLocation "/>
@@ -62,9 +60,13 @@ export default {
   components: {
     LeafLetMaps
   },
-  props: ['menuOption'],
+  data () {
+    return {
+      menuOption: 'image'
+    }
+  },
   computed: {
-    ...mapGetters(['getuserChatSelected', 'getShowContactInfo'])
+    ...mapGetters(['getuserChatSelected', 'getChatImage', 'getShowContactInfo', 'getChatMessage'])
   },
   methods: {
     ...mapMutations(['SET_SHOW_CONTACT_INFO']),
@@ -111,6 +113,23 @@ export default {
 <style scoped>
 .show{
   display:none;
+}
+.menu-option {
+  max-width:100%;
+  height: 200px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.menu-option .image .item-image {
+  width:60px;
+  height:60px;
+  margin:5px;
+}
+.menu-option .image .item-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:10px;
 }
 .contact-info .body .menu label {
   font-family: Rubik;
