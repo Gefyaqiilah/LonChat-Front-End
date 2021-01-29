@@ -66,6 +66,8 @@ VUE_APP_ACCESS_TOKEN_KEY = (`your access token key in backend`)
 [Back To The Top](#lon-chat)
 
 ---
+## Related Project
+- [LonChat Back-End](https://github.com/Gefyaqiilah/LonChat-Back-End)
 
 ## Notes
 
