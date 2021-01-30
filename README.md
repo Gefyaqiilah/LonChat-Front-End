@@ -7,7 +7,7 @@
 
 <h1 align="center">LonChat App</h1>
 <p align="center">
-  <img" src="./screenhots/selected-chat.png"/>
+  <image src="./screenhots/logo.png"/>
 </p>
 <p align="center">
   Built with VueJs
