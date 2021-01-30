@@ -4,15 +4,25 @@
 *** an issue with the tag "enhancement".
 *** Thanks again! Now go create something AMAZING! :D
 -->
-
-<h1 align="center">LonChat App</h1>
 <p align="center">
-  <image src="./screenhots/logo.png"/>
-</p>
-<p align="center">
-  Built with VueJs
-</p>
 
+  <h3 align="center">Lon-Chat App</h3>
+  <p align="center">
+    <image align="center" width="200" src='./screenshots/logo.png' />
+  </p>
+
+  <p align="center">
+    <br />
+    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://lonchat.netlify.app">View Demo</a>
+    ·
+    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Report Bug</a>
+    ·
+    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Request Feature</a>
+  </p>
+</p>
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
