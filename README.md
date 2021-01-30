@@ -8,7 +8,7 @@
 
   <h3 align="center">Lon-Chat App</h3>
   <p align="center">
-    <image align="center" width="200" src='./screenshots/logo.png' />
+    <image align="center" width="200" src='./screenshots/chat.png' />
   </p>
 
   <p align="center">
