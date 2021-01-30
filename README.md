@@ -5,13 +5,12 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-<h1 align="center">Kebon.Id App</h1>
+<h1 align="center">LonChat App</h1>
 <p align="center">
-  <img width="250" src="./src/assets/logo_transparent.png"/>
-  <img width="250" src="./screenshoot/native.png">
+  <img" src="./screenhots/selected-chat.png"/>
 </p>
 <p align="center">
-  Built with React Native.
+  Built with VueJs
 </p>
 
 
