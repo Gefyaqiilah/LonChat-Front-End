@@ -1,87 +1,130 @@
-# Lon Chat
+<!--
+*** Thanks for checking out this README Template. If you have a suggestion that would
+*** make this better, please fork the repo and create a pull request or simply open
+*** an issue with the tag "enhancement".
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-![Project Image](https://user-images.githubusercontent.com/54069791/103716007-937d2980-4ff4-11eb-832a-ed7e6e025d00.jpg)
+<br />
+<p align="center">
 
-> Lon Chat is a chat application that comes with interesting features.
+  <h3 align="center">Lon-Chat App</h3>
+  <p align="center">
+    <image align="center" width="200" src='./screenshots/logo.png' />
+  </p>
 
----
+  <p align="center">
+    <br />
+    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://lonchat.netlify.app">View Demo</a>
+    ·
+    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Report Bug</a>
+    ·
+    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Request Feature</a>
+  </p>
+</p>
 
-### Table of Contents
-List Section :
 
-- [Description](#description)
-- [How To Use](#how-to-use)
-- [Notes](#notes)
-- [Author Info](#author-info)
 
----
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
 
-## Description
+* [About the Project](#about-the-project)
+  * [Built With](#built-with)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [Screenshots](#screenshots)
+* [Related Project](#related-project-backend)
+* [Contact](#contact)
 
-Lon-Chat is a web-based chat application, in this application the user can chat with friends that have been added.
-Users can also update their bio by going to the settings menu except "my current location" because the user's location will be updated automatically when the user logs in.
-Other more important information is that users can get unread message notifications, online / offline status and contact info.
 
-#### Technology used
 
-- Vue
-- Node
-- Express
-- Mysql
-- XAMPP
-- EsLint
-- Geo Location
-- LeafLet
-- Bootstrap
-- Visual Studio Code
-- etc.
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-[Back To The Top](#lon-chat)
 
----
+Lon-Chat is a web-based chat application, in this application the user can chat with friends that have been added. Users can also update their profile by going to the settings menu except "my current location" because the user's location will be updated automatically when the user logs in. Other more important information is that users can get unread message notifications, online / offline status and contact info.
 
-## How To Use
-#### Installation
-I recommend you to configure the [Repo LonChat Back-End](https://github.com/Gefyaqiilah/LonChat-Back-End) first before configuring this repo front-end.
-- `Install XAMPP` or something like that
-- Run `Mysql Server`
-- Run `Back-End Server`
--  Open the project and open Command Prompt then type `npm install`
-- Create `.env ` in root project
-```env
-VUE_APP_SERVICE_API = (`your localhost back-end server`)
-VUE_APP_ACCESS_TOKEN_KEY = (`your access token key in backend`)
+### Built With
+
+* [Vue v2](https://vuejs.org/v2)
+* [Vue Bootstrap](https://bootstrap-vue.org/)
+* [Socket.io-client](https://socket.io/docs/v3/client-api/)
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+### Prerequisites
+
+Before going to the installation stage there are some software that must be installed first.
+
+* [NodeJs](https://nodejs.org/en/download/)
+
+### Installation
+
+If you want to run this project locally, I recommend you to configure the [Back-End](https://github.com/Gefyaqiilah/LonChat-Back-End) first before configuring this repo front-end.
+1. Clone the repo
+```sh
+git clone https://github.com/Gefyaqiilah/LonChat-Front-End.git
 ```
-- Run the project by typing `npm run serve`
-- Open in the browser `http://localhost:PORT` default PORT: 8080
+2. Install NPM packages
+```
+npm install
+```
+3. Add .env file at root folder project, and add following
+```sh
+VUE_APP_SERVICE_API = YOUR_HOST_NAME
+VUE_APP_ACCESS_TOKEN_KEY = YOUR_ACCESS_TOKEN_KEY
+```
+4. Run the project
+```
+  npm run serve
+```
 
-[Back To The Top](#lon-chat)
 
----
 
-## References
-- Vue [Documentation](https://vuejs.org/)
-- Configuration [ Reference](https://cli.vuejs.org/config/)
+<!-- ROADMAP -->
+## Screenshots
 
-[Back To The Top](#lon-chat)
+<p align='center'>
+  <span>
+      <image width="200" src='./screenshots/login.png' />
+      <image width="200" src='./screenshots/register.png' />
+      <image width="200" src='./screenshots/guide.png' />
+      <image width="200" src='./screenshots/selected-chat.png' />
+      <image width="200" src='./screenshots/contact-info.png' />
+      <image width="200" src='./screenshots/profile.png' />
+     
 
----
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+
 ## Related Project
 - [LonChat Back-End](https://github.com/Gefyaqiilah/LonChat-Back-End)
 
-## Notes
 
-Copyright (c) [2021] [Gefy Aqiilah Aqshal]
+<!-- CONTACT -->
+## Contact
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
-
-[Back To The Top](#lon-chat)
-
----
-
-## Author Info
-
+- Email - gefyaqiilah26@gmail.com
 - LinkedIn - [@GefyAqiilahAqshal](https://linkedin.com/in/gefyaqiilahaqshal)
-- GitHub - [GefyAqiilah](https://github.com/Gefyaqiilah)
 
-[Back To The Top](#lon-chat)
+
+
+
+
+=
