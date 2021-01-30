@@ -5,27 +5,14 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-<br />
+<h1 align="center">Kebon.Id App</h1>
 <p align="center">
-
-  <h3 align="center">Lon-Chat App</h3>
-  <p align="center">
-    <image align="center" width="200" src='./screenshots/logo.png' />
-  </p>
-
-  <p align="center">
-    <br />
-    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://lonchat.netlify.app">View Demo</a>
-    ·
-    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Report Bug</a>
-    ·
-    <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Request Feature</a>
-  </p>
+  <img width="250" src="./src/assets/logo_transparent.png"/>
+  <img width="250" src="./screenshoot/native.png">
 </p>
-
+<p align="center">
+  Built with React Native.
+</p>
 
 
 <!-- TABLE OF CONTENTS -->
