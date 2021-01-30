@@ -5,10 +5,9 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 <p align="center">
-
-  <h3 align="center">Lon-Chat App</h3>
+  <h1 align="center">Lon-Chat App</h1>
   <p align="center">
-    <image align="center" width="200" src='./screenshots/chat.png' />
+    <image align="center" width="500" src='./screenshots/collage-image.png' />
   </p>
 
   <p align="center">
