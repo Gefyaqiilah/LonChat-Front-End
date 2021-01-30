@@ -5,7 +5,7 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 <p align="center">
-  <h1 align="">Lon-Chat App</h1>
+  <h3 align="center">Lon-Chat App</h1>
   <p align="center">
     <img align="center" width="300"  src='./screenshots/logo.png' />
   </p>
