@@ -5,9 +5,9 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 <p align="center">
-  <h3 align="center">LonChat App</h1>
+  <h1 align="center">LonChat App</h1>
   <p align="center">
-    <img align="center" width="150"  src='./screenshots/logo.png' />
+    <img align="center" width="200"  src='./screenshots/logo.png' />
   </p>
 
   <p align="center">
