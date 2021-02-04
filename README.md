@@ -7,7 +7,7 @@
 <p align="center">
   <h3 align="center">LonChat App</h1>
   <p align="center">
-    <img align="center" width="100"  src='./screenshots/logo.png' />
+    <img align="center" width="150"  src='./screenshots/logo.png' />
   </p>
 
   <p align="center">
