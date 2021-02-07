@@ -20,7 +20,7 @@ Communicating easier and more interesting with LonChat
 <p align="center">
 <img src="https://img.shields.io/github/repo-size/Gefyaqiilah/LonChat-Front-End?label=Repo%20Size">
  <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue-v2-green?style=flat"></a>
- <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Socket.io-3.0.4-blue?style=flat"></a>
+ <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Socket.io-3.0.4-orange?style=flat"></a>
  <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction"><img src="https://img.shields.io/badge/Bootstrap-v4-lightgreen?style=flat"></a>
 </p>
 
