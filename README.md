@@ -1,26 +1,27 @@
-<!--
-*** Thanks for checking out this README Template. If you have a suggestion that would
-*** make this better, please fork the repo and create a pull request or simply open
-*** an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
--->
 <p align="center">
-  <h1 align="center">LonChat App</h1>
-  <p align="center">
-    <img align="center" width="200"  src='./screenshots/logo.png' />
-  </p>
+  <a href="https://github.com/Gefyaqiilah/Zwallet-Front-End">
+    <img src="./screenshots/logo.png"  width="200px" alt="Logo">
+  </a>
+</p>
+
+<h3 align="center">LonChat App</h3>
 
   <p align="center">
-    <br />
+Communicating easier and more interesting with LonChat
+  <br/>
     <a href="https://github.com/Gefyaqiilah/LonChat-Front-End"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
+    <br /><br/>
     <a href="https://lonchat.netlify.app">View Demo</a>
     ·
     <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Report Bug</a>
     ·
     <a href="https://github.com/Gefyaqiilah/LonChat-Front-End">Request Feature</a>
   </p>
+<p align="center">
+<img src="https://img.shields.io/github/repo-size/Gefyaqiilah/Zwallet-Front-End?color=%20%236379f4&label=Repo%20SIZE&logo=%20%236379f4&logoColor=%20%236379f4&style=flat">
+ <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue-v2-green?style=flat"></a>
+ <a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Socket.io-3.0.4-blue?style=flat"></a>
+ <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction"><img src="https://img.shields.io/badge/Bootstrap-v4-lightgreen?style=flat"></a>
 </p>
 
 <!-- TABLE OF CONTENTS -->
