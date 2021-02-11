@@ -184,6 +184,29 @@ export default new Vuex.Store({
           })
       })
     },
+    getRooms (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/rooms/all`)
+          .then((result) => {
+            resolve(result.data)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getLastMessageRooms (context, roomId) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/rooms/last-message/${roomId}`)
+          .then((result) => {
+            console.log('result', result)
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     getFriendsData (context, payload) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
@@ -224,6 +247,29 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/users/${payload}`)
+          .then((result) => {
+            console.log('result', result)
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getRoomMessage (context, { roomId }) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/rooms/messages/${roomId}`)
+          .then((result) => {
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getDetailsRoom (context, { roomId }) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_SERVICE_API}/v1/rooms/detail-room/${roomId}`)
           .then((result) => {
             resolve(result.data.result)
           }).catch((err) => {
@@ -268,6 +314,17 @@ export default new Vuex.Store({
         axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/messages/post-image`, payload, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
+          .then((result) => {
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    newRoomMessage (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.post(`${process.env.VUE_APP_SERVICE_API}/v1/rooms/new-message`, payload)
           .then((result) => {
             resolve(result.data.result)
           }).catch((err) => {

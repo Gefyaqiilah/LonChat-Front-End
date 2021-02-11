@@ -68,12 +68,12 @@
       </div>
       <div class="left-side-body mt-3">
         <div class="list-chat">
-          <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id)" class="item-chat row p-0 m-0 mb-4">
+          <div v-show="!input.searchUser" v-for="contact in getContactList" :key="contact.id" @click="selectedChat(contact.id|| contact.roomId + 'roomId')" class="item-chat row p-0 m-0 mb-4">
             <div class="photo-profile col-2 p-0 m-0">
               <div class="photo">
               <img v-lazy="contact.photoProfile ? contact.photoProfile : '/img/user-avatar.png'" alt="">
               </div>
-              <div class="online" v-if="contact.status === 'online'">
+              <div class="online" v-if="contact.status === 'online' && !roomId">
               </div>
             </div>
             <div class="details-chat col-8 p-0 pl-lg-2 m-0">
@@ -81,12 +81,14 @@
                 <p class="m-0 p-0">{{ contact.name }}</p>
               </div>
               <div class="message h-50 p-0 m-0">
-                <p class="m-0 p-0">{{ contact.message || contact.bio }}</p>
+                <p class="m-0 p-0" v-if="!contact.roomId">{{ contact.message || contact.bio }}</p>
+                <p class="m-0 p-0" v-if="contact.roomId">{{ contact.lastMessage.message || '"Lets make a conversation !"'}}</p>
               </div>
             </div>
             <div class="info-chat col-2 p-0 m-0">
               <div class="time h-50">
-                <p class="m-0 p-0">{{ contact.lastMessageTime }}</p>
+                <p class="m-0 p-0" v-if="contact.message">{{ contact.lastMessageTime }}</p>
+                <p class="m-0 p-0" v-if="contact.roomId">{{ contact.lastMessage.lastMessageTime }}</p>
               </div>
               <div class="chat-amount h-50" v-if="contact.unreadMessage>0">
                 <p class="m-0 p-0">{{ contact.unreadMessage }}</p>
@@ -154,7 +156,7 @@ export default {
   },
   props: ['socket', 'updateScroll', 'mobileSelectedChat', 'hideContactList'],
   methods: {
-    ...mapActions(['getFriendsData', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend', 'readMessage', 'getLastMessage']),
+    ...mapActions(['getFriendsData', 'getRoomMessage', 'getRooms', 'getDetailsRoom', 'getLastMessageRooms', 'getUserChatSelected', 'getAllMessageUserSelected', 'searchFriend', 'addNewFriend', 'readMessage', 'getLastMessage']),
     ...mapMutations(['SET_USER_CHAT_SELECTED', 'SET_CHAT_IMAGE', 'SET_CHAT_MESSAGE', 'REMOVE_ALL_VALUE_STATE', 'SET_CONTACT_LIST']),
     showMenu () {
       const menu = document.getElementById('show-menu')
@@ -191,48 +193,87 @@ export default {
       const sortingResult = resultMapping.sort((a, b) => {
         return new Date(b.LastMessageTimeStamp) - new Date(a.LastMessageTimeStamp)
       })
-      this.SET_CONTACT_LIST(sortingResult)
+      const rooms = await this.getRooms()
+      console.log('rooms', rooms)
+      const roomsMapping = await Promise.all(rooms.map(async el => {
+        const lastMessage = await this.getLastMessageRooms(el.roomId)
+        return { ...el, lastMessage }
+      }))
+      console.log('rooms mapping', roomsMapping)
+
+      const friendsNRooms = [...sortingResult, ...roomsMapping]
+      console.log('friendsNRooms', friendsNRooms)
+      this.SET_CONTACT_LIST(friendsNRooms)
       return new Promise((resolve, reject) => {
         resolve(resultMapping)
       })
     },
-    selectedChat (id) {
-      this.getUserChatSelected(id)
-        .then((result) => {
-          const data = { senderId: this.getDataUser.id, receiverId: id }
-          if (this.getUserChat !== null) {
-            this.socket.emit('leave', this.getUserChat.id)
-            this.SET_CHAT_MESSAGE([])
-          }
-          this.socket.emit('joinPersonalChat', data)
-          this.SET_USER_CHAT_SELECTED(result)
-          const payload = {
-            userReceiverId: id,
-            userSenderId: this.getDataUser.id
-          }
+    async selectedChat (id) {
+      const checkIfRoom = id.includes('roomId')
+      if (checkIfRoom) {
+        const replace = id.replace('roomId', '')
+        if (this.getUserChat !== null) {
+          this.socket.emit('leave', this.getUserChat.id || this.getUserChat.roomId)
+          this.SET_CHAT_MESSAGE([])
+        }
+        const data = { senderId: this.getDataUser.id }
+        try {
+          const rooms = await this.getDetailsRoom({ roomId: replace })
+          this.socket.emit('joinRoomChat', data)
+          this.SET_USER_CHAT_SELECTED(rooms)
+          const roomMessages = await this.getRoomMessage({ roomId: replace })
           const screenWidth = screen.width
-          this.getAllMessageUserSelected(payload)
-            .then(async (result) => {
-              if (screenWidth <= 576) {
-                this.mobileSelectedChat()
-                this.hideContactList()
-              }
-              this.SET_CHAT_MESSAGE(result)
-              this.SET_CHAT_IMAGE(this.getChatMessage.filter(value => value.photo !== null))
-              await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
-              await this.handleGetFriendsData()
-              this.getContactList.map(el => {
-                if (el.id === id) {
-                  el.unreadMessage = 0
+          if (screenWidth <= 576) {
+            this.mobileSelectedChat()
+            this.hideContactList()
+          }
+          this.SET_CHAT_MESSAGE(roomMessages)
+          this.SET_CHAT_IMAGE(this.getChatMessage.filter(value => value.photo !== null))
+          // await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
+          await this.handleGetFriendsData()
+          this.updateScroll('awd')
+        } catch (error) {
+          console.log('error', error)
+        }
+      } else {
+        this.getUserChatSelected(id)
+          .then((result) => {
+            console.log('result', result)
+            const data = { senderId: this.getDataUser.id, receiverId: id }
+            if (this.getUserChat !== null) {
+              this.socket.emit('leave', this.getUserChat.id)
+              this.SET_CHAT_MESSAGE([])
+            }
+            this.socket.emit('joinPersonalChat', data)
+            this.SET_USER_CHAT_SELECTED(result)
+            const payload = {
+              userReceiverId: id,
+              userSenderId: this.getDataUser.id
+            }
+            const screenWidth = screen.width
+            this.getAllMessageUserSelected(payload)
+              .then(async (result) => {
+                if (screenWidth <= 576) {
+                  this.mobileSelectedChat()
+                  this.hideContactList()
                 }
-                return el
+                this.SET_CHAT_MESSAGE(result)
+                this.SET_CHAT_IMAGE(this.getChatMessage.filter(value => value.photo !== null))
+                await this.readMessage({ userSenderId: id, userReceiverId: this.getDataUser.id })
+                await this.handleGetFriendsData()
+                this.getContactList.map(el => {
+                  if (el.id === id) {
+                    el.unreadMessage = 0
+                  }
+                  return el
+                })
+                this.updateScroll('awd')
+              }).catch((err) => {
+                console.error(err)
               })
-              this.updateScroll('awd')
-            }).catch((err) => {
-              console.error(err)
-            })
-        }).catch(() => {
-        })
+          }).catch(() => {
+          })
+      }
     },
     async logout (data) {
       this.showMenuProfile = false

@@ -44,50 +44,48 @@
     </div>
     </div>
     <div class="type-message pl-4 pr-4 w-100">
-        <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus input-message form-control shadow-none" id="input-message">
-        <input type="file" name="" @change="sendImage" class="d-none" id="input-image">
-        <div class="icon d-flex">
-          <div class="wrapper">
-          <emoji-picker @emoji="append" :search="input.search">
-    <div
-      class="emoji-invoker"
-      slot="emoji-invoker"
-      slot-scope="{ events: { click: clickEvent } }"
-      @click.stop="clickEvent"
-    >
-      <img src="../../assets/Vector (2).png" alt="">
-    </div>
-    <div slot="emoji-picker" slot-scope="{ emojis, insert }">
-      <div class="emoji-picker" :style="{ top: '50%', left: '50%' }">
-        <div class="emoji-picker__search">
-          <input type="text" v-model="input.search" v-focus>
+      <input @keyup.enter="sendMessage" type="text" v-model="input.message" name="" class="focus input-message form-control shadow-none" id="input-message">
+      <input type="file" name="" @change="sendImage" class="d-none" id="input-image">
+      <div class="icon d-flex">
+      <div class="wrapper">
+      <emoji-picker @emoji="append" :search="input.search">
+        <div
+          class="emoji-invoker"
+          slot="emoji-invoker"
+          slot-scope="{ events: { click: clickEvent } }"
+          @click.stop="clickEvent">
+          <img src="../../assets/Vector (2).png" alt="">
         </div>
-        <div>
-          <div v-for="(emojiGroup, category) in emojis" :key="category">
-            <h5>{{ category }}</h5>
-            <div class="emojis">
-              <span
-                v-for="(emoji, emojiName) in emojiGroup"
-                :key="emojiName"
-                @click="insert(emoji)"
-                :title="emojiName"
-              >{{ emoji }}</span>
+      <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+        <div class="emoji-picker" :style="{ top: '50%', left: '50%' }">
+          <div class="emoji-picker__search">
+            <input type="text" v-model="input.search" v-focus>
+          </div>
+          <div>
+            <div v-for="(emojiGroup, category) in emojis" :key="category">
+              <h5>{{ category }}</h5>
+              <div class="emojis">
+                <span
+                  v-for="(emoji, emojiName) in emojiGroup"
+                  :key="emojiName"
+                  @click="insert(emoji)"
+                  :title="emojiName"
+                >{{ emoji }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-          </emoji-picker>
-          </div>
-          <label for="input-image">
-            <img src="../../assets/Group 181.png" alt="">
-          </label>
-        </div>
+      </emoji-picker>
+      </div>
+      <label for="input-image">
+        <img src="../../assets/Group 181.png" alt="">
+      </label>
+      </div>
     </div>
     </div>
     <ContactInfo v-show="getShowContactInfo" id="transition" :menuOption="input.menuOption" class="transition col-sm-12 col-lg-4 p-4"/>
     <DefaultPage v-if="getuserChatSelected === null" class="hide-in-mobile hide-in-medium right-side col-8" text="Please select a chat to start messaging"/>
-
   </div>
 </template>
 
@@ -120,7 +118,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getFriendsData', 'getLastMessage', 'updateProfile', 'readMessage', 'deleteAllMessage', 'postImageChat']),
+    ...mapActions(['getFriendsData', 'newRoomMessage', 'getLastMessage', 'updateProfile', 'readMessage', 'deleteAllMessage', 'postImageChat']),
     ...mapMutations(['SET_CHAT_MESSAGE', 'SET_CHAT_IMAGE', 'SET_CONTACT_LIST', 'PUSH_CHAT_MESSAGE', 'SET_CURRENT_LOCATION', 'SET_USER_CHAT_SELECTED', 'SET_SHOW_CONTACT_INFO']),
     updateScroll (as) {
       const element = document.getElementById('list-chat')
@@ -143,24 +141,46 @@ export default {
         }
       }
     },
-    sendMessage () {
+    async sendMessage () {
       if (this.input.message.length > 0) {
-        const data = {
-          message: this.input.message,
-          userSenderId: this.getDataUser.id,
-          photo: null,
-          senderName: this.getDataUser.name,
-          time: moment(new Date()).format('LT'),
-          userReceiverId: this.getuserChatSelected.id
+        if (this.getuserChatSelected.roomMember) {
+          const dataRoom = {
+            message: this.input.message,
+            roomId: this.getuserChatSelected.id,
+            time: moment(new Date()).format('LT')
+          }
+          try {
+            const sendMessageRoom = await this.newRoomMessage(dataRoom)
+            console.log('sendMessageRoom', sendMessageRoom)
+            this.socket.emit('personalChat', sendMessageRoom, async (message) => {
+              const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
+              audio.play()
+              await this.PUSH_CHAT_MESSAGE(message)
+              this.updateScroll()
+              document.getElementById('input-message').focus()
+              this.input.message = ''
+            })
+          } catch (error) {
+            console.log('error', error)
+          }
+        } else {
+          const dataPrivate = {
+            message: this.input.message,
+            userSenderId: this.getDataUser.id,
+            photo: null,
+            senderName: this.getDataUser.name,
+            time: moment(new Date()).format('LT'),
+            userReceiverId: this.getuserChatSelected.id
+          }
+          this.socket.emit('personalChat', dataPrivate, async (message) => {
+            const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
+            audio.play()
+            await this.PUSH_CHAT_MESSAGE(message)
+            this.updateScroll()
+            document.getElementById('input-message').focus()
+            this.input.message = ''
+          })
         }
-        this.socket.emit('personalChat', data, async (message) => {
-          const audio = new Audio('/audio/among-us-chat-sound-effect.mp3')
-          audio.play()
-          await this.PUSH_CHAT_MESSAGE(message)
-          this.updateScroll()
-          document.getElementById('input-message').focus()
-          this.input.message = ''
-        })
       }
     },
     async sendImage () {
